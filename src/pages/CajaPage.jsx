@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
+import BuscadorPedidos from "../components/caja/BuscadorPedidos";
 
 export default function CajaPage() {
   const [pedidos, setPedidos] = useState([]);
   const [seleccionadoId, setSeleccionadoId] = useState(null);
+  const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     setPedidos(cajaService.getPedidosPendientes());
   }, []);
+
+  const pedidosFiltrados = pedidos.filter((p) =>
+    `${p.id} ${p.mesa}`.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   return (
     <div className="lys-root" style={{ padding: "32px", maxWidth: 1200, margin: "0 auto" }}>
@@ -18,8 +24,9 @@ export default function CajaPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 24 }}>
         <div>
+          <BuscadorPedidos valor={busqueda} onChange={setBusqueda} />
           <ListaPedidos
-            pedidos={pedidos}
+            pedidos={pedidosFiltrados}
             pedidoSeleccionado={seleccionadoId}
             onSeleccionar={setSeleccionadoId}
           />
