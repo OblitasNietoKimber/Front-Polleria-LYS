@@ -21,6 +21,8 @@ export default function CajaPage() {
   );
 
   const pedidoActivo = cajaService.getPedidoPorId(seleccionadoId);
+  const total = pedidoActivo ? cajaService.calcularTotal(pedidoActivo) : 0;
+  const vuelto = monto ? Math.max(0, parseFloat(monto) - total) : 0;
 
   return (
     <div className="lys-root" style={{ padding: "32px", maxWidth: 1200, margin: "0 auto" }}>
@@ -42,12 +44,23 @@ export default function CajaPage() {
           <DetalleVenta pedido={pedidoActivo} />
 
           {pedidoActivo && (
-            <FormularioPago
-              metodo={metodo}
-              onMetodoChange={setMetodo}
-              monto={monto}
-              onMontoChange={setMonto}
-            />
+            <>
+              <FormularioPago
+                metodo={metodo}
+                onMetodoChange={setMetodo}
+                monto={monto}
+                onMontoChange={setMonto}
+              />
+
+              {monto && (
+                <p style={{ marginTop: 12, fontWeight: 600 }}>
+                  Vuelto:{" "}
+                  <span className="font-mono" style={{ color: "var(--gold)" }}>
+                    S/ {vuelto.toFixed(2)}
+                  </span>
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
