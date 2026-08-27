@@ -1,11 +1,9 @@
 import './App.css'
 
-function App() {
+import CajaPage from "./pages/CajaPage";
 
-  return (
-    <>
-    </>
-  )
+function App() {
+  return <CajaPage />;
 }
 
-export default App
+export default App;
