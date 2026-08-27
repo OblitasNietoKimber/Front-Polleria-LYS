@@ -27,7 +27,19 @@ export default function CajaPage() {
   const vuelto = monto ? Math.max(0, parseFloat(monto) - total) : 0;
 
   function confirmarVenta() {
+    cajaService.marcarComoPagado(seleccionadoId, {
+      metodo,
+      monto: parseFloat(monto),
+      vuelto,
+    });
     setMostrarTicket(true);
+  }
+
+  function cerrarTicket() {
+    setMostrarTicket(false);
+    setPedidos(cajaService.getPedidosPendientes());
+    setSeleccionadoId(null);
+    setMonto("");
   }
 
   return (
@@ -87,7 +99,7 @@ export default function CajaPage() {
           metodo={metodo}
           monto={parseFloat(monto)}
           vuelto={vuelto}
-          onClose={() => setMostrarTicket(false)}
+          onClose={cerrarTicket}
         />
       )}
     </div>
