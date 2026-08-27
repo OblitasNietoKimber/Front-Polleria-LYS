@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
+import DetalleVenta from "../components/caja/DetalleVenta";
 
 export default function CajaPage() {
   const [pedidos, setPedidos] = useState([]);
@@ -15,6 +16,8 @@ export default function CajaPage() {
   const pedidosFiltrados = pedidos.filter((p) =>
     `${p.id} ${p.mesa}`.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const pedidoActivo = cajaService.getPedidoPorId(seleccionadoId);
 
   return (
     <div className="lys-root" style={{ padding: "32px", maxWidth: 1200, margin: "0 auto" }}>
@@ -33,9 +36,7 @@ export default function CajaPage() {
         </div>
 
         <div className="ticket-card" style={{ padding: 20 }}>
-          <p className="font-mono" style={{ color: "var(--smoke)" }}>
-            Selecciona un pedido para ver el detalle
-          </p>
+          <DetalleVenta pedido={pedidoActivo} />
         </div>
       </div>
     </div>
