@@ -3,11 +3,14 @@ import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
 import DetalleVenta from "../components/caja/DetalleVenta";
+import FormularioPago from "../components/caja/FormularioPago";
 
 export default function CajaPage() {
   const [pedidos, setPedidos] = useState([]);
   const [seleccionadoId, setSeleccionadoId] = useState(null);
   const [busqueda, setBusqueda] = useState("");
+  const [metodo, setMetodo] = useState("Efectivo");
+  const [monto, setMonto] = useState("");
 
   useEffect(() => {
     setPedidos(cajaService.getPedidosPendientes());
@@ -37,6 +40,15 @@ export default function CajaPage() {
 
         <div className="ticket-card" style={{ padding: 20 }}>
           <DetalleVenta pedido={pedidoActivo} />
+
+          {pedidoActivo && (
+            <FormularioPago
+              metodo={metodo}
+              onMetodoChange={setMetodo}
+              monto={monto}
+              onMontoChange={setMonto}
+            />
+          )}
         </div>
       </div>
     </div>
