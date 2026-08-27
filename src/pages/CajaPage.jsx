@@ -4,6 +4,7 @@ import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
 import DetalleVenta from "../components/caja/DetalleVenta";
 import FormularioPago from "../components/caja/FormularioPago";
+import TicketModal from "../components/caja/TicketModal";
 
 export default function CajaPage() {
   const [pedidos, setPedidos] = useState([]);
@@ -11,6 +12,7 @@ export default function CajaPage() {
   const [busqueda, setBusqueda] = useState("");
   const [metodo, setMetodo] = useState("Efectivo");
   const [monto, setMonto] = useState("");
+  const [mostrarTicket, setMostrarTicket] = useState(false);
 
   useEffect(() => {
     setPedidos(cajaService.getPedidosPendientes());
@@ -23,6 +25,10 @@ export default function CajaPage() {
   const pedidoActivo = cajaService.getPedidoPorId(seleccionadoId);
   const total = pedidoActivo ? cajaService.calcularTotal(pedidoActivo) : 0;
   const vuelto = monto ? Math.max(0, parseFloat(monto) - total) : 0;
+
+  function confirmarVenta() {
+    setMostrarTicket(true);
+  }
 
   return (
     <div className="lys-root" style={{ padding: "32px", maxWidth: 1200, margin: "0 auto" }}>
@@ -60,10 +66,30 @@ export default function CajaPage() {
                   </span>
                 </p>
               )}
+
+              <button
+                className="btn-ember"
+                style={{ width: "100%", marginTop: 16 }}
+                disabled={!monto || parseFloat(monto) < total}
+                onClick={confirmarVenta}
+              >
+                Confirmar venta
+              </button>
             </>
           )}
         </div>
       </div>
+
+      {mostrarTicket && (
+        <TicketModal
+          pedido={pedidoActivo}
+          total={total}
+          metodo={metodo}
+          monto={parseFloat(monto)}
+          vuelto={vuelto}
+          onClose={() => setMostrarTicket(false)}
+        />
+      )}
     </div>
   );
 }
