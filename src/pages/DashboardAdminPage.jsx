@@ -27,7 +27,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
       <header className="lys-nav admin-topbar">
         <div className="admin-brand">
           <img src={logoUrl} alt="Logo Lenas y Sabores" className="admin-logo" />
-          <span className="admin-system-title">Polleria Lenas & Sabores</span>
+          <span className="admin-system-title">Pollería Leñas & Sabores</span>
         </div>
 
         <nav className="admin-nav">
@@ -38,7 +38,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
         <div className="admin-actions">
           <div className="admin-contact">
             <IconoTelefono size={15} color="var(--smoke)" />
-            <span>Llamanos <strong>01 - 611 - 3333</strong></span>
+            <span>Llámanos <strong>01 - 611 - 3333</strong></span>
           </div>
 
           <div className="admin-bell" title="Notificaciones">

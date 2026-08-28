@@ -305,6 +305,17 @@
     display: none;
   }
 }
+
+@media (max-width: 640px) {
+  .admin-page-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-filtro-fechas {
+    width: 100%;
+  }
+}
 .admin-summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -712,6 +723,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-top: 16px;
   margin-bottom: 16px;
 }
 
@@ -870,3 +882,4 @@
 .admin-filtro-limpiar:hover {
   text-decoration: underline;
 }
+
