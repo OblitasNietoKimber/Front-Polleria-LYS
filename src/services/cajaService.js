@@ -121,6 +121,28 @@ function getVentasFiltradas(filtros = {}) {
   return filtrarVentasPorFecha(getVentas(), filtros.fechaInicio, filtros.fechaFin);
 }
 
+function getProductosMasVendidos(filtros = {}) {
+  const productos = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    venta.items.forEach((item) => {
+      const actual = productos.get(item.nombre) || {
+        nombre: item.nombre,
+        cantidad: 0,
+        total: 0,
+      };
+
+      productos.set(item.nombre, {
+        ...actual,
+        cantidad: actual.cantidad + item.cantidad,
+        total: actual.total + item.cantidad * item.precio,
+      });
+    });
+  });
+
+  return Array.from(productos.values()).sort((a, b) => b.cantidad - a.cantidad);
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
@@ -130,4 +152,5 @@ export default {
   getVentas,
   getResumenVentas,
   getVentasFiltradas,
+  getProductosMasVendidos,
 };

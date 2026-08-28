@@ -490,3 +490,90 @@
     grid-template-columns: 1fr;
   }
 }
+.admin-products-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.admin-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-products-table {
+  width: 100%;
+  min-width: 460px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.admin-products-table th {
+  color: var(--smoke);
+  border-bottom: 1.5px solid var(--line);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 10px 8px;
+  white-space: nowrap;
+}
+
+.admin-products-table td {
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px 8px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-empty-cell {
+  color: var(--smoke) !important;
+  font-weight: 500;
+  text-align: center;
+}
+
+.admin-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.admin-product-img {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.admin-participation {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-participation span:last-child {
+  color: var(--smoke);
+  font-size: 0.72rem;
+}
+
+.admin-pill-bar {
+  height: 6px;
+  background: var(--ember);
+  border-radius: 999px;
+}
+
+.admin-double-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}

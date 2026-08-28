@@ -1,12 +1,16 @@
 import { useMemo } from "react";
 import cajaService from "../services/cajaService";
 import MetricasOperativas from "../components/admin/MetricasOperativas";
+import ProductosTop from "../components/admin/ProductosTop";
 import TarjetasResumen from "../components/admin/TarjetasResumen";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function DashboardAdminPage({ onIrCaja }) {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
+  const filtros = useMemo(() => ({}), []);
+
   const resumen = useMemo(() => cajaService.getResumenVentas(), []);
+  const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), []);
   const pedidosPendientes = useMemo(() => cajaService.getPedidosPendientes().length, []);
 
   return (
@@ -50,6 +54,10 @@ export default function DashboardAdminPage({ onIrCaja }) {
 
         <TarjetasResumen resumen={resumen} />
         <MetricasOperativas resumen={resumen} pedidosPendientes={pedidosPendientes} />
+
+        <section className="admin-double-grid">
+          <ProductosTop productos={productos} />
+        </section>
       </main>
     </div>
   );

@@ -75,3 +75,10 @@ export const IconoXCirculo = ({ size = 18, color = "currentColor" }) => (
     <path d="M15 9l-6 6M9 9l6 6" />
   </svg>
 );
+
+export const IconoBolsa = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 8h12l1 13H5L6 8Z" />
+    <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+  </svg>
+);
