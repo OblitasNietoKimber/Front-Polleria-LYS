@@ -82,3 +82,10 @@ export const IconoBolsa = ({ size = 18, color = "currentColor" }) => (
     <path d="M9 8V6a3 3 0 0 1 6 0v2" />
   </svg>
 );
+
+export const IconoTarjeta = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="5" width="20" height="14" rx="2" />
+    <path d="M2 10h20" />
+  </svg>
+);

@@ -3,6 +3,7 @@ import cajaService from "../services/cajaService";
 import MetricasOperativas from "../components/admin/MetricasOperativas";
 import ProductosTop from "../components/admin/ProductosTop";
 import TarjetasResumen from "../components/admin/TarjetasResumen";
+import VentasMetodoPago from "../components/admin/VentasMetodoPago";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function DashboardAdminPage({ onIrCaja }) {
@@ -11,6 +12,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
 
   const resumen = useMemo(() => cajaService.getResumenVentas(), []);
   const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), []);
+  const metodosPago = useMemo(() => cajaService.getVentasPorMetodoPago(filtros), []);
   const pedidosPendientes = useMemo(() => cajaService.getPedidosPendientes().length, []);
 
   return (
@@ -56,6 +58,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
         <MetricasOperativas resumen={resumen} pedidosPendientes={pedidosPendientes} />
 
         <section className="admin-double-grid">
+          <VentasMetodoPago metodos={metodosPago} />
           <ProductosTop productos={productos} />
         </section>
       </main>

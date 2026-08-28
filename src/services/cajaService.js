@@ -143,6 +143,27 @@ function getProductosMasVendidos(filtros = {}) {
   return Array.from(productos.values()).sort((a, b) => b.cantidad - a.cantidad);
 }
 
+function getVentasPorMetodoPago(filtros = {}) {
+  const metodos = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    const metodo = venta.pago?.metodo || "Sin metodo";
+    const actual = metodos.get(metodo) || {
+      nombre: metodo,
+      cantidad: 0,
+      total: 0,
+    };
+
+    metodos.set(metodo, {
+      ...actual,
+      cantidad: actual.cantidad + 1,
+      total: actual.total + calcularTotal(venta),
+    });
+  });
+
+  return Array.from(metodos.values()).sort((a, b) => b.total - a.total);
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
@@ -153,4 +174,5 @@ export default {
   getResumenVentas,
   getVentasFiltradas,
   getProductosMasVendidos,
+  getVentasPorMetodoPago,
 };
