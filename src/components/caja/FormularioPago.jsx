@@ -21,14 +21,18 @@ export default function FormularioPago({ metodo, onMetodoChange, monto, onMontoC
       <p className="font-mono" style={{ fontSize: "0.8rem", color: "var(--smoke)", marginBottom: 8 }}>
         Monto recibido
       </p>
-      <input
+    <input
         className="lys-input"
         type="number"
         min="0"
+        max="10000"
         step="0.10"
         placeholder="S/ 0.00"
         value={monto}
-        onChange={(e) => onMontoChange(e.target.value)}
+        onChange={(e) => {
+          const valor = e.target.value;
+          if(valor === "" || parseFloat(valor)<= 10000){onMontoChange(e.target.value);}
+        }}
       />
     </div>
   );
