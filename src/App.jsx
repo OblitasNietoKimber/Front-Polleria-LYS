@@ -10,7 +10,7 @@ function App() {
     return <DashboardAdminPage onIrCaja={() => setPagina("caja")} />;
   }
 
-  return <CajaPage />;
+  return <CajaPage onIrDashboard={() => setPagina("dashboard")} />;
 }
 
 export default App;
