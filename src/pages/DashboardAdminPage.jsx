@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import cajaService from "../services/cajaService";
 import MetricasOperativas from "../components/admin/MetricasOperativas";
 import ProductosTop from "../components/admin/ProductosTop";
+import HistorialVentas from "../components/admin/HistorialVentas";
 import TarjetasResumen from "../components/admin/TarjetasResumen";
 import Ventas7Dias from "../components/admin/Ventas7Dias";
 import VentasMetodoPago from "../components/admin/VentasMetodoPago";
@@ -15,6 +16,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
   const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), []);
   const metodosPago = useMemo(() => cajaService.getVentasPorMetodoPago(filtros), []);
   const ventasPorDia = useMemo(() => cajaService.getVentasPorDia(filtros), []);
+  const historial = useMemo(() => cajaService.getHistorialVentas(filtros), []);
   const pedidosPendientes = useMemo(() => cajaService.getPedidosPendientes().length, []);
 
   return (
@@ -66,6 +68,7 @@ export default function DashboardAdminPage({ onIrCaja }) {
 
         <section className="admin-double-grid">
           <Ventas7Dias ventas={ventasPorDia} />
+          <HistorialVentas ventas={historial} />
         </section>
       </main>
     </div>

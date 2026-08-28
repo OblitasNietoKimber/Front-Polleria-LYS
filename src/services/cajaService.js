@@ -185,6 +185,15 @@ function getVentasPorDia(filtros = {}) {
   return Array.from(dias.values()).sort((a, b) => a.fecha.localeCompare(b.fecha));
 }
 
+function getHistorialVentas(filtros = {}) {
+  return getVentasFiltradas(filtros)
+    .map((venta) => ({
+      ...venta,
+      total: calcularTotal(venta),
+    }))
+    .sort((a, b) => getFechaVenta(b) - getFechaVenta(a));
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
@@ -197,4 +206,5 @@ export default {
   getProductosMasVendidos,
   getVentasPorMetodoPago,
   getVentasPorDia,
+  getHistorialVentas,
 };

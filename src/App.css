@@ -760,3 +760,68 @@
 .admin-chart-legend p {
   margin: 0;
 }
+.admin-history-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.admin-history-table {
+  width: 100%;
+  min-width: 500px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.admin-history-table th {
+  color: var(--smoke);
+  border-bottom: 1.5px solid var(--line);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 10px 8px;
+  white-space: nowrap;
+}
+
+.admin-history-table td {
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px 8px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-method-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-strong-cell {
+  font-weight: 600;
+}
+
+.admin-muted-cell,
+.admin-time-cell {
+  color: var(--smoke);
+}
+
+.admin-time-cell {
+  font-size: 0.75rem;
+}
+
+.admin-status-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+}
+
+@media (max-width: 1024px) {
+  .admin-double-grid {
+    grid-template-columns: 1fr;
+  }
+}
