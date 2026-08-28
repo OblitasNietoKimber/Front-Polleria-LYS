@@ -77,7 +77,7 @@ export default function CajaPage({ onIrDashboard }) {
 
       <main style={{ padding: "32px", maxWidth: 1200, margin: "0 auto", width: "100%" }}>
         <h1 className="font-display" style={{ fontSize: "1.8rem", marginBottom: 24 }}>
-          Caja
+          CAJA
         </h1>
 
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 24 }}>
