@@ -12,17 +12,37 @@
   --line: #E7E2DA;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
 
 body {
+  margin: 0;
   font-family: 'Work Sans', sans-serif;
   background: var(--cream);
   color: var(--ink);
 }
 
-.font-display { font-family: 'Work Sans', serif; }
-.font-mono { font-family: 'IBM Plex Mono', monospace; }
+a {
+  color: inherit;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  * {
+    transition: none !important;
+  }
+}
+
+.font-display {
+  font-family: 'Work Sans', serif;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
 }
