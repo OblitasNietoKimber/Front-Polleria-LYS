@@ -1,9 +1,9 @@
-import { X } from 'lucide-react'
+import { Trash2, X } from 'lucide-react'
 import CategoryIcon from './CategoryIcon'
 import { useCart } from '../context/CartContext'
 
 export default function CartDrawer() {
-  const { cartOpen, closeCart, cartItems } = useCart()
+  const { cartOpen, closeCart, cartItems, removeItem } = useCart()
 
   return (
     <>
@@ -44,6 +44,13 @@ export default function CartDrawer() {
                   <div className="font-mono" style={{ fontSize: '0.82rem', color: 'var(--rust)', margin: '4px 0 8px' }}>
                     Cantidad: {qty}
                   </div>
+                  <button
+                    onClick={() => removeItem(product.id)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--smoke)', padding: 0 }}
+                    aria-label="Eliminar producto"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
               </div>
             ))

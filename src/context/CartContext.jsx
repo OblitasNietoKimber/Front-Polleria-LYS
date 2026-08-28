@@ -47,6 +47,14 @@ export function CartProvider({ children }) {
     setCart((current) => ({ ...current, [id]: (current[id] || 0) + qty }))
   }
 
+  function removeItem(id) {
+    setCart((current) => {
+      const next = { ...current }
+      delete next[id]
+      return next
+    })
+  }
+
   const value = {
     cartItems,
     cartCount,
@@ -54,6 +62,7 @@ export function CartProvider({ children }) {
     openCart,
     closeCart,
     addToCart,
+    removeItem,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
