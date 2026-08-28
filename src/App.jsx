@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage'
 import CatalogoPage from './pages/CatalogoPage'
 import EntregaPage from './pages/checkout/EntregaPage'
 import PagoPage from './pages/checkout/PagoPage'
+import ResumenPage from './pages/checkout/ResumenPage'
+import ConfirmacionPage from './pages/ConfirmacionPage'
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path="/catalogo" element={<CatalogoPage />} />
           <Route path="/checkout/entrega" element={<EntregaPage />} />
           <Route path="/checkout/pago" element={<PagoPage />} />
+          <Route path="/checkout/resumen" element={<ResumenPage />} />
+          <Route path="/confirmacion" element={<ConfirmacionPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { PRODUCTS } from '../data/products'
+import { DELIVERY_COST, PRODUCTS } from '../data/products'
+import { generateOrderNumber } from '../utils/orderNumber'
 
 const CartContext = createContext(null)
 const CART_STORAGE_KEY = 'lys-cart'
 const DELIVERY_STORAGE_KEY = 'lys-checkout-delivery'
 const PAYMENT_STORAGE_KEY = 'lys-checkout-payment'
+const ORDER_STORAGE_KEY = 'lys-order-number'
 
 const EMPTY_FORM = { name: '', address: '', reference: '', phone: '' }
 
@@ -37,12 +39,22 @@ function readStoredPayment() {
   }
 }
 
+function readStoredOrderNumber() {
+  if (typeof window === 'undefined') return null
+  try {
+    return window.localStorage.getItem(ORDER_STORAGE_KEY) || null
+  } catch {
+    return null
+  }
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(readStoredCart)
   const [cartOpen, setCartOpen] = useState(false)
   const [deliveryType, setDeliveryType] = useState(() => readStoredDelivery().deliveryType)
   const [form, setForm] = useState(() => readStoredDelivery().form)
   const [payment, setPayment] = useState(readStoredPayment)
+  const [orderNumber, setOrderNumber] = useState(readStoredOrderNumber)
 
   useEffect(() => {
     try {
@@ -68,6 +80,15 @@ export function CartProvider({ children }) {
     }
   }, [payment])
 
+  useEffect(() => {
+    try {
+      if (orderNumber) window.localStorage.setItem(ORDER_STORAGE_KEY, orderNumber)
+      else window.localStorage.removeItem(ORDER_STORAGE_KEY)
+    } catch {
+      // localStorage no disponible (modo privado, cuotas, etc.)
+    }
+  }, [orderNumber])
+
   const cartItems = useMemo(
     () =>
       Object.entries(cart)
@@ -77,6 +98,8 @@ export function CartProvider({ children }) {
   )
   const cartCount = cartItems.reduce((total, item) => total + item.qty, 0)
   const subtotal = cartItems.reduce((total, item) => total + item.qty * item.product.price, 0)
+  const shipping = deliveryType === 'delivery' && subtotal > 0 ? DELIVERY_COST : 0
+  const total = subtotal + shipping
 
   function openCart() {
     setCartOpen(true)
@@ -111,10 +134,27 @@ export function CartProvider({ children }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
+  function confirmOrder() {
+    const number = generateOrderNumber()
+    setOrderNumber(number)
+    setCart({})
+    return number
+  }
+
+  function resetAll() {
+    setCart({})
+    setDeliveryType('delivery')
+    setForm(EMPTY_FORM)
+    setPayment('')
+    setOrderNumber(null)
+  }
+
   const value = {
     cartItems,
     cartCount,
     subtotal,
+    shipping,
+    total,
     cartOpen,
     openCart,
     closeCart,
@@ -127,6 +167,9 @@ export function CartProvider({ children }) {
     updateFormField,
     payment,
     setPayment,
+    orderNumber,
+    confirmOrder,
+    resetAll,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
