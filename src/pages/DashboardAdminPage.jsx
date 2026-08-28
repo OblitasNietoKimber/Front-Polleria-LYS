@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import cajaService from "../services/cajaService";
+import FiltroFechas from "../components/admin/FiltroFechas";
 import MetricasOperativas from "../components/admin/MetricasOperativas";
 import ProductosTop from "../components/admin/ProductosTop";
 import HistorialVentas from "../components/admin/HistorialVentas";
@@ -10,14 +11,16 @@ import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/
 
 export default function DashboardAdminPage({ onIrCaja }) {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
-  const filtros = useMemo(() => ({}), []);
+  const [filtros, setFiltros] = useState({ fechaInicio: "", fechaFin: "" });
 
   const resumen = useMemo(() => cajaService.getResumenVentas(), []);
-  const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), []);
-  const metodosPago = useMemo(() => cajaService.getVentasPorMetodoPago(filtros), []);
-  const ventasPorDia = useMemo(() => cajaService.getVentasPorDia(filtros), []);
-  const historial = useMemo(() => cajaService.getHistorialVentas(filtros), []);
+  const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), [filtros]);
+  const metodosPago = useMemo(() => cajaService.getVentasPorMetodoPago(filtros), [filtros]);
+  const ventasPorDia = useMemo(() => cajaService.getVentasPorDia(filtros), [filtros]);
+  const historial = useMemo(() => cajaService.getHistorialVentas(filtros), [filtros]);
   const pedidosPendientes = useMemo(() => cajaService.getPedidosPendientes().length, []);
+
+  const limpiarFiltros = () => setFiltros({ fechaInicio: "", fechaFin: "" });
 
   return (
     <div className="lys-root admin-screen">
@@ -56,6 +59,8 @@ export default function DashboardAdminPage({ onIrCaja }) {
             <h1>DASHBOARD</h1>
             <p>Resumen general de tu restaurante</p>
           </div>
+
+          <FiltroFechas filtros={filtros} onCambiar={setFiltros} onLimpiar={limpiarFiltros} />
         </section>
 
         <TarjetasResumen resumen={resumen} />

@@ -825,3 +825,48 @@
     grid-template-columns: 1fr;
   }
 }
+
+.admin-filtro-fechas {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.admin-filtro-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--smoke);
+}
+
+.admin-filtro-input {
+  padding: 6px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.admin-filtro-input:focus {
+  border-color: var(--ember);
+}
+
+.admin-filtro-limpiar {
+  border: none;
+  background: none;
+  color: var(--ember);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+
+.admin-filtro-limpiar:hover {
+  text-decoration: underline;
+}
