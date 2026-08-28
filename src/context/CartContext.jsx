@@ -4,6 +4,7 @@ import { PRODUCTS } from '../data/products'
 const CartContext = createContext(null)
 const CART_STORAGE_KEY = 'lys-cart'
 const DELIVERY_STORAGE_KEY = 'lys-checkout-delivery'
+const PAYMENT_STORAGE_KEY = 'lys-checkout-payment'
 
 const EMPTY_FORM = { name: '', address: '', reference: '', phone: '' }
 
@@ -27,11 +28,21 @@ function readStoredDelivery() {
   }
 }
 
+function readStoredPayment() {
+  if (typeof window === 'undefined') return ''
+  try {
+    return window.localStorage.getItem(PAYMENT_STORAGE_KEY) || ''
+  } catch {
+    return ''
+  }
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(readStoredCart)
   const [cartOpen, setCartOpen] = useState(false)
   const [deliveryType, setDeliveryType] = useState(() => readStoredDelivery().deliveryType)
   const [form, setForm] = useState(() => readStoredDelivery().form)
+  const [payment, setPayment] = useState(readStoredPayment)
 
   useEffect(() => {
     try {
@@ -48,6 +59,14 @@ export function CartProvider({ children }) {
       // localStorage no disponible (modo privado, cuotas, etc.)
     }
   }, [deliveryType, form])
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(PAYMENT_STORAGE_KEY, payment)
+    } catch {
+      // localStorage no disponible (modo privado, cuotas, etc.)
+    }
+  }, [payment])
 
   const cartItems = useMemo(
     () =>
@@ -106,6 +125,8 @@ export function CartProvider({ children }) {
     setDeliveryType,
     form,
     updateFormField,
+    payment,
+    setPayment,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
