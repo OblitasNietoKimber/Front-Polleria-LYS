@@ -47,3 +47,31 @@ export const IconoCampana = ({ size = 18, color = "currentColor" }) => (
     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
   </svg>
 );
+
+export const IconoTendencia = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 6l-9.5 9.5-5-5L1 18" />
+    <path d="M17 6h6v6" />
+  </svg>
+);
+
+export const IconoCheckCirculo = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M8 12l3 3 5-6" />
+  </svg>
+);
+
+export const IconoReloj = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 6v6l4 2" />
+  </svg>
+);
+
+export const IconoXCirculo = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M15 9l-6 6M9 9l6 6" />
+  </svg>
+);

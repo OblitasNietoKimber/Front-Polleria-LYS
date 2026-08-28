@@ -376,3 +376,117 @@
   width: 100%;
   height: 100%;
 }
+.admin-ops-card {
+  width: 100%;
+  padding: 14px 20px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.admin-ops-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.admin-mini-card {
+  background: #FDFCFB;
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-mini-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.admin-mini-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-mini-icon.green { background: #E8F5E9; color: #2E7D32; }
+.admin-mini-icon.yellow { background: #FFF8E1; color: #F57F17; }
+.admin-mini-icon.red { background: #FFEBEE; color: #C62828; }
+.admin-mini-icon.blue { background: #E3F2FD; color: #1565C0; }
+
+.admin-mini-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-mini-label {
+  color: var(--smoke);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.admin-mini-value {
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.admin-mini-trend {
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.admin-mini-trend.green { color: #2E7D32; }
+.admin-mini-trend.yellow { color: #F57F17; }
+.admin-mini-trend.red { color: #C62828; }
+.admin-mini-trend.blue { color: #1565C0; }
+
+.admin-mini-bars {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.admin-mini-bar {
+  flex: 1;
+  border-radius: 2px;
+}
+
+@media (max-width: 1024px) {
+  .admin-ops-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 550px) {
+  .admin-ops-grid {
+    grid-template-columns: 1fr;
+  }
+}
