@@ -164,6 +164,27 @@ function getVentasPorMetodoPago(filtros = {}) {
   return Array.from(metodos.values()).sort((a, b) => b.total - a.total);
 }
 
+function getVentasPorDia(filtros = {}) {
+  const dias = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    const fecha = getFechaVenta(venta).toISOString().slice(0, 10);
+    const actual = dias.get(fecha) || {
+      fecha,
+      cantidad: 0,
+      total: 0,
+    };
+
+    dias.set(fecha, {
+      ...actual,
+      cantidad: actual.cantidad + 1,
+      total: actual.total + calcularTotal(venta),
+    });
+  });
+
+  return Array.from(dias.values()).sort((a, b) => a.fecha.localeCompare(b.fecha));
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
@@ -175,4 +196,5 @@ export default {
   getVentasFiltradas,
   getProductosMasVendidos,
   getVentasPorMetodoPago,
+  getVentasPorDia,
 };

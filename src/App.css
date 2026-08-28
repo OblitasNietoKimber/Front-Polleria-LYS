@@ -697,3 +697,66 @@
     flex-direction: column;
   }
 }
+.admin-sales-card {
+  width: 100%;
+  min-height: 330px;
+  border-radius: 8px;
+  padding: 14px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-sales-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.admin-select {
+  padding: 4px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--smoke);
+  font-size: 0.78rem;
+  font-weight: 500;
+  outline: none;
+}
+
+.admin-chart-area {
+  width: 100%;
+  height: 220px;
+  margin-top: 6px;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.admin-line-chart {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+
+.admin-chart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: var(--smoke);
+  font-size: 0.75rem;
+}
+
+.admin-chart-legend span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ember);
+}
+
+.admin-chart-legend p {
+  margin: 0;
+}
