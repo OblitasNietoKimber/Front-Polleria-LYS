@@ -203,3 +203,21 @@
   padding: 0 4px;
   font-family: 'IBM Plex Mono', monospace;
 }
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.qty-btn:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+}

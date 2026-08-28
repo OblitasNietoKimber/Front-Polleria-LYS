@@ -1,9 +1,9 @@
-import { Trash2, X } from 'lucide-react'
+import { Minus, Plus, Trash2, X } from 'lucide-react'
 import CategoryIcon from './CategoryIcon'
 import { useCart } from '../context/CartContext'
 
 export default function CartDrawer() {
-  const { cartOpen, closeCart, cartItems, removeItem } = useCart()
+  const { cartOpen, closeCart, cartItems, removeItem, setQty } = useCart()
 
   return (
     <>
@@ -41,16 +41,24 @@ export default function CartDrawer() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 600, fontSize: '0.92rem' }}>{product.name}</div>
-                  <div className="font-mono" style={{ fontSize: '0.82rem', color: 'var(--rust)', margin: '4px 0 8px' }}>
-                    Cantidad: {qty}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '8px 0 0' }}>
+                    <button className="qty-btn" onClick={() => setQty(product.id, qty - 1)} aria-label="Reducir cantidad">
+                      <Minus size={13} />
+                    </button>
+                    <span className="font-mono" style={{ minWidth: 18, textAlign: 'center', fontSize: '0.9rem' }}>
+                      {qty}
+                    </span>
+                    <button className="qty-btn" onClick={() => setQty(product.id, qty + 1)} aria-label="Aumentar cantidad">
+                      <Plus size={13} />
+                    </button>
+                    <button
+                      onClick={() => removeItem(product.id)}
+                      style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--smoke)' }}
+                      aria-label="Eliminar producto"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => removeItem(product.id)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--smoke)', padding: 0 }}
-                    aria-label="Eliminar producto"
-                  >
-                    <Trash2 size={16} />
-                  </button>
                 </div>
               </div>
             ))
