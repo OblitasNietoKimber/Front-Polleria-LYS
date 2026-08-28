@@ -1,11 +1,16 @@
 import { Outlet } from 'react-router-dom'
 import SiteHeader from '../components/SiteHeader'
+import CartDrawer from '../components/CartDrawer'
+import { CartProvider } from '../context/CartContext'
 
 export default function MainLayout() {
   return (
-    <div style={{ minHeight: '100%' }}>
-      <SiteHeader />
-      <Outlet />
-    </div>
+    <CartProvider>
+      <div style={{ minHeight: '100%' }}>
+        <SiteHeader />
+        <Outlet />
+        <CartDrawer />
+      </div>
+    </CartProvider>
   )
 }

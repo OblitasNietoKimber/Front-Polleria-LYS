@@ -1,7 +1,10 @@
 import { Flame, ShoppingCart } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 
 export default function SiteHeader() {
+  const { cartCount, openCart } = useCart()
+
   return (
     <nav className="lys-nav">
       <div
@@ -41,9 +44,9 @@ export default function SiteHeader() {
           <NavLink to="/catalogo" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Menú
           </NavLink>
-          {/* El contador y la acción de abrir el carrito se conectan al CartContext en un commit posterior. */}
           <button
             type="button"
+            onClick={openCart}
             style={{
               position: 'relative',
               background: 'none',
@@ -56,6 +59,11 @@ export default function SiteHeader() {
             aria-label="Ver carrito"
           >
             <ShoppingCart size={22} strokeWidth={1.8} />
+            {cartCount > 0 && (
+              <span className="badge-count" style={{ position: 'absolute', top: -8, right: -10 }}>
+                {cartCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
