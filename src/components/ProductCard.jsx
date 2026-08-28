@@ -1,9 +1,9 @@
 import CategoryIcon from './CategoryIcon'
 import { money } from '../utils/currency'
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onSelect }) {
   return (
-    <div className="ticket-card">
+    <div className="ticket-card" onClick={() => onSelect?.(product)}>
       <div className="icon-tile" style={{ opacity: product.available ? 1 : 0.4 }}>
         <CategoryIcon id={product.category} size={40} />
       </div>
@@ -31,7 +31,12 @@ export default function ProductCard({ product }) {
             {money(product.price)}
           </span>
           {/* El botón se conecta al carrito de compras en un commit posterior. */}
-          <button className="btn-outline" style={{ padding: '7px 14px', fontSize: '0.8rem' }} disabled={!product.available}>
+          <button
+            className="btn-outline"
+            style={{ padding: '7px 14px', fontSize: '0.8rem' }}
+            disabled={!product.available}
+            onClick={(event) => event.stopPropagation()}
+          >
             {product.available ? 'Agregar' : 'Agotado'}
           </button>
         </div>

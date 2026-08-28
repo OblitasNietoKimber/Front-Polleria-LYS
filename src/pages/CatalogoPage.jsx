@@ -4,14 +4,19 @@ import { CATEGORIES } from '../data/categories'
 import { PRODUCTS } from '../data/products'
 import { filterProducts } from '../services/productService'
 import ProductCard from '../components/ProductCard'
+import ProductDetailModal from '../components/ProductDetailModal'
 
 export default function CatalogoPage() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const activeCategory = searchParams.get('categoria') || 'todos'
   const search = searchParams.get('buscar') || ''
+  const selectedProductId = searchParams.get('producto')
 
   const filteredProducts = filterProducts(PRODUCTS, { category: activeCategory, search })
+  const selectedProduct = selectedProductId
+    ? PRODUCTS.find((product) => product.id === Number(selectedProductId))
+    : null
 
   function updateParams(next) {
     const params = new URLSearchParams(searchParams)
@@ -20,6 +25,14 @@ export default function CatalogoPage() {
       else params.set(key, value)
     })
     setSearchParams(params)
+  }
+
+  function openProduct(product) {
+    updateParams({ producto: product.id })
+  }
+
+  function closeProduct() {
+    updateParams({ producto: null })
   }
 
   return (
@@ -70,10 +83,12 @@ export default function CatalogoPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} onSelect={openProduct} />
           ))}
         </div>
       )}
+
+      <ProductDetailModal product={selectedProduct} onClose={closeProduct} />
     </section>
   )
 }
