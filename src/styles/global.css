@@ -110,3 +110,47 @@
   transform: translateY(-3px);
   box-shadow: 0 10px 24px rgba(27, 21, 18, 0.12);
 }
+
+.chip {
+  font-size: 0.78rem;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--smoke);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all .15s ease;
+  font-weight: 500;
+}
+
+.chip.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+
+.chip:hover:not(.active) {
+  border-color: var(--ember);
+  color: var(--rust);
+}
+
+.lys-input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  transition: border-color .15s ease;
+}
+
+.lys-input:focus {
+  outline: none;
+  border-color: var(--ember);
+}
