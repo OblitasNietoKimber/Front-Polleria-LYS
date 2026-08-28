@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useState } from "react"; 
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import CatalogoPage from './pages/CatalogoPage'
@@ -6,6 +7,8 @@ import EntregaPage from './pages/checkout/EntregaPage'
 import PagoPage from './pages/checkout/PagoPage'
 import ResumenPage from './pages/checkout/ResumenPage'
 import ConfirmacionPage from './pages/ConfirmacionPage'
+import CajaPage from "./pages/CajaPage";
+import DashboardAdminPage from "./pages/DashboardAdminPage";
 
 function App() {
   return (
@@ -18,10 +21,12 @@ function App() {
           <Route path="/checkout/pago" element={<PagoPage />} />
           <Route path="/checkout/resumen" element={<ResumenPage />} />
           <Route path="/confirmacion" element={<ConfirmacionPage />} />
+          <Route path="/caja" element={<CajaPage />} />
+          <Route path="/dashboard" element={<DashboardAdminPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
   )
 }
 
-export default App
+export default App;

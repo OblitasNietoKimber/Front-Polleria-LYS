@@ -33,16 +33,16 @@ a {
   color: inherit;
 }
 
-.font-display {
-  font-family: 'Fraunces', serif;
-}
-
-.font-mono {
-  font-family: 'IBM Plex Mono', monospace;
-}
-
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
   }
+}
+
+.font-display {
+  font-family: 'Work Sans', serif;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
 }
