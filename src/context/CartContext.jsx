@@ -43,12 +43,17 @@ export function CartProvider({ children }) {
     setCartOpen(false)
   }
 
+  function addToCart(id, qty = 1) {
+    setCart((current) => ({ ...current, [id]: (current[id] || 0) + qty }))
+  }
+
   const value = {
     cartItems,
     cartCount,
     cartOpen,
     openCart,
     closeCart,
+    addToCart,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

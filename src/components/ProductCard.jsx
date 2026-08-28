@@ -1,7 +1,16 @@
 import CategoryIcon from './CategoryIcon'
 import { money } from '../utils/currency'
+import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product, onSelect }) {
+  const { addToCart, openCart } = useCart()
+
+  function handleAdd(event) {
+    event.stopPropagation()
+    addToCart(product.id)
+    openCart()
+  }
+
   return (
     <div className="ticket-card" onClick={() => onSelect?.(product)}>
       <div className="icon-tile" style={{ opacity: product.available ? 1 : 0.4 }}>
@@ -30,12 +39,11 @@ export default function ProductCard({ product, onSelect }) {
           <span className="font-mono" style={{ fontWeight: 600, color: 'var(--rust)', fontSize: '0.98rem' }}>
             {money(product.price)}
           </span>
-          {/* El botón se conecta al carrito de compras en un commit posterior. */}
           <button
             className="btn-outline"
             style={{ padding: '7px 14px', fontSize: '0.8rem' }}
             disabled={!product.available}
-            onClick={(event) => event.stopPropagation()}
+            onClick={handleAdd}
           >
             {product.available ? 'Agregar' : 'Agotado'}
           </button>

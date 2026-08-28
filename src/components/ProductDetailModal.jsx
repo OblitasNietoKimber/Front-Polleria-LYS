@@ -1,9 +1,18 @@
 import { X } from 'lucide-react'
 import CategoryIcon from './CategoryIcon'
 import { money } from '../utils/currency'
+import { useCart } from '../context/CartContext'
 
 export default function ProductDetailModal({ product, onClose }) {
+  const { addToCart, openCart } = useCart()
+
   if (!product) return null
+
+  function handleAdd() {
+    addToCart(product.id)
+    openCart()
+    onClose()
+  }
 
   return (
     <div
@@ -60,8 +69,7 @@ export default function ProductDetailModal({ product, onClose }) {
             <span className="font-mono" style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--rust)' }}>
               {money(product.price)}
             </span>
-            {/* El botón se conecta al carrito de compras en un commit posterior. */}
-            <button className="btn-ember" disabled={!product.available}>
+            <button className="btn-ember" disabled={!product.available} onClick={handleAdd}>
               Agregar al carrito
             </button>
           </div>
