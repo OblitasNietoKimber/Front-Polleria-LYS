@@ -305,3 +305,74 @@
     display: none;
   }
 }
+.admin-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.admin-summary-card {
+  min-height: 160px;
+  padding: 14px 20px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-summary-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0 12px;
+}
+
+.admin-summary-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FCEDE5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ember);
+  flex-shrink: 0;
+}
+
+.admin-summary-title {
+  color: var(--smoke);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.admin-summary-amount {
+  color: var(--ink);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.admin-summary-badge {
+  color: #2E7D32;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.admin-sparkline {
+  width: 100%;
+  height: 36px;
+  margin-top: auto;
+}
+
+.admin-sparkline svg {
+  width: 100%;
+  height: 100%;
+}

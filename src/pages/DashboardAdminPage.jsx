@@ -1,7 +1,11 @@
+import { useMemo } from "react";
+import cajaService from "../services/cajaService";
+import TarjetasResumen from "../components/admin/TarjetasResumen";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function DashboardAdminPage({ onIrCaja }) {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
+  const resumen = useMemo(() => cajaService.getResumenVentas(), []);
 
   return (
     <div className="lys-root admin-screen">
@@ -41,6 +45,8 @@ export default function DashboardAdminPage({ onIrCaja }) {
             <p>Resumen general de tu restaurante</p>
           </div>
         </section>
+
+        <TarjetasResumen resumen={resumen} />
       </main>
     </div>
   );

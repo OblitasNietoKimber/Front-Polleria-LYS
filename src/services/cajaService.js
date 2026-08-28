@@ -1,5 +1,6 @@
 const STORAGE_KEY = "lys_pedidos";
 
+// Datos de prueba iniciales
 const seedPedidos = [
   {
     id: "PED-1001",
@@ -60,10 +61,73 @@ function marcarComoPagado(id, dataPago) {
   return actualizados.find((p) => p.id === id);
 }
 
+function getVentas() {
+  return getPedidos().filter((p) => p.estado === "pagado");
+}
+
+function getFechaVenta(venta) {
+  return new Date(venta.pagadoAt || venta.createdAt);
+}
+
+function inicioDelDia(fecha) {
+  const copia = new Date(fecha);
+  copia.setHours(0, 0, 0, 0);
+  return copia;
+}
+
+function finDelDia(fecha) {
+  const copia = new Date(fecha);
+  copia.setHours(23, 59, 59, 999);
+  return copia;
+}
+
+function filtrarVentasPorFecha(ventas, fechaInicio, fechaFin) {
+  if (!fechaInicio && !fechaFin) return ventas;
+
+  const inicio = fechaInicio ? inicioDelDia(new Date(fechaInicio)) : null;
+  const fin = fechaFin ? finDelDia(new Date(fechaFin)) : null;
+
+  return ventas.filter((venta) => {
+    const fecha = getFechaVenta(venta);
+    return (!inicio || fecha >= inicio) && (!fin || fecha <= fin);
+  });
+}
+
+function crearResumen(ventas) {
+  return {
+    cantidadPedidos: ventas.length,
+    totalVentas: ventas.reduce((acc, venta) => acc + calcularTotal(venta), 0),
+  };
+}
+
+function getResumenVentas() {
+  const ventas = getVentas();
+  const ahora = new Date();
+
+  const inicioSemana = inicioDelDia(new Date(ahora));
+  inicioSemana.setDate(inicioSemana.getDate() - 6);
+
+  const inicioMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+
+  return {
+    dia: crearResumen(filtrarVentasPorFecha(ventas, inicioDelDia(ahora), finDelDia(ahora))),
+    semana: crearResumen(filtrarVentasPorFecha(ventas, inicioSemana, finDelDia(ahora))),
+    mes: crearResumen(filtrarVentasPorFecha(ventas, inicioMes, finDelDia(ahora))),
+    total: crearResumen(ventas),
+  };
+}
+
+function getVentasFiltradas(filtros = {}) {
+  return filtrarVentasPorFecha(getVentas(), filtros.fechaInicio, filtros.fechaFin);
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
   getPedidoPorId,
   calcularTotal,
   marcarComoPagado,
+  getVentas,
+  getResumenVentas,
+  getVentasFiltradas,
 };
