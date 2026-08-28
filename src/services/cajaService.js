@@ -1,5 +1,6 @@
 const STORAGE_KEY = "lys_pedidos";
 
+// Datos de prueba iniciales
 const seedPedidos = [
   {
     id: "PED-1001",
@@ -60,10 +61,150 @@ function marcarComoPagado(id, dataPago) {
   return actualizados.find((p) => p.id === id);
 }
 
+function getVentas() {
+  return getPedidos().filter((p) => p.estado === "pagado");
+}
+
+function getFechaVenta(venta) {
+  return new Date(venta.pagadoAt || venta.createdAt);
+}
+
+function inicioDelDia(fecha) {
+  const copia = new Date(fecha);
+  copia.setHours(0, 0, 0, 0);
+  return copia;
+}
+
+function finDelDia(fecha) {
+  const copia = new Date(fecha);
+  copia.setHours(23, 59, 59, 999);
+  return copia;
+}
+
+function filtrarVentasPorFecha(ventas, fechaInicio, fechaFin) {
+  if (!fechaInicio && !fechaFin) return ventas;
+
+  const inicio = fechaInicio ? inicioDelDia(new Date(fechaInicio)) : null;
+  const fin = fechaFin ? finDelDia(new Date(fechaFin)) : null;
+
+  return ventas.filter((venta) => {
+    const fecha = getFechaVenta(venta);
+    return (!inicio || fecha >= inicio) && (!fin || fecha <= fin);
+  });
+}
+
+function crearResumen(ventas) {
+  return {
+    cantidadPedidos: ventas.length,
+    totalVentas: ventas.reduce((acc, venta) => acc + calcularTotal(venta), 0),
+  };
+}
+
+function getResumenVentas() {
+  const ventas = getVentas();
+  const ahora = new Date();
+
+  const inicioSemana = inicioDelDia(new Date(ahora));
+  inicioSemana.setDate(inicioSemana.getDate() - 6);
+
+  const inicioMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+
+  return {
+    dia: crearResumen(filtrarVentasPorFecha(ventas, inicioDelDia(ahora), finDelDia(ahora))),
+    semana: crearResumen(filtrarVentasPorFecha(ventas, inicioSemana, finDelDia(ahora))),
+    mes: crearResumen(filtrarVentasPorFecha(ventas, inicioMes, finDelDia(ahora))),
+    total: crearResumen(ventas),
+  };
+}
+
+function getVentasFiltradas(filtros = {}) {
+  return filtrarVentasPorFecha(getVentas(), filtros.fechaInicio, filtros.fechaFin);
+}
+
+function getProductosMasVendidos(filtros = {}) {
+  const productos = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    venta.items.forEach((item) => {
+      const actual = productos.get(item.nombre) || {
+        nombre: item.nombre,
+        cantidad: 0,
+        total: 0,
+      };
+
+      productos.set(item.nombre, {
+        ...actual,
+        cantidad: actual.cantidad + item.cantidad,
+        total: actual.total + item.cantidad * item.precio,
+      });
+    });
+  });
+
+  return Array.from(productos.values()).sort((a, b) => b.cantidad - a.cantidad);
+}
+
+function getVentasPorMetodoPago(filtros = {}) {
+  const metodos = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    const metodo = venta.pago?.metodo || "Sin metodo";
+    const actual = metodos.get(metodo) || {
+      nombre: metodo,
+      cantidad: 0,
+      total: 0,
+    };
+
+    metodos.set(metodo, {
+      ...actual,
+      cantidad: actual.cantidad + 1,
+      total: actual.total + calcularTotal(venta),
+    });
+  });
+
+  return Array.from(metodos.values()).sort((a, b) => b.total - a.total);
+}
+
+function getVentasPorDia(filtros = {}) {
+  const dias = new Map();
+
+  getVentasFiltradas(filtros).forEach((venta) => {
+    const fecha = getFechaVenta(venta).toISOString().slice(0, 10);
+    const actual = dias.get(fecha) || {
+      fecha,
+      cantidad: 0,
+      total: 0,
+    };
+
+    dias.set(fecha, {
+      ...actual,
+      cantidad: actual.cantidad + 1,
+      total: actual.total + calcularTotal(venta),
+    });
+  });
+
+  return Array.from(dias.values()).sort((a, b) => a.fecha.localeCompare(b.fecha));
+}
+
+function getHistorialVentas(filtros = {}) {
+  return getVentasFiltradas(filtros)
+    .map((venta) => ({
+      ...venta,
+      total: calcularTotal(venta),
+    }))
+    .sort((a, b) => getFechaVenta(b) - getFechaVenta(a));
+}
+
 export default {
   getPedidos,
   getPedidosPendientes,
   getPedidoPorId,
   calcularTotal,
   marcarComoPagado,
+  getVentas,
+  getResumenVentas,
+  getVentasFiltradas,
+  getProductosMasVendidos,
+  getVentasPorMetodoPago,
+  getVentasPorDia,
+  getHistorialVentas,
 };
