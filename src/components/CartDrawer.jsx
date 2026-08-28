@@ -1,10 +1,17 @@
 import { Minus, Plus, Trash2, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import CategoryIcon from './CategoryIcon'
 import { useCart } from '../context/CartContext'
 import { money } from '../utils/currency'
 
 export default function CartDrawer() {
+  const navigate = useNavigate()
   const { cartOpen, closeCart, cartItems, removeItem, setQty, subtotal } = useCart()
+
+  function handleCheckout() {
+    closeCart()
+    navigate('/checkout/entrega')
+  }
 
   return (
     <>
@@ -74,6 +81,9 @@ export default function CartDrawer() {
               <span>Subtotal</span>
               <span>{money(subtotal)}</span>
             </div>
+            <button className="btn-ember" style={{ width: '100%', marginTop: 14 }} onClick={handleCheckout}>
+              Continuar compra
+            </button>
           </div>
         )}
       </aside>

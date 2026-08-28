@@ -221,3 +221,28 @@
   border-color: var(--ember);
   color: var(--ember);
 }
+
+.step-stub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border: 1.5px solid var(--line);
+  color: var(--smoke);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-stub.active {
+  border-color: var(--ember);
+  color: var(--ember);
+  background: #FCEDE5;
+}
+
+.step-stub.done {
+  border-color: var(--gold);
+  color: var(--rust);
+  background: #FBF3E1;
+}

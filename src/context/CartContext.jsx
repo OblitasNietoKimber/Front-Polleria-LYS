@@ -3,6 +3,9 @@ import { PRODUCTS } from '../data/products'
 
 const CartContext = createContext(null)
 const CART_STORAGE_KEY = 'lys-cart'
+const DELIVERY_STORAGE_KEY = 'lys-checkout-delivery'
+
+const EMPTY_FORM = { name: '', address: '', reference: '', phone: '' }
 
 function readStoredCart() {
   if (typeof window === 'undefined') return {}
@@ -14,9 +17,21 @@ function readStoredCart() {
   }
 }
 
+function readStoredDelivery() {
+  if (typeof window === 'undefined') return { deliveryType: 'delivery', form: EMPTY_FORM }
+  try {
+    const raw = window.localStorage.getItem(DELIVERY_STORAGE_KEY)
+    return raw ? JSON.parse(raw) : { deliveryType: 'delivery', form: EMPTY_FORM }
+  } catch {
+    return { deliveryType: 'delivery', form: EMPTY_FORM }
+  }
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(readStoredCart)
   const [cartOpen, setCartOpen] = useState(false)
+  const [deliveryType, setDeliveryType] = useState(() => readStoredDelivery().deliveryType)
+  const [form, setForm] = useState(() => readStoredDelivery().form)
 
   useEffect(() => {
     try {
@@ -25,6 +40,14 @@ export function CartProvider({ children }) {
       // localStorage no disponible (modo privado, cuotas, etc.)
     }
   }, [cart])
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(DELIVERY_STORAGE_KEY, JSON.stringify({ deliveryType, form }))
+    } catch {
+      // localStorage no disponible (modo privado, cuotas, etc.)
+    }
+  }, [deliveryType, form])
 
   const cartItems = useMemo(
     () =>
@@ -65,6 +88,10 @@ export function CartProvider({ children }) {
     })
   }
 
+  function updateFormField(field, value) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
   const value = {
     cartItems,
     cartCount,
@@ -75,6 +102,10 @@ export function CartProvider({ children }) {
     addToCart,
     removeItem,
     setQty,
+    deliveryType,
+    setDeliveryType,
+    form,
+    updateFormField,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
