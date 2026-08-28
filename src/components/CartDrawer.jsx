@@ -1,9 +1,10 @@
 import { Minus, Plus, Trash2, X } from 'lucide-react'
 import CategoryIcon from './CategoryIcon'
 import { useCart } from '../context/CartContext'
+import { money } from '../utils/currency'
 
 export default function CartDrawer() {
-  const { cartOpen, closeCart, cartItems, removeItem, setQty } = useCart()
+  const { cartOpen, closeCart, cartItems, removeItem, setQty, subtotal } = useCart()
 
   return (
     <>
@@ -64,6 +65,17 @@ export default function CartDrawer() {
             ))
           )}
         </div>
+        {cartItems.length > 0 && (
+          <div style={{ padding: '18px 20px', borderTop: '1px solid var(--line)' }}>
+            <div
+              className="font-mono"
+              style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', fontWeight: 700 }}
+            >
+              <span>Subtotal</span>
+              <span>{money(subtotal)}</span>
+            </div>
+          </div>
+        )}
       </aside>
     </>
   )

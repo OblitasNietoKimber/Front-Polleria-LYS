@@ -34,6 +34,7 @@ export function CartProvider({ children }) {
     [cart]
   )
   const cartCount = cartItems.reduce((total, item) => total + item.qty, 0)
+  const subtotal = cartItems.reduce((total, item) => total + item.qty * item.product.price, 0)
 
   function openCart() {
     setCartOpen(true)
@@ -67,6 +68,7 @@ export function CartProvider({ children }) {
   const value = {
     cartItems,
     cartCount,
+    subtotal,
     cartOpen,
     openCart,
     closeCart,
