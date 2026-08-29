@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { DELIVERY_COST, PRODUCTS } from '../data/products'
 import { generateOrderNumber } from '../utils/orderNumber'
+import orderService from '../services/orderService'
 
 const CartContext = createContext(null)
 const CART_STORAGE_KEY = 'lys-cart'
@@ -134,8 +135,18 @@ export function CartProvider({ children }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
-  function confirmOrder() {
+    function confirmOrder() {
     const number = generateOrderNumber()
+    orderService.createOrder({
+      id: number,
+      items: cartItems,
+      subtotal,
+      shipping,
+      total,
+      deliveryType,
+      form,
+      payment,
+    })
     setOrderNumber(number)
     setCart({})
     return number
