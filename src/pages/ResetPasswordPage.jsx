@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import * as authService from '../service/authService';
-import { validateResetPasswordForm } from '../service/validators';
+import * as authService from '../services/authService';
+import { validateResetPasswordForm } from '../services/validators';
 import Logo from '../components/common/Logo';
 
 function Field({ label, name, type = 'text', value, onChange, error, placeholder, autoComplete }) {

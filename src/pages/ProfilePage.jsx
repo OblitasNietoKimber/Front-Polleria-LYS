@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Logo from '../components/common/Logo';
-import * as authService from '../service/authService';
+import * as authService from '../services/authService';
 import {
   validatePersonalDataForm,
   validateChangePasswordForm,
-} from '../service/validators';
+} from '../services/validators';
 
 function Field({ label, name, type = 'text', value, onChange, error, autoComplete, disabled }) {
   return (

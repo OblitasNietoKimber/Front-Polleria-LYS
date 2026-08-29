@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import * as authService from '../service/authService';
-import { validateForgotPasswordForm } from '../service/validators';
+import * as authService from '../services/authService';
+import { validateForgotPasswordForm } from '../services/validators';
 import Logo from '../components/common/Logo';
 
 function ForgotPasswordPage() {

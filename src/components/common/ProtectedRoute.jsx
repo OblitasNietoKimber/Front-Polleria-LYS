@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import * as authService from '../../service/authService';
+import * as authService from '../../services/authService';
 
 /**
  * El control de acceso por rol (cliente/mesera/cocina/caja/administrador)
