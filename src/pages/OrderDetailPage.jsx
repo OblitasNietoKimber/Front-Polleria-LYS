@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import orderService from '../services/orderService'
 import { money } from '../utils/currency'
 import '../styles/pedidos.css'
+import OrderDeliveryInfo from '../components/orders/OrderDeliveryInfo'
 
 export default function OrderDetailPage() {
   const { id } = useParams()
@@ -63,6 +64,7 @@ export default function OrderDetailPage() {
           </div>
         </div>
       </div>
+      <OrderDeliveryInfo order={order} />
     </section>
   )
 }

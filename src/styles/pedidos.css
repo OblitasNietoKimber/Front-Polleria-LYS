@@ -147,3 +147,25 @@
   font-weight: 700;
   color: var(--rust);
 }
+
+.delivery-info {
+  margin-top: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 18px;
+}
+
+.delivery-info-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.delivery-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--ink);
+  padding: 6px 0;
+}
