@@ -4,6 +4,7 @@ import orderService from '../services/orderService'
 import { money } from '../utils/currency'
 import OrderDeliveryInfo from '../components/orders/OrderDeliveryInfo'
 import OrderStatusBadge from '../components/orders/OrderStatusBadge'
+import OrderStatusStepper from '../components/orders/OrderStatusStepper'
 import '../styles/pedidos.css'
 
 export default function OrderDetailPage() {
@@ -41,6 +42,8 @@ export default function OrderDetailPage() {
         <OrderStatusBadge order={order} />
       </div>
 
+      <OrderStatusStepper order={order} />
+
       <div className="order-items-card">
         <div className="order-items-card-title font-mono">COMANDA · LEÑA Y SABORES</div>
         <div className="order-items-card-body">
@@ -66,6 +69,7 @@ export default function OrderDetailPage() {
           </div>
         </div>
       </div>
+
       <OrderDeliveryInfo order={order} />
     </section>
   )

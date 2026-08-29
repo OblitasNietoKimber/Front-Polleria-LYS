@@ -195,3 +195,70 @@
 .status-listo { background: #FBF3E1; color: var(--rust); }
 .status-camino { background: #E3EEF7; color: #2B6CA3; }
 .status-entregado { background: #E4F3E7; color: #2E7D46; }
+.status-stepper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 26px;
+  padding: 20px 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.status-stepper-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.status-stepper-line-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.status-stepper-dot {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.status-stepper-dot.active {
+  border-color: var(--ember);
+  background: var(--ember);
+  box-shadow: 0 0 0 4px #FCEDE5;
+}
+
+.status-stepper-dot.done {
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.status-stepper-line {
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+}
+
+.status-stepper-line.done {
+  background: var(--gold);
+}
+
+.status-stepper-label {
+  font-size: 0.72rem;
+  color: var(--smoke);
+  margin-top: 8px;
+}
+
+.status-stepper-label.active {
+  color: var(--ember);
+  font-weight: 700;
+}
