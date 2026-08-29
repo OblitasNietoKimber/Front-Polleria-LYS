@@ -2,8 +2,9 @@ import { ArrowLeft } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import orderService from '../services/orderService'
 import { money } from '../utils/currency'
-import '../styles/pedidos.css'
 import OrderDeliveryInfo from '../components/orders/OrderDeliveryInfo'
+import OrderStatusBadge from '../components/orders/OrderStatusBadge'
+import '../styles/pedidos.css'
 
 export default function OrderDetailPage() {
   const { id } = useParams()
@@ -37,6 +38,7 @@ export default function OrderDetailPage() {
           <h1 className="font-display">Pedido {order.id}</h1>
           <p className="order-card-date">{date}</p>
         </div>
+        <OrderStatusBadge order={order} />
       </div>
 
       <div className="order-items-card">

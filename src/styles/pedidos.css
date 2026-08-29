@@ -169,3 +169,29 @@
   color: var(--ink);
   padding: 6px 0;
 }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-recibido { background: #EAE3D8; color: #6B5B3E; }
+.status-preparacion { background: #FCEDE5; color: var(--ember); }
+.status-listo { background: #FBF3E1; color: var(--rust); }
+.status-camino { background: #E3EEF7; color: #2B6CA3; }
+.status-entregado { background: #E4F3E7; color: #2E7D46; }
