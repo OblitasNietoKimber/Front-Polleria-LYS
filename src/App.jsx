@@ -10,6 +10,7 @@ import ConfirmacionPage from './pages/ConfirmacionPage'
 import CajaPage from "./pages/CajaPage";
 import DashboardAdminPage from "./pages/DashboardAdminPage";
 import PedidosPage from './pages/PedidosPage'
+import OrderDetailPage from './pages/OrderDetailPage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/caja" element={<CajaPage />} />
           <Route path="/dashboard" element={<DashboardAdminPage />} />
           <Route path="/pedidos" element={<PedidosPage />} />
+          <Route path="/pedidos/:id" element={<OrderDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
