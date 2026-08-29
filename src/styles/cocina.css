@@ -1,0 +1,204 @@
+.cocina-board {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.cocina-column {
+  flex: 1;
+  min-width: 300px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.cocina-column-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+
+.cocina-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cocina-dot--nuevo { background: var(--ember); }
+.cocina-dot--preparacion { background: var(--gold); }
+.cocina-dot--listo { background: #2E7D32; }
+
+.cocina-count {
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  min-width: 26px;
+  text-align: center;
+  padding: 2px 8px;
+  font-weight: 700;
+}
+
+.cocina-empty {
+  color: var(--smoke);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  padding: 24px 0;
+  text-align: center;
+  border: 1.5px dashed var(--line);
+  border-radius: 8px;
+}
+
+.cocina-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.cocina-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(23, 19, 15, 0.10);
+}
+
+.cocina-card--nuevo {
+  border-left-color: var(--ember);
+  animation: cocina-pulse 2.4s ease-in-out infinite;
+}
+.cocina-card--preparacion { border-left-color: var(--gold); }
+.cocina-card--listo { border-left-color: #2E7D32; }
+
+@keyframes cocina-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(226, 58, 50, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(226, 58, 50, 0.12); }
+}
+
+.cocina-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.cocina-mesa-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.cocina-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--smoke);
+}
+
+.cocina-items {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cocina-items li {
+  font-size: 0.92rem;
+  display: flex;
+  gap: 6px;
+}
+
+.cocina-cant {
+  font-weight: 700;
+  color: var(--ember);
+  min-width: 26px;
+}
+
+.cocina-obs-item {
+  color: var(--rust);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.cocina-obs-general {
+  background: #FCEDE5;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  color: var(--rust);
+  margin-bottom: 10px;
+}
+
+.cocina-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.cocina-timer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--smoke);
+}
+
+.cocina-timer--alerta { color: var(--rust); font-weight: 700; }
+
+.cocina-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform .12s ease, filter .15s ease;
+}
+.cocina-btn:active { transform: scale(0.96); }
+.cocina-btn:hover { filter: brightness(0.92); }
+
+.cocina-btn--iniciar { background: var(--ember); color: #fff; }
+.cocina-btn--listo { background: var(--gold); color: #3A2A0E; }
+.cocina-btn--entregar { background: #2E7D32; color: #fff; }
+
+.cocina-finalizados-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.cocina-finalizado-item {
+  display: flex;
+  justify-content: space-between;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 16px;
+  opacity: 0.75;
+}
+
+@media (max-width: 900px) {
+  .cocina-board { flex-direction: column; }
+  .cocina-column { min-width: 100%; }
+}

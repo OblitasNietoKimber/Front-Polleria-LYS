@@ -2,66 +2,64 @@ import { IconoCheckCirculo, IconoReloj } from "../common/Iconos";
 
 function tiempoTranscurrido(fechaISO) {
   const minutos = Math.floor((Date.now() - new Date(fechaISO).getTime()) / 60000);
-  if (minutos < 1) return "Recién llegado";
-  if (minutos === 1) return "Hace 1 min";
-  return `Hace ${minutos} min`;
+  if (minutos < 1) return { texto: "Recién llegado", alerta: false };
+  if (minutos === 1) return { texto: "Hace 1 min", alerta: false };
+  return { texto: `Hace ${minutos} min`, alerta: minutos >= 12 };
 }
 
+const ESTADO_CLASE = {
+  nuevo: "cocina-card--nuevo",
+  en_preparacion: "cocina-card--preparacion",
+  listo: "cocina-card--listo",
+};
+
 export default function TarjetaPedidoCocina({ pedido, onCambiarEstado }) {
+  const tiempo = tiempoTranscurrido(pedido.createdAt);
+
   return (
-    <div className="ticket-card" style={{ padding: 16, marginBottom: 12 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div className={`cocina-card ${ESTADO_CLASE[pedido.estadoCocina] || ""}`}>
+      <div className="cocina-card-top">
         <div>
-          <p style={{ fontWeight: 600 }}>{pedido.cliente}</p>
-          <p className="font-mono" style={{ fontSize: "0.78rem", color: "var(--smoke)" }}>
-            {pedido.id}
-          </p>
+          <p style={{ fontWeight: 700, margin: 0 }}>{pedido.cliente}</p>
+          <span className="cocina-id">{pedido.id}</span>
         </div>
-        <span className="chip active">Mesa {pedido.mesa}</span>
+        <span className="cocina-mesa-chip">Mesa {pedido.mesa}</span>
       </div>
 
-      <ul style={{ marginTop: 10, paddingLeft: 18 }}>
+      {pedido.observaciones && (
+        <p className="cocina-obs-general">Obs: {pedido.observaciones}</p>
+      )}
+
+      <ul className="cocina-items">
         {pedido.items.map((item, i) => (
-          <li key={i} style={{ fontSize: "0.9rem" }}>
-            {item.cantidad}x {item.nombre}
-            {item.observacion && (
-              <span style={{ color: "var(--ember)", fontStyle: "italic" }}> — {item.observacion}</span>
-            )}
+          <li key={i}>
+            <span className="cocina-cant">{item.cantidad}x</span>
+            <span>
+              {item.nombre}
+              {item.observacion && <span className="cocina-obs-item"> — {item.observacion}</span>}
+            </span>
           </li>
         ))}
       </ul>
 
-      {pedido.observaciones && (
-        <p style={{ marginTop: 8, fontSize: "0.85rem", color: "var(--rust)" }}>
-          Obs: {pedido.observaciones}
-        </p>
-      )}
-
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 12 }}>
-        <span
-          className="font-mono"
-          style={{ fontSize: "0.75rem", color: "var(--smoke)", display: "flex", alignItems: "center", gap: 4 }}
-        >
-          <IconoReloj size={14} /> {tiempoTranscurrido(pedido.createdAt)}
+      <div className="cocina-card-footer">
+        <span className={`cocina-timer ${tiempo.alerta ? "cocina-timer--alerta" : ""}`}>
+          <IconoReloj size={13} /> {tiempo.texto}
         </span>
 
         {pedido.estadoCocina === "nuevo" && (
-          <button className="btn-ember" onClick={() => onCambiarEstado(pedido.id, "en_preparacion")}>
+          <button className="cocina-btn cocina-btn--iniciar" onClick={() => onCambiarEstado(pedido.id, "en_preparacion")}>
             Iniciar preparación
           </button>
         )}
         {pedido.estadoCocina === "en_preparacion" && (
-          <button className="btn-ember" onClick={() => onCambiarEstado(pedido.id, "listo")}>
+          <button className="cocina-btn cocina-btn--listo" onClick={() => onCambiarEstado(pedido.id, "listo")}>
             Marcar como listo
           </button>
         )}
         {pedido.estadoCocina === "listo" && (
-          <button
-            className="btn-outline"
-            style={{ display: "flex", alignItems: "center", gap: 6 }}
-            onClick={() => onCambiarEstado(pedido.id, "entregado")}
-          >
-            <IconoCheckCirculo size={14} /> Entregar
+          <button className="cocina-btn cocina-btn--entregar" onClick={() => onCambiarEstado(pedido.id, "entregado")}>
+            <IconoCheckCirculo size={13} /> Entregar
           </button>
         )}
       </div>
