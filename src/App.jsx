@@ -1,12 +1,15 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import CocinaPage from "./pages/CocinaPage";
 
 function App() {
   return (
-    <CocinaPage
-      onIrDashboard={() => alert("Este botón se conectará cuando se junten las ramas en dev")}
-      onIrCaja={() => alert("Este botón se conectará cuando se junten las ramas en dev")}
-    />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/cocina" element={<CocinaPage />} />
+        <Route path="*" element={<Navigate to="/cocina" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
