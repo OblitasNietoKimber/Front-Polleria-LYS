@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useState } from "react"; 
+import { useState } from "react";
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import CatalogoPage from './pages/CatalogoPage'
@@ -9,6 +9,8 @@ import ResumenPage from './pages/checkout/ResumenPage'
 import ConfirmacionPage from './pages/ConfirmacionPage'
 import CajaPage from "./pages/CajaPage";
 import DashboardAdminPage from "./pages/DashboardAdminPage";
+import PedidosPage from './pages/PedidosPage'
+import OrderDetailPage from './pages/OrderDetailPage'
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/confirmacion" element={<ConfirmacionPage />} />
           <Route path="/caja" element={<CajaPage />} />
           <Route path="/dashboard" element={<DashboardAdminPage />} />
+          <Route path="/pedidos" element={<PedidosPage />} />
+          <Route path="/pedidos/:id" element={<OrderDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
