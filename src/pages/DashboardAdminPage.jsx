@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 import cajaService from "../services/cajaService";
 import FiltroFechas from "../components/admin/FiltroFechas";
 import MetricasOperativas from "../components/admin/MetricasOperativas";
@@ -9,9 +10,10 @@ import Ventas7Dias from "../components/admin/Ventas7Dias";
 import VentasMetodoPago from "../components/admin/VentasMetodoPago";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
-export default function DashboardAdminPage({ onIrCaja }) {
+export default function DashboardAdminPage() {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
   const [filtros, setFiltros] = useState({ fechaInicio: "", fechaFin: "" });
+  const navigate = useNavigate();
 
   const resumen = useMemo(() => cajaService.getResumenVentas(), []);
   const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), [filtros]);
@@ -25,14 +27,14 @@ export default function DashboardAdminPage({ onIrCaja }) {
   return (
     <div className="lys-root admin-screen">
       <header className="lys-nav admin-topbar">
-        <div className="admin-brand">
+        <NavLink to="/" className="admin-brand">
           <img src={logoUrl} alt="Logo Lenas y Sabores" className="admin-logo" />
           <span className="admin-system-title">Pollería Leñas & Sabores</span>
-        </div>
+        </NavLink>
 
         <nav className="admin-nav">
           <button className="admin-nav-button active">Dashboard</button>
-          <button className="admin-nav-button" onClick={onIrCaja}>Caja</button>
+          <button className="admin-nav-button" onClick={() => navigate('/caja')}>Caja</button>
         </nav>
 
         <div className="admin-actions">

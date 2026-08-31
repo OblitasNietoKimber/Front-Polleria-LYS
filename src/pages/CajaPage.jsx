@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
@@ -7,8 +8,9 @@ import FormularioPago from "../components/caja/FormularioPago";
 import TicketModal from "../components/caja/TicketModal";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
-export default function CajaPage({ onIrDashboard }) {
+export default function CajaPage() {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
+  const navigate = useNavigate();
   const [pedidos, setPedidos] = useState([]);
   const [seleccionadoId, setSeleccionadoId] = useState(null);
   const [busqueda, setBusqueda] = useState("");
@@ -47,13 +49,13 @@ export default function CajaPage({ onIrDashboard }) {
   return (
     <div className="lys-root admin-screen">
       <header className="lys-nav admin-topbar">
-        <div className="admin-brand">
+        <NavLink to="/" className="admin-brand">
           <img src={logoUrl} alt="Logo Lenas y Sabores" className="admin-logo" />
           <span className="admin-system-title">Pollería Leñas & Sabores</span>
-        </div>
+        </NavLink>
 
         <nav className="admin-nav">
-          <button className="admin-nav-button" onClick={onIrDashboard}>Dashboard</button>
+          <button className="admin-nav-button" onClick={() => navigate('/dashboard')}>Dashboard</button>
           <button className="admin-nav-button active">Caja</button>
         </nav>
 
