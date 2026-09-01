@@ -8,7 +8,7 @@ import HistorialVentas from "../components/admin/HistorialVentas";
 import TarjetasResumen from "../components/admin/TarjetasResumen";
 import Ventas7Dias from "../components/admin/Ventas7Dias";
 import VentasMetodoPago from "../components/admin/VentasMetodoPago";
-import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
+import { IconoBilletera, IconoCampana, IconoGrafico, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function DashboardAdminPage() {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
@@ -78,6 +78,18 @@ export default function DashboardAdminPage() {
           <HistorialVentas ventas={historial} />
         </section>
       </main>
+
+      <nav className="admin-bottom-nav" aria-label="Navegacion principal de administracion">
+        <NavLink to="/dashboard" className="admin-bottom-link">
+          <IconoGrafico size={19} />
+          <span>Dashboard</span>
+        </NavLink>
+
+        <NavLink to="/caja" className="admin-bottom-link">
+          <IconoBilletera size={19} />
+          <span>Caja</span>
+        </NavLink>
+      </nav>
     </div>
   );
 }
