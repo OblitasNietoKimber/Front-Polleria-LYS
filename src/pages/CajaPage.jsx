@@ -6,7 +6,7 @@ import BuscadorPedidos from "../components/caja/BuscadorPedidos";
 import DetalleVenta from "../components/caja/DetalleVenta";
 import FormularioPago from "../components/caja/FormularioPago";
 import TicketModal from "../components/caja/TicketModal";
-import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
+import { IconoBilletera, IconoCampana, IconoGrafico, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function CajaPage() {
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
@@ -47,7 +47,7 @@ export default function CajaPage() {
   }
 
   return (
-    <div className="lys-root admin-screen">
+    <div className="lys-root admin-screen caja-page">
       <header className="lys-nav admin-topbar">
         <NavLink to="/" className="admin-brand">
           <img src={logoUrl} alt="Logo Lenas y Sabores" className="admin-logo" />
@@ -77,13 +77,11 @@ export default function CajaPage() {
         </div>
       </header>
 
-      <main style={{ padding: "32px", maxWidth: 1200, margin: "0 auto", width: "100%" }}>
-        <h1 className="font-display" style={{ fontSize: "1.8rem", marginBottom: 24 }}>
-          CAJA
-        </h1>
+      <main className="caja-main">
+        <h1 className="caja-title font-display">CAJA</h1>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 24 }}>
-          <div>
+        <div className="caja-layout">
+          <div className="caja-column">
             <BuscadorPedidos valor={busqueda} onChange={setBusqueda} />
             <ListaPedidos
               pedidos={pedidosFiltrados}
@@ -92,7 +90,7 @@ export default function CajaPage() {
             />
           </div>
 
-          <div className="ticket-card" style={{ padding: 20 }}>
+          <div className="ticket-card caja-panel">
             <DetalleVenta pedido={pedidoActivo} />
 
             {pedidoActivo && (
@@ -105,17 +103,16 @@ export default function CajaPage() {
                 />
 
                 {monto && (
-                  <p style={{ marginTop: 12, fontWeight: 600 }}>
+                  <p className="caja-vuelto">
                     Vuelto:{" "}
-                    <span className="font-mono" style={{ color: "var(--gold)" }}>
+                    <span className="font-mono caja-vuelto-value">
                       S/ {vuelto.toFixed(2)}
                     </span>
                   </p>
                 )}
 
                 <button
-                  className="btn-ember"
-                  style={{ width: "100%", marginTop: 16 }}
+                  className="btn-ember caja-confirm-button"
                   disabled={!monto || parseFloat(monto) < total}
                   onClick={confirmarVenta}
                 >
@@ -137,6 +134,18 @@ export default function CajaPage() {
           />
         )}
       </main>
+
+      <nav className="admin-bottom-nav" aria-label="Navegacion principal de administracion">
+        <NavLink to="/dashboard" className="admin-bottom-link">
+          <IconoGrafico size={19} />
+          <span>Dashboard</span>
+        </NavLink>
+
+        <NavLink to="/caja" className="admin-bottom-link">
+          <IconoBilletera size={19} />
+          <span>Caja</span>
+        </NavLink>
+      </nav>
     </div>
   );
 }

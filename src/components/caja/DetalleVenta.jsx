@@ -12,25 +12,27 @@ export default function DetalleVenta({ pedido }) {
   const total = cajaService.calcularTotal(pedido);
 
   return (
-    <div>
-      <p className="font-display" style={{ fontSize: "1.2rem", marginBottom: 4 }}>
+    <div className="caja-detail">
+      <p className="font-display caja-detail-title">
         {pedido.id} — Mesa {pedido.mesa}
       </p>
 
-      <div style={{ borderTop: "1px solid var(--line)", margin: "12px 0" }} />
+      <div className="caja-divider" />
 
-      {pedido.items.map((item, i) => (
-        <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span>{item.cantidad}x {item.nombre}</span>
-          <span className="font-mono">S/ {(item.cantidad * item.precio).toFixed(2)}</span>
-        </div>
-      ))}
+      <div className="caja-detail-items">
+        {pedido.items.map((item, i) => (
+          <div key={i} className="caja-detail-row">
+            <span>{item.cantidad}x {item.nombre}</span>
+            <span className="font-mono">S/ {(item.cantidad * item.precio).toFixed(2)}</span>
+          </div>
+        ))}
+      </div>
 
-      <div style={{ borderTop: "1px solid var(--line)", margin: "12px 0" }} />
+      <div className="caja-divider" />
 
-      <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.1rem" }}>
+      <div className="caja-total-row">
         <span>Total</span>
-        <span className="font-mono" style={{ color: "var(--ember)" }}>S/ {total.toFixed(2)}</span>
+        <span className="font-mono caja-total-value">S/ {total.toFixed(2)}</span>
       </div>
     </div>
   );
