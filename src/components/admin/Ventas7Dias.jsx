@@ -1,23 +1,65 @@
 import { IconoGrafico } from "../common/Iconos";
+import EChart from "./EChart";
+
+const formatoSoles = new Intl.NumberFormat("es-PE", {
+  style: "currency",
+  currency: "PEN",
+});
 
 function crearPuntos(ventas) {
-  const datos = ventas.slice(-7);
-  const maximo = Math.max(...datos.map((venta) => venta.total), 1);
-  const totalPuntos = Math.max(datos.length - 1, 1);
-
-  return datos.map((venta, index) => ({
+  return ventas.slice(-7).map((venta) => ({
     dia: new Date(`${venta.fecha}T00:00:00`).toLocaleDateString("es-PE", { day: "2-digit", month: "short" }),
-    x: 40 + (300 / totalPuntos) * index,
-    y: 150 - (venta.total / maximo) * 120,
+    total: venta.total,
   }));
+}
+
+function crearVentasOption(puntos) {
+  return {
+    animationDuration: 850,
+    color: ["#E23A32"],
+    grid: { left: 48, right: 18, top: 18, bottom: 28 },
+    tooltip: {
+      trigger: "axis",
+      confine: true,
+      valueFormatter: (value) => formatoSoles.format(value),
+      axisPointer: { type: "line", lineStyle: { color: "#E23A32", opacity: 0.35 } },
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: puntos.map((punto) => punto.dia),
+      axisLine: { lineStyle: { color: "#E7E2DA" } },
+      axisTick: { show: false },
+      axisLabel: { color: "#6E655D", fontSize: 10 },
+    },
+    yAxis: {
+      type: "value",
+      min: 0,
+      axisLabel: {
+        color: "#9E958C",
+        fontSize: 10,
+        formatter: (value) => `S/ ${value}`,
+      },
+      splitLine: { lineStyle: { color: "#F0EBE5", type: "dashed" } },
+    },
+    series: [
+      {
+        name: "Ventas",
+        type: "line",
+        data: puntos.map((punto) => punto.total),
+        smooth: true,
+        symbol: "circle",
+        symbolSize: 7,
+        lineStyle: { width: 3 },
+        areaStyle: { color: "rgba(226, 58, 50, 0.14)" },
+        emphasis: { focus: "series" },
+      },
+    ],
+  };
 }
 
 export default function Ventas7Dias({ ventas = [] }) {
   const puntos = crearPuntos(ventas);
-  const linea = puntos.map((punto) => `${punto.x},${punto.y}`).join(" ");
-  const primerX = puntos[0]?.x || 40;
-  const ultimoX = puntos[puntos.length - 1]?.x || 340;
-  const area = `${primerX},160 ${linea} ${ultimoX},160`;
 
   return (
     <section className="ticket-card admin-sales-card">
@@ -34,34 +76,11 @@ export default function Ventas7Dias({ ventas = [] }) {
       </div>
 
       <div className="admin-chart-area">
-        <svg className="admin-line-chart" viewBox="0 0 380 180" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="adminAreaVentas" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--ember)" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="var(--ember)" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-
-          <line x1="30" y1="30" x2="360" y2="30" stroke="#F0EBE5" strokeDasharray="3 3" />
-          <line x1="30" y1="70" x2="360" y2="70" stroke="#F0EBE5" strokeDasharray="3 3" />
-          <line x1="30" y1="110" x2="360" y2="110" stroke="#F0EBE5" strokeDasharray="3 3" />
-          <line x1="30" y1="150" x2="360" y2="150" stroke="var(--line)" />
-
-          <text x="5" y="34" fill="#9E958C" fontSize="10" fontFamily="IBM Plex Mono">S/ 5K</text>
-          <text x="5" y="74" fill="#9E958C" fontSize="10" fontFamily="IBM Plex Mono">S/ 3K</text>
-          <text x="5" y="114" fill="#9E958C" fontSize="10" fontFamily="IBM Plex Mono">S/ 1K</text>
-          <text x="5" y="154" fill="#9E958C" fontSize="10" fontFamily="IBM Plex Mono">S/ 0</text>
-
-          {puntos.length > 0 && <polygon points={area} fill="url(#adminAreaVentas)" />}
-          {puntos.length > 0 && <polyline fill="none" stroke="var(--ember)" strokeLinecap="round" strokeWidth="3" points={linea} />}
-
-          {puntos.map((punto) => (
-            <g key={punto.dia}>
-              <circle cx={punto.x} cy={punto.y} r="4" fill="var(--ember)" stroke="#FFFFFF" strokeWidth="2" />
-              <text x={punto.x - 12} y="172" fill="var(--smoke)" fontSize="10">{punto.dia}</text>
-            </g>
-          ))}
-        </svg>
+        <EChart
+          className="admin-line-chart"
+          option={crearVentasOption(puntos)}
+          ariaLabel="Grafico de ventas de los ultimos 7 dias"
+        />
       </div>
 
       <div className="admin-chart-legend">

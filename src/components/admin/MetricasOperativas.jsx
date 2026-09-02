@@ -5,13 +5,16 @@ import {
   IconoTendencia,
   IconoXCirculo,
 } from "../common/Iconos";
+import EChart from "./EChart";
 
 const formatoSoles = new Intl.NumberFormat("es-PE", {
   style: "currency",
   currency: "PEN",
 });
 
-function crearMetricas(resumen, pedidosPendientes) {
+function crearMetricas(resumen, pedidosPendientes, tendencias = {}) {
+  const labels = tendencias.labels || [];
+
   return [
     {
       id: "completados",
@@ -21,7 +24,8 @@ function crearMetricas(resumen, pedidosPendientes) {
       claseIcono: "green",
       colorBarra: "#2E7D32",
       icono: <IconoCheckCirculo size={16} />,
-      barras: [40, 55, 60, 45, 70, 85, 90, 80, 100, 95],
+      serie: tendencias.completados || [0],
+      labels,
     },
     {
       id: "pendientes",
@@ -31,7 +35,8 @@ function crearMetricas(resumen, pedidosPendientes) {
       claseIcono: "yellow",
       colorBarra: "#E8A33D",
       icono: <IconoReloj size={16} />,
-      barras: [30, 45, 20, 60, 50, 70, 40, 65, 80, 75],
+      serie: tendencias.pendientes || [0],
+      labels,
     },
     {
       id: "cancelados",
@@ -41,7 +46,8 @@ function crearMetricas(resumen, pedidosPendientes) {
       claseIcono: "red",
       colorBarra: "#E23A32",
       icono: <IconoXCirculo size={16} />,
-      barras: [20, 30, 45, 25, 60, 40, 50, 30, 20, 35],
+      serie: tendencias.cancelados || [0],
+      labels,
     },
     {
       id: "ventas",
@@ -51,13 +57,82 @@ function crearMetricas(resumen, pedidosPendientes) {
       claseIcono: "blue",
       colorBarra: "#1565C0",
       icono: <IconoGrafico size={16} />,
-      barras: [50, 60, 55, 70, 65, 80, 85, 90, 95, 100],
+      serie: tendencias.ventas || [0],
+      labels,
     },
   ];
 }
 
-export default function MetricasOperativas({ resumen, pedidosPendientes = 0 }) {
-  const metricas = crearMetricas(resumen, pedidosPendientes);
+function crearTendenciaOption(metrica) {
+  const labels = metrica.labels.length ? metrica.labels : metrica.serie.map((_, index) => index + 1);
+  const data = metrica.serie.map((valor, index) =>
+    index === metrica.serie.length - 1
+      ? { value: valor, symbol: "circle", symbolSize: 7 }
+      : valor
+  );
+
+  return {
+    animationDuration: 650,
+    color: [metrica.colorBarra],
+    grid: { left: 2, right: 2, top: 8, bottom: 18 },
+    tooltip: {
+      trigger: "axis",
+      appendTo: typeof document !== "undefined" ? document.body : undefined,
+      confine: false,
+      backgroundColor: "#FFFFFF",
+      borderColor: "#E7E2DA",
+      borderWidth: 1,
+      padding: [8, 10],
+      extraCssText: "box-shadow: 0 10px 24px rgba(27, 21, 18, 0.14); border-radius: 6px; z-index: 9999;",
+      textStyle: {
+        color: "#17130F",
+        fontFamily: "Work Sans, sans-serif",
+        fontSize: 12,
+        lineHeight: 18,
+      },
+      formatter: (items) => {
+        const item = items[0];
+        return `
+          <div style="min-width: 150px">
+            <div style="color:#6E655D;font-size:11px;font-weight:700;margin-bottom:3px">${item.axisValue}</div>
+            <div style="color:#17130F;font-weight:700;margin-bottom:2px">${metrica.etiqueta}</div>
+            <div style="color:${metrica.colorBarra};font-weight:700">Valor: ${item.value}</div>
+          </div>
+        `;
+      },
+      axisPointer: { type: "line", lineStyle: { color: metrica.colorBarra, opacity: 0.35 } },
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: labels,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: {
+        color: "#6E655D",
+        fontSize: 9,
+        interval: 0,
+      },
+    },
+    yAxis: { type: "value", show: false, scale: true },
+    series: [
+      {
+        type: "line",
+        data,
+        smooth: true,
+        symbol: "circle",
+        symbolSize: 4,
+        showSymbol: false,
+        lineStyle: { color: metrica.colorBarra, width: 2.5 },
+        areaStyle: { color: `${metrica.colorBarra}24` },
+        emphasis: { focus: "series" },
+      },
+    ],
+  };
+}
+
+export default function MetricasOperativas({ resumen, pedidosPendientes = 0, tendencias }) {
+  const metricas = crearMetricas(resumen, pedidosPendientes, tendencias);
 
   return (
     <section className="ticket-card admin-ops-card">
@@ -83,14 +158,13 @@ export default function MetricasOperativas({ resumen, pedidosPendientes = 0 }) {
               </div>
             </div>
 
-            <div className="admin-mini-bars">
-              {metrica.barras.map((alto, index) => (
-                <span
-                  key={index}
-                  className="admin-mini-bar"
-                  style={{ height: `${alto}%`, backgroundColor: metrica.colorBarra }}
-                />
-              ))}
+            <div className={`admin-mini-chart-panel ${metrica.claseIcono}`}>
+              <span className="admin-mini-period">Ultimos 5 dias</span>
+              <EChart
+                className="admin-echart"
+                option={crearTendenciaOption(metrica)}
+                ariaLabel={`Grafico de ${metrica.etiqueta}`}
+              />
             </div>
           </article>
         ))}

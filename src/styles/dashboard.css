@@ -154,11 +154,6 @@
   .admin-content {
     padding: 20px;
   }
-
-  .admin-summary-grid,
-  .admin-ops-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 900px) {
@@ -198,15 +193,6 @@
 
   .admin-actions {
     gap: 12px;
-  }
-
-  .admin-nav {
-    justify-content: stretch;
-  }
-
-  .admin-nav-button {
-    flex: 1;
-    padding-inline: 10px;
   }
 
   .admin-user span {
@@ -289,11 +275,11 @@
 
 .admin-sparkline {
   width: 100%;
-  height: 36px;
+  height: 58px;
   margin-top: auto;
 }
 
-.admin-sparkline svg {
+.admin-echart {
   width: 100%;
   height: 100%;
 }
@@ -328,11 +314,11 @@
   background: #FDFCFB;
   border: 1.5px solid var(--line);
   border-radius: 6px;
-  padding: 14px 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
 }
 
@@ -391,17 +377,49 @@
 .admin-mini-trend.red { color: #C62828; }
 .admin-mini-trend.blue { color: #1565C0; }
 
-.admin-mini-bars {
+.admin-mini-chart-panel {
+  position: relative;
   width: 100%;
-  height: 28px;
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
+  height: 76px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding-top: 16px;
 }
 
-.admin-mini-bar {
-  flex: 1;
-  border-radius: 2px;
+.admin-mini-chart-panel.green {
+  background: rgba(46, 125, 50, 0.07);
+  border-color: rgba(46, 125, 50, 0.12);
+}
+
+.admin-mini-chart-panel.yellow {
+  background: rgba(232, 163, 61, 0.1);
+  border-color: rgba(232, 163, 61, 0.18);
+}
+
+.admin-mini-chart-panel.red {
+  background: rgba(226, 58, 50, 0.08);
+  border-color: rgba(226, 58, 50, 0.14);
+}
+
+.admin-mini-chart-panel.blue {
+  background: rgba(21, 101, 192, 0.08);
+  border-color: rgba(21, 101, 192, 0.14);
+}
+
+.admin-mini-period {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  z-index: 1;
+  color: var(--smoke);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-mini-chart-panel .admin-echart {
+  height: 100%;
 }
 
 .admin-products-card {
@@ -530,7 +548,6 @@
 .admin-donut {
   width: 100%;
   height: 100%;
-  transform: rotate(-90deg);
 }
 
 .admin-donut-center {
@@ -901,15 +918,6 @@
   .admin-actions {
     grid-column: 2;
     justify-self: end;
-  }
-
-  .admin-nav {
-    display: none;
-  }
-
-  .admin-nav-button {
-    font-size: 0.8rem;
-    min-height: 32px;
   }
 
   .admin-filtro-fechas {

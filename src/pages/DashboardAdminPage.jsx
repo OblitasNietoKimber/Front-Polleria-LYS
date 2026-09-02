@@ -21,6 +21,8 @@ export default function DashboardAdminPage() {
   const ventasPorDia = useMemo(() => cajaService.getVentasPorDia(filtros), [filtros]);
   const historial = useMemo(() => cajaService.getHistorialVentas(filtros), [filtros]);
   const pedidosPendientes = useMemo(() => cajaService.getPedidosPendientes().length, []);
+  const tendenciasResumen = useMemo(() => cajaService.getTendenciasResumen(), []);
+  const metricasPorDia = useMemo(() => cajaService.getMetricasOperativasPorDia(), []);
 
   const limpiarFiltros = () => setFiltros({ fechaInicio: "", fechaFin: "" });
 
@@ -65,8 +67,8 @@ export default function DashboardAdminPage() {
           <FiltroFechas filtros={filtros} onCambiar={setFiltros} onLimpiar={limpiarFiltros} />
         </section>
 
-        <TarjetasResumen resumen={resumen} />
-        <MetricasOperativas resumen={resumen} pedidosPendientes={pedidosPendientes} />
+        <TarjetasResumen resumen={resumen} tendencias={tendenciasResumen} />
+        <MetricasOperativas resumen={resumen} pedidosPendientes={pedidosPendientes} tendencias={metricasPorDia} />
 
         <section className="admin-double-grid">
           <VentasMetodoPago metodos={metodosPago} />

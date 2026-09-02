@@ -4,13 +4,14 @@ import {
   IconoCalendario,
   IconoGrafico,
 } from "../common/Iconos";
+import EChart from "./EChart";
 
 const formatoSoles = new Intl.NumberFormat("es-PE", {
   style: "currency",
   currency: "PEN",
 });
 
-function crearTarjetas(resumen) {
+function crearTarjetas(resumen, tendencias = {}) {
   return [
     {
       id: 1,
@@ -18,7 +19,7 @@ function crearTarjetas(resumen) {
       monto: formatoSoles.format(resumen?.dia?.totalVentas || 0),
       comparativa: `${resumen?.dia?.cantidadPedidos || 0} pedidos pagados`,
       icono: <IconoBilletera size={18} color="var(--ember)" />,
-      sparklinePoints: "0,30 30,28 60,32 90,20 120,25 150,15 180,18 210,5 240,10",
+      tendencia: tendencias.dia || { labels: ["0h", "24h"], values: [0, 0] },
     },
     {
       id: 2,
@@ -26,7 +27,7 @@ function crearTarjetas(resumen) {
       monto: formatoSoles.format(resumen?.semana?.totalVentas || 0),
       comparativa: `${resumen?.semana?.cantidadPedidos || 0} pedidos pagados`,
       icono: <IconoCalendario size={18} color="var(--ember)" />,
-      sparklinePoints: "0,25 30,22 60,30 90,18 120,22 150,10 180,14 210,8 240,12",
+      tendencia: tendencias.semana || { labels: ["lun", "mar", "mie", "jue", "vie", "sab", "dom"], values: [0, 0, 0, 0, 0, 0, 0] },
     },
     {
       id: 3,
@@ -34,7 +35,7 @@ function crearTarjetas(resumen) {
       monto: formatoSoles.format(resumen?.mes?.totalVentas || 0),
       comparativa: `${resumen?.mes?.cantidadPedidos || 0} pedidos pagados`,
       icono: <IconoGrafico size={18} color="var(--ember)" />,
-      sparklinePoints: "0,28 30,30 60,22 90,24 120,18 150,20 180,15 210,12 240,8",
+      tendencia: tendencias.mes || { labels: ["1"], values: [0] },
     },
     {
       id: 4,
@@ -42,13 +43,64 @@ function crearTarjetas(resumen) {
       monto: formatoSoles.format(resumen?.total?.totalVentas || 0),
       comparativa: `${resumen?.total?.cantidadPedidos || 0} ventas realizadas`,
       icono: <IconoBolsaDinero size={18} color="var(--ember)" />,
-      sparklinePoints: "0,20 30,25 60,18 90,22 120,15 150,18 180,10 210,14 240,5",
+      tendencia: tendencias.total || { labels: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"], values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
     },
   ];
 }
 
-export default function TarjetasResumen({ resumen }) {
-  const tarjetas = crearTarjetas(resumen);
+function crearSparklineOption(tarjeta) {
+  const values = tarjeta.tendencia.values || [0];
+  const labels = tarjeta.tendencia.labels || values.map((_, index) => String(index + 1));
+  const datos = values.length > 1 ? values : [0, values[0] || 0];
+  const etiquetas = values.length > 1 ? labels : ["inicio", labels[0] || "actual"];
+
+  return {
+    animationDuration: 650,
+    color: ["#E23A32"],
+    grid: { left: 4, right: 4, top: 4, bottom: 18 },
+    tooltip: {
+      trigger: "axis",
+      confine: true,
+      valueFormatter: (value) => formatoSoles.format(value),
+      axisPointer: { type: "line", lineStyle: { color: "#E23A32", opacity: 0.35 } },
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: etiquetas,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: {
+        color: "#6E655D",
+        fontSize: 9,
+        hideOverlap: true,
+        interval: (index) => {
+          if (etiquetas.length <= 7) return true;
+          if (tarjeta.id === 1) return index % 6 === 0;
+          if (tarjeta.id === 3) return index === 0 || index % 5 === 4 || index === etiquetas.length - 1;
+          return true;
+        },
+      },
+    },
+    yAxis: { type: "value", show: false, scale: true },
+    series: [
+      {
+        type: "line",
+        data: datos,
+        smooth: true,
+        symbol: "circle",
+        symbolSize: 5,
+        showSymbol: datos.length <= 2,
+        emphasis: { focus: "series" },
+        lineStyle: { color: "#E23A32", width: 2 },
+        areaStyle: { color: "rgba(226, 58, 50, 0.12)" },
+      },
+    ],
+  };
+}
+
+export default function TarjetasResumen({ resumen, tendencias }) {
+  const tarjetas = crearTarjetas(resumen, tendencias);
 
   return (
     <div className="admin-summary-grid">
@@ -67,23 +119,11 @@ export default function TarjetasResumen({ resumen }) {
           </div>
 
           <div className="admin-sparkline">
-            <svg viewBox="0 0 240 40" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id={`grad-${tarjeta.id}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="var(--ember)" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="var(--ember)" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-
-              <polygon points={`0,40 ${tarjeta.sparklinePoints} 240,40`} fill={`url(#grad-${tarjeta.id})`} />
-              <polyline
-                fill="none"
-                stroke="var(--ember)"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                points={tarjeta.sparklinePoints}
-              />
-            </svg>
+            <EChart
+              className="admin-echart"
+              option={crearSparklineOption(tarjeta)}
+              ariaLabel={`Tendencia de ${tarjeta.titulo}`}
+            />
           </div>
         </article>
       ))}
