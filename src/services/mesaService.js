@@ -199,3 +199,4 @@ export default {
   registrarActividad,
   getMinutosOcupada,
 };
+

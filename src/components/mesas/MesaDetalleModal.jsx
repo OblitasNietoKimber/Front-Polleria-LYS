@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mesaService from '../../services/mesaService';
 import cocinaService from '../../services/cocinaService';
 
 export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
   const navigate = useNavigate();
-  const [pedidoActivo, setPedidoActivo] = useState(null);
 
-  useEffect(() => {
-    if (mesa?.pedidoId) {
-      const pedidos = cocinaService.getPedidos();
-      const match = pedidos.find((p) => p.id === mesa.pedidoId);
-      setPedidoActivo(match || null);
-    } else {
-      setPedidoActivo(null);
-    }
+  const pedidoActivo = useMemo(() => {
+    if (!mesa?.pedidoId) return null;
+    const pedidos = cocinaService.getPedidos();
+    return pedidos.find((p) => p.id === mesa.pedidoId) || null;
   }, [mesa]);
 
   if (!mesa) return null;
@@ -230,3 +225,4 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
     </div>
   );
 }
+

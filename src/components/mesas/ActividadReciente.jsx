@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function ActividadReciente({ actividades = [], onToggleCollapse }) {
   return (
     <aside className="mesas-activity-sidebar">
@@ -54,3 +52,4 @@ export default function ActividadReciente({ actividades = [], onToggleCollapse }
     </aside>
   );
 }
+

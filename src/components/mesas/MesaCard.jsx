@@ -1,4 +1,3 @@
-import React from 'react';
 import MesaIlustracion from './MesaIlustracion';
 import mesaService from '../../services/mesaService';
 

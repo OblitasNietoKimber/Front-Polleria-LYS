@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function EstadisticasMesas({ estadisticas }) {
   const { libres = 0, ocupadas = 0, reservadas = 0, pctLibres = 0, pctOcupadas = 0, pctReservadas = 0 } = estadisticas || {};
 
@@ -62,3 +60,4 @@ export default function EstadisticasMesas({ estadisticas }) {
     </div>
   );
 }
+

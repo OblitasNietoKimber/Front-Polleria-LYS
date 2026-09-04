@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMesas from '../hooks/useMesas';
 import MesaCard from '../components/mesas/MesaCard';
@@ -129,3 +129,4 @@ export default function MesasPage() {
     </div>
   );
 }
+

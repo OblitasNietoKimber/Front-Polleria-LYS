@@ -55,6 +55,7 @@ export default function CajaPage({ onIrDashboard }) {
         </div>
 
         <nav className="admin-nav">
+          <button className="admin-nav-button" onClick={onIrDashboard}>Dashboard</button>
           <button className="admin-nav-button" onClick={() => navigate("/dashboard")}>Dashboard</button>
           <button className="admin-nav-button" onClick={() => navigate("/mesas")}>Mesas</button>
           <button className="admin-nav-button active">Caja</button>

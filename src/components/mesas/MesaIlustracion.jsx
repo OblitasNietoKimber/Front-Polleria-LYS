@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Renderiza una ilustración vectorial limpia y estilizada de la mesa con sus sillas
  * según su capacidad (2, 4, 6 u 8 comensales) y forma.
@@ -85,3 +83,4 @@ export default function MesaIlustracion({ capacidad, forma, estado }) {
     </svg>
   );
 }
+

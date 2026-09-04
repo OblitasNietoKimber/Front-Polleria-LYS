@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '../data/products';
-import mesaService from '../../src/services/mesaService';
-import authService from '../../src/services/authService';
+import mesaService from '../services/mesaService';
+import authService from '../services/authService';
 import '../styles/nuevoPedido.css';
 
 export default function NuevoPedidoPage() {
@@ -10,48 +10,43 @@ export default function NuevoPedidoPage() {
   const navigate = useNavigate();
 
   const numeroNormalizado = String(mesaParam || '01').padStart(2, '0');
-  const [mesaActual, setMesaActual] = useState(null);
-  const [todasLasMesas, setTodasLasMesas] = useState([]);
-  const [comensales, setComensales] = useState(4);
+  const todasLasMesas = useMemo(() => mesaService.getMesas(), []);
+  const mesaActual = useMemo(() => {
+    return todasLasMesas.find((m) => String(m.numero).padStart(2, '0') === numeroNormalizado) || null;
+  }, [todasLasMesas, numeroNormalizado]);
+
+  const [comensales, setComensales] = useState(() => mesaActual?.capacidad || 4);
   const [categoriaActiva, setCategoriaActiva] = useState('pollos');
   const [busqueda, setBusqueda] = useState('');
-  const [itemsComanda, setItemsComanda] = useState([]);
-  const [observaciones, setObservaciones] = useState('');
-  const [meseraNombre, setMeseraNombre] = useState('Ana Rodríguez');
 
-  // Cargar datos de la mesa y sesión
-  useEffect(() => {
-    const lista = mesaService.getMesas();
-    setTodasLasMesas(lista);
-
-    const match = lista.find((m) => String(m.numero).padStart(2, '0') === numeroNormalizado);
-    if (match) {
-      setMesaActual(match);
-      setComensales(match.capacidad || 4);
-
-      // Si la mesa ya tiene un pedido activo, cargamos sus productos para poder agregar más
-      if (match.pedidoId) {
-        try {
-          const raw = localStorage.getItem('lys_pedidos');
-          const pedidos = raw ? JSON.parse(raw) : [];
-          const pedidoExistente = pedidos.find((p) => p.id === match.pedidoId);
-          if (pedidoExistente && pedidoExistente.items) {
-            setItemsComanda(pedidoExistente.items);
-            if (pedidoExistente.observaciones) {
-              setObservaciones(pedidoExistente.observaciones);
-            }
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      }
+  const [itemsComanda, setItemsComanda] = useState(() => {
+    if (!mesaActual?.pedidoId) return [];
+    try {
+      const raw = localStorage.getItem('lys_pedidos');
+      const pedidos = raw ? JSON.parse(raw) : [];
+      const pedidoExistente = pedidos.find((p) => p.id === mesaActual.pedidoId);
+      return pedidoExistente?.items || [];
+    } catch {
+      return [];
     }
+  });
 
+  const [observaciones, setObservaciones] = useState(() => {
+    if (!mesaActual?.pedidoId) return '';
+    try {
+      const raw = localStorage.getItem('lys_pedidos');
+      const pedidos = raw ? JSON.parse(raw) : [];
+      const pedidoExistente = pedidos.find((p) => p.id === mesaActual.pedidoId);
+      return pedidoExistente?.observaciones || '';
+    } catch {
+      return '';
+    }
+  });
+
+  const [meseraNombre] = useState(() => {
     const usuario = authService.getCurrentUser();
-    if (usuario && usuario.nombre) {
-      setMeseraNombre(`${usuario.nombre} ${usuario.apellido || ''}`.trim());
-    }
-  }, [numeroNormalizado]);
+    return usuario?.nombre ? `${usuario.nombre} ${usuario.apellido || ''}`.trim() : 'Ana Rodríguez';
+  });
 
   // Filtrar productos
   const productosFiltrados = useMemo(() => {
@@ -438,3 +433,4 @@ export default function NuevoPedidoPage() {
     </div>
   );
 }
+

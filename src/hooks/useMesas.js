@@ -2,17 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import mesaService from '../services/mesaService';
 
 export default function useMesas(zona = 'salon_principal') {
-  const [mesas, setMesas] = useState([]);
-  const [estadisticas, setEstadisticas] = useState({
-    total: 0,
-    libres: 0,
-    ocupadas: 0,
-    reservadas: 0,
-    pctLibres: '0',
-    pctOcupadas: '0',
-    pctReservadas: '0',
+  const [mesas, setMesas] = useState(() => {
+    const lista = mesaService.getMesas();
+    return zona ? lista.filter((m) => m.zona === zona) : lista;
   });
-  const [actividades, setActividades] = useState([]);
+  const [estadisticas, setEstadisticas] = useState(() => mesaService.getEstadisticasMesas(zona));
+  const [actividades, setActividades] = useState(() => mesaService.getActividades());
 
   const recargar = useCallback(() => {
     const lista = mesaService.getMesas();
@@ -23,8 +18,6 @@ export default function useMesas(zona = 'salon_principal') {
   }, [zona]);
 
   useEffect(() => {
-    recargar();
-
     // Polling cada 5 segundos para actualizar tiempos y montos en vivo
     const timer = setInterval(recargar, 5000);
 
@@ -61,3 +54,4 @@ export default function useMesas(zona = 'salon_principal') {
     },
   };
 }
+
