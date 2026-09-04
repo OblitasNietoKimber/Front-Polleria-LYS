@@ -58,7 +58,28 @@ function marcarComoPagado(id, dataPago) {
       : p
   );
   localStorage.setItem(STORAGE_KEY, JSON.stringify(actualizados));
-  return actualizados.find((p) => p.id === id);
+
+  const pedidoPagado = actualizados.find((p) => p.id === id);
+  if (pedidoPagado && pedidoPagado.mesa) {
+    try {
+      const rawMesas = localStorage.getItem("lys_mesas");
+      if (rawMesas) {
+        const mesas = JSON.parse(rawMesas);
+        const mesaNum = String(pedidoPagado.mesa).padStart(2, "0");
+        const mesasActualizadas = mesas.map((m) =>
+          String(m.numero).padStart(2, "0") === mesaNum
+            ? { ...m, estado: "libre", pedidoId: null, inicioAt: null, totalAcumulado: 0 }
+            : m
+        );
+        localStorage.setItem("lys_mesas", JSON.stringify(mesasActualizadas));
+        window.dispatchEvent(new Event("lys_mesas_updated"));
+      }
+    } catch (e) {
+      console.error("Error al liberar mesa tras pago:", e);
+    }
+  }
+
+  return pedidoPagado;
 }
 
 function getVentas() {
