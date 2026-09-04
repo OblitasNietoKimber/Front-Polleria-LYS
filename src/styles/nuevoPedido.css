@@ -1,0 +1,408 @@
+/* Estilos compactos para Toma de Pedidos (Mesera / Tablet) */
+
+.pedido-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 65px);
+  background: #F8F9FA;
+  font-family: 'Work Sans', sans-serif;
+  color: var(--ink);
+}
+
+/* Header superior */
+.pedido-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #FFF;
+  border-bottom: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pedido-header-title-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-volver-mesas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #FFF;
+  cursor: pointer;
+  color: #4B5563;
+  font-size: 1.1rem;
+}
+
+.pedido-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pedido-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.82rem;
+  color: #6B7280;
+  margin-top: 3px;
+}
+
+.pedido-mesa-select {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: #FFF;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Layout de dos columnas: Catálogo (izq) y Comanda (der) */
+.pedido-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  padding: 20px 24px;
+  flex: 1;
+}
+
+/* Catálogo */
+.catalogo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.catalogo-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  background: #FFF;
+}
+
+.catalogo-search-input:focus {
+  border-color: var(--ember);
+}
+
+.catalogo-categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.cat-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #FFF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4B5563;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.cat-tab-btn.active {
+  background: var(--ember);
+  color: #FFF;
+  border-color: var(--ember);
+}
+
+/* Grid de Platos */
+.platos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.plato-card {
+  background: #FFF;
+  border: 1px solid #ECE7E1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  transition: transform 0.15s;
+}
+
+.plato-card:hover {
+  transform: translateY(-2px);
+}
+
+.plato-img-wrapper {
+  height: 110px;
+  width: 100%;
+  background: #F3F4F6;
+  position: relative;
+  overflow: hidden;
+}
+
+.plato-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plato-info {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.plato-nombre {
+  font-size: 0.86rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.plato-precio-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.plato-precio {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.btn-add-item {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ember);
+  color: #FFF;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-add-item:hover {
+  background: var(--rust);
+}
+
+/* Panel Comanda (Ticket) */
+.comanda-panel {
+  background: #FFF;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  height: fit-content;
+}
+
+.comanda-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.comanda-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-clear-comanda {
+  background: none;
+  border: none;
+  color: #EF4444;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.comanda-items-list {
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comanda-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #F1ECE7;
+}
+
+.comanda-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.comanda-item-nombre {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.comanda-item-unitario {
+  font-size: 0.72rem;
+  color: #6B7280;
+}
+
+.comanda-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #F3F4F6;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.stepper-btn {
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.stepper-qty {
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-width: 14px;
+  text-align: center;
+}
+
+.comanda-item-total {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+}
+
+.btn-remove-item {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* Observaciones */
+.comanda-obs-area {
+  margin: 10px 0;
+}
+
+.comanda-obs-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.comanda-obs-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.8rem;
+  resize: none;
+  outline: none;
+}
+
+/* Totales */
+.comanda-totales {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #6B7280;
+}
+
+.total-row.destacado {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ember);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #F1ECE7;
+}
+
+/* Botones de acción */
+.comanda-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-borrador {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #FFF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-enviar-cocina {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--ember);
+  color: #FFF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-enviar-cocina:hover {
+  background: var(--rust);
+}
+
+@media (max-width: 1024px) {
+  .pedido-layout {
+    grid-template-columns: 1fr;
+  }
+}
