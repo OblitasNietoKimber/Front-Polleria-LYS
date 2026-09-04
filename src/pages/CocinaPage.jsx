@@ -32,6 +32,7 @@ export default function CocinaPage() {
 
         <nav className="admin-nav">
           <button className="admin-nav-button" onClick={() => navigate("/dashboard")}>Dashboard</button>
+          <button className="admin-nav-button" onClick={() => navigate("/mesas")}>Mesas</button>
           <button className="admin-nav-button" onClick={() => navigate("/caja")}>Caja</button>
           <button className="admin-nav-button active">Cocina</button>
         </nav>

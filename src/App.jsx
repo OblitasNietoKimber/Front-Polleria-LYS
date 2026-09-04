@@ -19,6 +19,8 @@ import CajaPage from "./pages/CajaPage";
 import DashboardAdminPage from "./pages/DashboardAdminPage";
 import PedidosPage from './pages/PedidosPage'
 import OrderDetailPage from './pages/OrderDetailPage'
+import MesasPage from './pages/MesasPage'
+import NuevoPedidoPage from './pages/NuevoPedidoPage'
 
 
 
@@ -46,6 +48,8 @@ function App() {
           <Route path="/pedidos" element={<PedidosPage />} />
           <Route path="/pedidos/:id" element={<OrderDetailPage />} />
           <Route path="/cocina" element={<CocinaPage />} />
+          <Route path="/mesas" element={<MesasPage />} />
+          <Route path="/mesas/:id/pedido" element={<NuevoPedidoPage />} />
         </Route>
         
 

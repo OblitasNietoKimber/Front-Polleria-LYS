@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
@@ -8,6 +9,7 @@ import TicketModal from "../components/caja/TicketModal";
 import { IconoCampana, IconoTelefono, IconoUsuario } from "../components/common/Iconos";
 
 export default function CajaPage({ onIrDashboard }) {
+  const navigate = useNavigate();
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10";
   const [pedidos, setPedidos] = useState([]);
   const [seleccionadoId, setSeleccionadoId] = useState(null);
@@ -53,8 +55,10 @@ export default function CajaPage({ onIrDashboard }) {
         </div>
 
         <nav className="admin-nav">
-          <button className="admin-nav-button" onClick={onIrDashboard}>Dashboard</button>
+          <button className="admin-nav-button" onClick={() => navigate("/dashboard")}>Dashboard</button>
+          <button className="admin-nav-button" onClick={() => navigate("/mesas")}>Mesas</button>
           <button className="admin-nav-button active">Caja</button>
+          <button className="admin-nav-button" onClick={() => navigate("/cocina")}>Cocina</button>
         </nav>
 
         <div className="admin-actions">
