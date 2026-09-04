@@ -313,3 +313,45 @@
   .mesas-main-content { grid-template-columns: 1fr; }
 }
 
+/* Modal centrado de detalle de mesa */
+.mesa-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.mesa-modal-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.mesa-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mesa-modal-body {
+  padding: 20px 22px;
+}
+
+.mesa-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 22px;
+  background: #F9FAFB;
+  border-top: 1px solid var(--line);
+}
+
