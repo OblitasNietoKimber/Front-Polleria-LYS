@@ -118,6 +118,10 @@ export function ocuparMesa(numero, pedidoId, total = 0) {
         pedidoId,
         inicioAt: new Date().toISOString(),
         totalAcumulado: total,
+        horaReserva: null,
+        clienteReserva: null,
+        telefonoReserva: null,
+        comensalesReserva: null,
       };
     }
     return m;
@@ -139,6 +143,32 @@ export function liberarMesa(numero) {
         pedidoId: null,
         inicioAt: null,
         totalAcumulado: 0,
+        horaReserva: null,
+        clienteReserva: null,
+        telefonoReserva: null,
+        comensalesReserva: null,
+      };
+    }
+    return m;
+  });
+
+  saveMesas(actualizadas);
+  return actualizadas.find((m) => String(m.numero).padStart(2, '0') === numNormalizado);
+}
+
+export function reservarMesa(numero, { cliente, hora, comensales, telefono } = {}) {
+  const mesas = getMesas();
+  const numNormalizado = String(numero).padStart(2, '0');
+
+  const actualizadas = mesas.map((m) => {
+    if (String(m.numero).padStart(2, '0') === numNormalizado) {
+      return {
+        ...m,
+        estado: ESTADOS_MESA.RESERVADA,
+        horaReserva: hora || '20:00',
+        clienteReserva: (cliente || 'Cliente Reserva').trim(),
+        telefonoReserva: (telefono || '').trim(),
+        comensalesReserva: Number(comensales) || m.capacidad,
       };
     }
     return m;
@@ -213,6 +243,7 @@ export default {
   getMesaByNumero,
   ocuparMesa,
   liberarMesa,
+  reservarMesa,
   getEstadisticasMesas,
   getActividades,
   registrarActividad,

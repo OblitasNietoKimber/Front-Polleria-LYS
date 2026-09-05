@@ -1,10 +1,18 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Calendar, CheckCircle2 } from 'lucide-react';
 import mesaService from '../../services/mesaService';
 import cocinaService from '../../services/cocinaService';
 
 export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
   const navigate = useNavigate();
+
+  const [modoReserva, setModoReserva] = useState(false);
+  const [clienteNombre, setClienteNombre] = useState('');
+  const [horaReservaInput, setHoraReservaInput] = useState('20:00');
+  const [comensalesReserva, setComensalesReserva] = useState(() => mesa?.capacidad || 4);
+  const [telefonoReserva, setTelefonoReserva] = useState('');
+  const [errorReserva, setErrorReserva] = useState('');
 
   const pedidoActivo = useMemo(() => {
     if (!mesa?.pedidoId) return null;
@@ -20,6 +28,30 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
   function handleIrAPedido() {
     onClose();
     navigate(`/mesas/${numero}/pedido`);
+  }
+
+  function handleConfirmarReserva() {
+    if (!clienteNombre.trim()) {
+      setErrorReserva('Por favor ingresa el nombre del cliente o familia.');
+      return;
+    }
+    mesaService.reservarMesa(numero, {
+      cliente: clienteNombre.trim(),
+      hora: horaReservaInput,
+      comensales: comensalesReserva,
+      telefono: telefonoReserva.trim(),
+    });
+    mesaService.registrarActividad({
+      mesaNumero: numero,
+      tipo: 'reserva',
+      titulo: `Mesa ${numero}`,
+      descripcion: `Reserva confirmada a nombre de ${clienteNombre.trim()}`,
+      ordenCodigo: `${horaReservaInput} hrs`,
+      tipoColor: 'amarillo',
+    });
+    window.dispatchEvent(new Event('storage'));
+    if (onMesaUpdated) onMesaUpdated();
+    onClose();
   }
 
   function handleLiberarMesa() {
@@ -104,18 +136,133 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
         </div>
 
         <div className="mesa-modal-body">
-          {estado === 'libre' && (
+          {estado === 'libre' && !modoReserva && (
             <div style={{ textAlign: 'center', padding: '16px 0' }}>
               <p style={{ color: '#4B5563', fontSize: '0.95rem', marginBottom: 20 }}>
                 Esta mesa se encuentra disponible para nuevos comensales.
               </p>
-              <button
-                className="btn-nuevo-pedido"
-                style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
-                onClick={handleIrAPedido}
-              >
-                + Tomar pedido ahora
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <button
+                  className="btn-nuevo-pedido"
+                  style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+                  onClick={handleIrAPedido}
+                >
+                  + Tomar pedido ahora
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    border: '1.5px solid #F59E0B',
+                    background: '#FFFBEB',
+                    color: '#B45309',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    fontSize: '0.9rem',
+                  }}
+                  onClick={() => setModoReserva(true)}
+                >
+                  <Calendar size={16} />
+                  <span>Reservar esta mesa</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {estado === 'libre' && modoReserva && (
+            <div style={{ background: '#FFFBEB', border: '1.5px solid #FDE68A', padding: '16px', borderRadius: '12px', textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', color: '#B45309' }}>
+                <Calendar size={18} />
+                <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700 }}>Nueva reserva · Mesa {numero}</h4>
+              </div>
+
+              {errorReserva && (
+                <div style={{ color: '#DC2626', fontSize: '0.82rem', marginBottom: '10px' }}>
+                  {errorReserva}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
+                    Nombre del cliente / grupo:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Ej: Familia López, Carlos Vega..."
+                    value={clienteNombre}
+                    onChange={(e) => {
+                      setClienteNombre(e.target.value);
+                      if (errorReserva) setErrorReserva('');
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
+                      Hora programada:
+                    </label>
+                    <input
+                      type="time"
+                      value={horaReservaInput}
+                      onChange={(e) => setHoraReservaInput(e.target.value)}
+                      style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
+                      Comensales:
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="16"
+                      value={comensalesReserva}
+                      onChange={(e) => setComensalesReserva(Math.max(1, parseInt(e.target.value) || 1))}
+                      style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
+                    Teléfono de contacto (opcional):
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Ej: 987 654 321"
+                    value={telefonoReserva}
+                    onChange={(e) => setTelefonoReserva(e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
+                  <button
+                    type="button"
+                    onClick={handleConfirmarReserva}
+                    style={{ flex: 1, padding: '10px', background: '#D97706', color: '#FFF', border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer' }}
+                  >
+                    Guardar reserva
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModoReserva(false)}
+                    style={{ padding: '10px 14px', background: '#FFF', color: '#6B7280', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '0.9rem', cursor: 'pointer' }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -124,7 +271,10 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
               <div style={{ background: '#F8F9FA', padding: 14, borderRadius: 10, marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: '0.88rem' }}>
                   <span style={{ color: '#6B7280' }}>Tiempo en mesa:</span>
-                  <span style={{ fontWeight: 600 }}>⏱ {minutos} minutos</span>
+                  <span style={{ fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    <Clock size={14} style={{ color: '#718096' }} />
+                    {minutos} minutos
+                  </span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: '0.88rem' }}>
                   <span style={{ color: '#6B7280' }}>Total consumido:</span>
@@ -200,22 +350,52 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
           )}
 
           {estado === 'reservada' && (
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <div style={{ background: '#FEF8EF', padding: 14, borderRadius: 10, marginBottom: 16 }}>
-                <div style={{ fontSize: '1.2rem', marginBottom: 4 }}>🕒</div>
-                <p style={{ margin: '6px 0 2px 0', fontWeight: 600, color: '#A16207' }}>
-                  Reserva programada para las {horaReserva || '19:30'}
-                </p>
-                <span style={{ fontSize: '0.8rem', color: '#B45309' }}>
-                  Capacidad reservada: {capacidad} personas
-                </span>
+            <div style={{ textAlign: 'center', padding: '10px 0' }}>
+              <div style={{ background: '#FEF8EF', border: '1px solid #FDE6C8', padding: 16, borderRadius: 12, marginBottom: 16, textAlign: 'left' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, borderBottom: '1px solid #FCE3BD', paddingBottom: 10 }}>
+                  <div style={{ background: '#FDE68A', color: '#92400E', padding: 6, borderRadius: 8, display: 'flex' }}>
+                    <Calendar size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ margin: 0, fontSize: '1.02rem', color: '#92400E', fontWeight: 700 }}>
+                      Reserva programada
+                    </h4>
+                    <span style={{ fontSize: '0.78rem', color: '#B45309' }}>
+                      Mesa reservada y apartada
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.86rem', marginBottom: 10 }}>
+                  <div>
+                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Cliente:</span>
+                    <strong style={{ color: 'var(--ink)' }}>{mesa.clienteReserva || 'Cliente'}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Hora:</span>
+                    <strong style={{ color: '#D97706' }}>{horaReserva || '20:00'} hrs</strong>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.86rem' }}>
+                  <div>
+                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Comensales:</span>
+                    <strong style={{ color: 'var(--ink)' }}>{mesa.comensalesReserva || capacidad} personas</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Teléfono:</span>
+                    <span style={{ color: '#4B5563' }}>{mesa.telefonoReserva || 'Sin registrar'}</span>
+                  </div>
+                </div>
               </div>
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <button
                   className="btn-nuevo-pedido"
                   style={{ width: '100%', justifyContent: 'center' }}
                   onClick={handleIrAPedido}
                 >
+                  <CheckCircle2 size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
                   Llegó el cliente · Sentar y abrir pedido
                 </button>
                 <button

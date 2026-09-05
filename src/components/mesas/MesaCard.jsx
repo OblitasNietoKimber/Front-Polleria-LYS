@@ -1,8 +1,9 @@
+import { Clock, Calendar } from 'lucide-react';
 import MesaIlustracion from './MesaIlustracion';
 import mesaService from '../../services/mesaService';
 
 export default function MesaCard({ mesa, onClick }) {
-  const { numero, capacidad, forma, estado, inicioAt, totalAcumulado, horaReserva } = mesa;
+  const { numero, capacidad, forma, estado, inicioAt, totalAcumulado, horaReserva, clienteReserva } = mesa;
 
   const minutos = estado === 'ocupada' ? mesaService.getMinutosOcupada(inicioAt) : 0;
   const montoFormateado = totalAcumulado ? Number(totalAcumulado).toFixed(2) : '0.00';
@@ -34,7 +35,8 @@ export default function MesaCard({ mesa, onClick }) {
         {estado === 'ocupada' && (
           <div className="mesa-info-ocupada">
             <span className="mesa-tiempo">
-              ⏱ {minutos} min
+              <Clock size={13} style={{ flexShrink: 0 }} />
+              <span>{minutos} min</span>
             </span>
             <span className="mesa-total-soles">
               S/ {montoFormateado}
@@ -44,7 +46,13 @@ export default function MesaCard({ mesa, onClick }) {
 
         {estado === 'reservada' && (
           <div className="mesa-info-reservada">
-            ⏱ {horaReserva || 'Hoy'}
+            <Calendar size={13} style={{ flexShrink: 0 }} />
+            <span style={{ fontWeight: 600 }}>{horaReserva || 'Hoy'}</span>
+            {clienteReserva && (
+              <span className="mesa-reserva-cliente" title={clienteReserva}>
+                · {clienteReserva}
+              </span>
+            )}
           </div>
         )}
       </div>

@@ -23,7 +23,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
     return todasLasMesas.find((m) => String(m.numero).padStart(2, '0') === numeroNormalizado) || null;
   }, [todasLasMesas, numeroNormalizado]);
 
-  const [comensales, setComensales] = useState(() => mesaActual?.capacidad || 4);
+  const [comensales, setComensales] = useState(() => mesaActual?.comensalesReserva || mesaActual?.capacidad || 4);
   const [categoriaActiva, setCategoriaActiva] = useState('pollos');
   const [busqueda, setBusqueda] = useState('');
   const [toastMsg, setToastMsg] = useState('');
