@@ -7,8 +7,27 @@ const PEDIDOS_KEY = 'lys_pedidos';
 function inicializar() {
   if (typeof window === 'undefined') return;
 
-  if (!localStorage.getItem(MESAS_KEY)) {
+  const dataMesas = localStorage.getItem(MESAS_KEY);
+  if (!dataMesas) {
     localStorage.setItem(MESAS_KEY, JSON.stringify(SEED_MESAS));
+  } else {
+    try {
+      const mesas = JSON.parse(dataMesas);
+      const zonasDef = { '11': 'terraza', '12': 'terraza', '13': 'terraza', '14': 'terraza', '15': 'segundo_piso', '16': 'segundo_piso' };
+      let huboCambio = false;
+      const actualizadas = mesas.map((m) => {
+        if (zonasDef[m.numero] && m.zona === 'salon_principal') {
+          huboCambio = true;
+          return { ...m, zona: zonasDef[m.numero] };
+        }
+        return m;
+      });
+      if (huboCambio) {
+        localStorage.setItem(MESAS_KEY, JSON.stringify(actualizadas));
+      }
+    } catch {
+      // Ignorar error de parsing
+    }
   }
 
   if (!localStorage.getItem(ACTIVIDADES_KEY)) {

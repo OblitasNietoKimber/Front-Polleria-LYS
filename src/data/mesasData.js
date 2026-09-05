@@ -8,6 +8,7 @@ export const ZONAS_SALON = [
   { id: 'salon_principal', nombre: 'Salón principal' },
   { id: 'terraza', nombre: 'Terraza' },
   { id: 'segundo_piso', nombre: 'Segundo piso' },
+  { id: 'todas', nombre: 'Todas las zonas' },
 ];
 
 export const SEED_MESAS = [
@@ -108,13 +109,14 @@ export const SEED_MESAS = [
     inicioAt: new Date(Date.now() - 15 * 60000).toISOString(),
     totalAcumulado: 45.50,
   },
+  // --- Terraza (4 mesas al aire libre) ---
   {
     id: 11,
     numero: '11',
     capacidad: 6,
     forma: 'redonda_grande',
     estado: ESTADOS_MESA.LIBRE,
-    zona: 'salon_principal',
+    zona: 'terraza',
     pedidoId: null,
   },
   {
@@ -123,7 +125,7 @@ export const SEED_MESAS = [
     capacidad: 4,
     forma: 'cuadrada',
     estado: ESTADOS_MESA.RESERVADA,
-    zona: 'salon_principal',
+    zona: 'terraza',
     horaReserva: '20:00',
     comensalesReserva: 4,
   },
@@ -133,7 +135,7 @@ export const SEED_MESAS = [
     capacidad: 6,
     forma: 'rectangular',
     estado: ESTADOS_MESA.OCUPADA,
-    zona: 'salon_principal',
+    zona: 'terraza',
     pedidoId: 'PED-1004',
     inicioAt: new Date(Date.now() - 55 * 60000).toISOString(),
     totalAcumulado: 189.60,
@@ -144,16 +146,17 @@ export const SEED_MESAS = [
     capacidad: 4,
     forma: 'cuadrada',
     estado: ESTADOS_MESA.LIBRE,
-    zona: 'salon_principal',
+    zona: 'terraza',
     pedidoId: null,
   },
+  // --- Segundo Piso (2 mesas familiares / banquete) ---
   {
     id: 15,
     numero: '15',
     capacidad: 4,
     forma: 'redonda',
     estado: ESTADOS_MESA.OCUPADA,
-    zona: 'salon_principal',
+    zona: 'segundo_piso',
     pedidoId: 'PED-1005',
     inicioAt: new Date(Date.now() - 35 * 60000).toISOString(),
     totalAcumulado: 95.70,
@@ -164,7 +167,7 @@ export const SEED_MESAS = [
     capacidad: 8,
     forma: 'banquete',
     estado: ESTADOS_MESA.LIBRE,
-    zona: 'salon_principal',
+    zona: 'segundo_piso',
     pedidoId: null,
   },
 ];
@@ -241,4 +244,3 @@ export const SEED_ACTIVIDADES = [
     tipoColor: 'verde',
   },
 ];
-
