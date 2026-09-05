@@ -70,6 +70,22 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
     onClose();
   }
 
+  function handleCancelarReserva() {
+    if (window.confirm(`¿Confirmas cancelar la reserva de la Mesa ${numero}?`)) {
+      mesaService.liberarMesa(numero);
+      mesaService.registrarActividad({
+        mesaNumero: numero,
+        tipo: 'reserva',
+        titulo: `Mesa ${numero}`,
+        descripcion: 'Reserva cancelada · Mesa liberada',
+        ordenCodigo: 'Cancelada',
+        tipoColor: 'amarillo',
+      });
+      if (onMesaUpdated) onMesaUpdated();
+      onClose();
+    }
+  }
+
   return (
     <div className="mesa-modal-backdrop" onClick={onClose}>
       <div className="mesa-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -79,7 +95,7 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
               Mesa {numero}
             </h3>
             <span style={{ fontSize: '0.82rem', color: '#6B7280' }}>
-              Capacidad: {capacidad} comensales · Zona Salón Principal
+              Capacidad: {capacidad} comensales · Zona {mesa.zona === 'terraza' ? 'Terraza' : mesa.zona === 'segundo_piso' ? 'Segundo piso' : 'Salón principal'}
             </span>
           </div>
           <span className={`mesa-status-badge ${estado}`}>
@@ -147,7 +163,7 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
                   style={{ width: '100%', justifyContent: 'center' }}
                   onClick={handleIrAPedido}
                 >
-                  📝 Ver / Agregar a la comanda
+                  Ver / Agregar a la comanda
                 </button>
                 <button
                   type="button"
@@ -162,7 +178,7 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
                   }}
                   onClick={handleSolicitarCuenta}
                 >
-                  💳 Solicitar cuenta para caja
+                  Solicitar cuenta para caja
                 </button>
                 <button
                   type="button"
@@ -186,21 +202,38 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
           {estado === 'reservada' && (
             <div style={{ textAlign: 'center', padding: '16px 0' }}>
               <div style={{ background: '#FEF8EF', padding: 14, borderRadius: 10, marginBottom: 16 }}>
-                <span style={{ fontSize: '1.4rem' }}>📅</span>
-                <p style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#A16207' }}>
+                <div style={{ fontSize: '1.2rem', marginBottom: 4 }}>🕒</div>
+                <p style={{ margin: '6px 0 2px 0', fontWeight: 600, color: '#A16207' }}>
                   Reserva programada para las {horaReserva || '19:30'}
                 </p>
                 <span style={{ fontSize: '0.8rem', color: '#B45309' }}>
                   Capacidad reservada: {capacidad} personas
                 </span>
               </div>
-              <button
-                className="btn-nuevo-pedido"
-                style={{ width: '100%', justifyContent: 'center' }}
-                onClick={handleIrAPedido}
-              >
-                Ingresar comensales y abrir pedido
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <button
+                  className="btn-nuevo-pedido"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={handleIrAPedido}
+                >
+                  Llegó el cliente · Sentar y abrir pedido
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    padding: '8px',
+                    borderRadius: 8,
+                    border: '1px solid var(--line)',
+                    background: '#FFF',
+                    color: '#6B7280',
+                    fontSize: '0.82rem',
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleCancelarReserva}
+                >
+                  Cancelar / Liberar reserva
+                </button>
+              </div>
             </div>
           )}
         </div>
