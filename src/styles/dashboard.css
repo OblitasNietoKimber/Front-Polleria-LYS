@@ -26,14 +26,6 @@
   min-width: 0;
 }
 
-.admin-logo {
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid var(--ember);
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .admin-system-title {
   color: var(--ink);
   font-size: 1.15rem;
@@ -80,26 +72,6 @@
   align-items: center;
   gap: clamp(10px, 1.8vw, 22px);
   min-width: 0;
-}
-
-.admin-bottom-nav {
-  display: none;
-}
-
-.admin-contact,
-.admin-user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--smoke);
-  font-size: 0.86rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.admin-contact strong,
-.admin-user strong {
-  color: var(--ink);
 }
 
 .admin-bell {
@@ -177,10 +149,6 @@
 }
 
 @media (max-width: 768px) {
-  .admin-contact {
-    display: none;
-  }
-
   .admin-system-title {
     font-size: 0.95rem;
   }
@@ -195,20 +163,6 @@
     gap: 12px;
   }
 
-  .admin-user span {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .admin-page-head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .admin-filtro-fechas {
-    width: 100%;
-  }
 }
 .admin-summary-grid {
   display: grid;
@@ -835,7 +789,7 @@
 
 @media (max-width: 640px) {
   .admin-content {
-    padding: 16px 12px 96px;
+    padding: 16px 12px 32px;
   }
 
   .admin-summary-grid,
@@ -844,10 +798,13 @@
   }
 
   .admin-page-head {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
   }
 
   .admin-filtro-fechas {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: end;
@@ -901,11 +858,6 @@
     min-width: 0;
   }
 
-  .admin-logo {
-    width: 34px;
-    height: 34px;
-  }
-
   .admin-system-title {
     font-size: 0.88rem;
   }
@@ -950,53 +902,6 @@
 
   .admin-select {
     width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  .admin-nav {
-    display: none;
-  }
-
-  .admin-bottom-nav {
-    position: fixed;
-    right: 12px;
-    bottom: 10px;
-    left: 12px;
-    z-index: 50;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-    padding: 6px;
-    padding-bottom: calc(6px + env(safe-area-inset-bottom));
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    box-shadow: 0 12px 28px rgba(27, 21, 18, 0.18);
-  }
-
-  .admin-bottom-link {
-    min-height: 48px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    border-radius: 6px;
-    color: var(--smoke);
-    font-size: 0.72rem;
-    font-weight: 700;
-    line-height: 1;
-    text-decoration: none;
-  }
-
-  .admin-bottom-link.active {
-    background: #FCEDE5;
-    color: var(--ember);
-  }
-
-  .admin-bottom-link svg {
-    flex-shrink: 0;
   }
 }
 

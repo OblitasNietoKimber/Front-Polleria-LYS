@@ -9,15 +9,24 @@
   z-index: 40;
 }
 
-/* Admin brand (logo + title) should not be underlined when it's a link */
-.admin-brand,
-.admin-brand:link,
-.admin-brand:visited {
+.lys-nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lys-brand-link {
+  background: none;
+  border: none;
   text-decoration: none;
-  color: inherit;
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: max-content;
 }
 
 .lys-logo-badge {
@@ -31,6 +40,21 @@
   flex-shrink: 0;
 }
 
+.lys-brand-title {
+  color: var(--ember);
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lys-navlinks {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 22px;
+  min-width: 0;
+}
+
 .lys-navlink {
   font-size: 0.9rem;
   font-weight: 500;
@@ -41,11 +65,94 @@
   padding: 6px 4px;
   text-decoration: none;
   transition: color .15s ease;
+  white-space: nowrap;
 }
 
 .lys-navlink:hover,
 .lys-navlink.active {
   color: var(--ember);
+}
+
+.lys-cart-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 4px;
+}
+
+.lys-cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+}
+
+@media (max-width: 760px) {
+  .lys-nav-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px 12px;
+    padding: 10px 14px 8px;
+  }
+
+  .lys-brand-link {
+    min-width: 0;
+  }
+
+  .lys-brand-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.08rem;
+  }
+
+  .lys-navlinks {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 2px 2px 6px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lys-navlinks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lys-navlink {
+    font-size: 0.84rem;
+    padding-block: 7px;
+  }
+
+  .lys-cart-button {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 420px) {
+  .lys-nav-inner {
+    padding-inline: 12px;
+  }
+
+  .lys-logo-badge {
+    width: 34px;
+    height: 34px;
+  }
+
+  .lys-brand-title {
+    font-size: 1rem;
+  }
+
+  .lys-navlinks {
+    gap: 12px;
+  }
 }
 
 .btn-ember {

@@ -246,7 +246,7 @@
 
 @media (max-width: 560px) {
   .caja-main {
-    padding: 16px 14px 88px;
+    padding: 16px 14px 32px;
     gap: 18px;
   }
 

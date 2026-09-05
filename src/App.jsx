@@ -41,10 +41,9 @@ function App() {
           <Route path="/checkout/pago" element={<PagoPage />} />
           <Route path="/checkout/resumen" element={<ResumenPage />} />
           <Route path="/confirmacion" element={<ConfirmacionPage />} />
+          <Route path="/caja" element={<CajaPage />} />
+          <Route path="/dashboard" element={<DashboardAdminPage />} />
         </Route>
-
-        <Route path="/caja" element={<CajaPage />} />
-        <Route path="/dashboard" element={<DashboardAdminPage />} />
 
         <Route path="/pedidos" element={<PedidosPage />} />
         <Route path="/pedidos/:id" element={<OrderDetailPage />} />

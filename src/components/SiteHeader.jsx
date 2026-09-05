@@ -7,37 +7,20 @@ export default function SiteHeader() {
 
   return (
     <nav className="lys-nav">
-      <div
-        style={{
-          maxWidth: 1120,
-          margin: '0 auto',
-          padding: '14px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 16,
-        }}
-      >
+      <div className="lys-nav-inner">
         <NavLink
           to="/"
-          style={{
-            background: 'none',
-            border: 'none',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}
+          className="lys-brand-link"
         >
           <span className="lys-logo-badge">
             <Flame size={19} color="var(--ember)" strokeWidth={2} />
           </span>
-          <span className="font-display" style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--ember)' }}>
+          <span className="font-display lys-brand-title">
             Leña y Sabores
           </span>
         </NavLink>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
+        <div className="lys-navlinks">
           <NavLink to="/" end className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Inicio
           </NavLink>
@@ -47,23 +30,21 @@ export default function SiteHeader() {
           <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Mis pedidos
           </NavLink>
+          <NavLink to="/dashboard" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/caja" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
+            Caja
+          </NavLink>
           <button
             type="button"
             onClick={openCart}
-            style={{
-              position: 'relative',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--ink)',
-              display: 'flex',
-              alignItems: 'center',
-            }}
+            className="lys-cart-button"
             aria-label="Ver carrito"
           >
             <ShoppingCart size={22} strokeWidth={1.8} />
             {cartCount > 0 && (
-              <span className="badge-count" style={{ position: 'absolute', top: -8, right: -10 }}>
+              <span className="badge-count lys-cart-count">
                 {cartCount}
               </span>
             )}
