@@ -25,24 +25,6 @@ export default function CocinaPage() {
 
   return (
     <div className="lys-root admin-screen">
-      <header className="lys-nav admin-topbar">
-        <div className="admin-brand">
-          <span className="admin-system-title">Pollería Leñas & Sabores — Cocina</span>
-        </div>
-
-        <nav className="admin-nav">
-          <button className="admin-nav-button" onClick={() => navigate("/dashboard")}>Dashboard</button>
-          <button className="admin-nav-button" onClick={() => navigate("/caja")}>Caja</button>
-          <button className="admin-nav-button active">Cocina</button>
-        </nav>
-
-        <div className="admin-actions">
-          <div className="admin-bell" title="Actualización automática activa">
-            <IconoCampana size={20} />
-          </div>
-        </div>
-      </header>
-
       <main style={{ padding: 32, maxWidth: 1300, margin: "0 auto" }}>
         <h1 className="font-display" style={{ fontSize: "1.8rem", marginBottom: 24 }}>
           Panel de Cocina
