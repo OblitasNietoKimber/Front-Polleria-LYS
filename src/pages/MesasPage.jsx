@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Plus, Search } from 'lucide-react';
 import useMesas from '../hooks/useMesas';
 import MesaCard from '../components/mesas/MesaCard';
 import EstadisticasMesas from '../components/mesas/EstadisticasMesas';
@@ -19,7 +20,7 @@ export default function MesasPage() {
 
   const { mesas, estadisticas, actividades, recargar } = useMesas(zonaSeleccionada);
 
-  // Filtrado por número de mesa o por ID de pedido
+  // Filtrado de mesas por texto de búsqueda
   const mesasFiltradas = useMemo(() => {
     if (!busqueda.trim()) return mesas;
     const term = busqueda.toLowerCase().trim();
@@ -52,7 +53,7 @@ export default function MesasPage() {
         <div className="mesas-controls">
           {/* Buscador */}
           <div className="mesas-search-box">
-            <span className="mesas-search-icon">🔍</span>
+            <Search size={16} className="mesas-search-icon" style={{ color: '#9CA3AF' }} />
             <input
               type="text"
               className="mesas-search-input"
@@ -70,10 +71,24 @@ export default function MesasPage() {
           >
             {ZONAS_SALON.map((z) => (
               <option key={z.id} value={z.id}>
-                🏠 {z.nombre}
+                {z.nombre}
               </option>
             ))}
           </select>
+
+          {/* Botón para alternar visibilidad de Actividad Reciente */}
+          <button
+            type="button"
+            className={`btn-toggle-actividad ${!sidebarColapsado ? 'activa' : ''}`}
+            onClick={() => setSidebarColapsado((prev) => !prev)}
+            title={sidebarColapsado ? 'Abrir panel de actividad' : 'Ocultar panel de actividad'}
+          >
+            <Clock size={16} />
+            <span className="btn-toggle-actividad-label">Actividad</span>
+            {actividades.length > 0 && (
+              <span className="btn-toggle-actividad-badge">{actividades.length}</span>
+            )}
+          </button>
 
           {/* Botón Nuevo Pedido */}
           <button
@@ -81,7 +96,8 @@ export default function MesasPage() {
             type="button"
             onClick={handleAbrirNuevoPedido}
           >
-            <span>+</span> Nuevo pedido
+            <Plus size={18} />
+            <span>Nuevo pedido</span>
           </button>
         </div>
       </header>

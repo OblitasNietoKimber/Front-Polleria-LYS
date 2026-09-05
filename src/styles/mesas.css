@@ -99,6 +99,41 @@
   background: var(--rust);
 }
 
+.btn-toggle-actividad {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFF;
+  color: #4B5563;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-toggle-actividad:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.btn-toggle-actividad.activa {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+  color: var(--ember);
+}
+
+.btn-toggle-actividad-badge {
+  background: var(--ember);
+  color: #FFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
 /* KPIs */
 .mesas-kpi-grid {
   display: grid;
@@ -390,6 +425,31 @@
 
 @media (max-width: 1024px) {
   .mesas-main-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .mesas-activity-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 86vw;
+    z-index: 9999;
+    border-radius: 0;
+    box-shadow: -8px 0 28px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+    animation: slideInRight 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-toggle-actividad-label {
+    display: none;
+  }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 /* Modal centrado de detalle de mesa */
