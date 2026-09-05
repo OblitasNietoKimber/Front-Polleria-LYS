@@ -320,89 +320,37 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         </div>
       )}
 
-      {/* Barra de contexto compacta superior (no una segunda navbar) */}
-      <div className="pedido-context-strip">
-        <div className="context-strip-left">
-          <button
-            type="button"
-            className="btn-volver-salon"
-            onClick={() => navigate('/mesas')}
-            title="Volver al salón de mesas"
-          >
-            <ArrowLeft size={18} />
-            <span>Salón</span>
-          </button>
-
-          <div className="context-mesa-chip">
-            <span className="chip-mesa-num">Mesa {numeroNormalizado}</span>
-            <span className={`chip-mesa-estado ${mesaActual?.estado || 'libre'}`}>
-              {mesaActual?.estado === 'ocupada' ? 'Ocupada' : 'Nueva comanda'}
-            </span>
-          </div>
-
-          <div className="comensales-control" title="Ajusta el número de personas si se agregaron sillas extra a la mesa">
-            <Users size={15} style={{ color: '#4B5563' }} />
+      {/* Cuerpo Tablet POS de 3 Columnas: Categorías (izq), Platos (centro), Comanda (der) */}
+      <div className="pedido-pos-layout">
+        {/* Columna 1: Riel Vertical Izquierdo de Categorías */}
+        <aside className="pedido-categories-rail">
+          {/* Navegación y selector de mesa integrados */}
+          <div className="rail-top-nav">
             <button
               type="button"
-              className="comensales-btn"
-              onClick={() => setComensales((prev) => Math.max(1, prev - 1))}
-              title="Disminuir comensales"
+              className="btn-volver-salon"
+              onClick={() => navigate('/mesas')}
+              title="Volver al plano del salón"
             >
-              -
+              <ArrowLeft size={16} />
+              <span>Salón</span>
             </button>
-            <span style={{ fontWeight: '700', minWidth: '18px', textAlign: 'center', fontSize: '0.9rem' }}>
-              {comensales}
-            </span>
-            <button
-              type="button"
-              className="comensales-btn"
-              onClick={() => setComensales((prev) => Math.min(16, prev + 1))}
-              title="Aumentar comensales (sillas extras)"
-            >
-              +
-            </button>
-            <span style={{ fontSize: '0.8rem', color: '#6B7280' }}>personas</span>
-          </div>
-        </div>
-
-        <div className="context-strip-right">
-          {/* Buscador integrado de platos */}
-          <div className="strip-search-box">
-            <Search size={16} className="strip-search-icon" />
-            <input
-              type="text"
-              className="strip-search-input"
-              placeholder="Buscar en la carta..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-            />
-          </div>
-
-          <div className="strip-mesa-changer">
             <select
-              className="strip-select-mesa"
+              className="rail-select-mesa"
               value={numeroNormalizado}
               onChange={(e) => handleCambiarMesa(e.target.value)}
               title="Cambiar a otra mesa"
             >
               {todasLasMesas.map((m) => (
                 <option key={m.id} value={m.numero}>
-                  Mesa {m.numero} ({m.estado})
+                  Mesa {m.numero}
                 </option>
               ))}
             </select>
           </div>
 
-          <span className="strip-mesera-badge">
-            Mesera: <strong>{meseraNombre}</strong>
-          </span>
-        </div>
-      </div>
+          <div className="rail-separator" />
 
-      {/* Cuerpo Tablet POS de 3 Columnas: Categorías (izq), Platos (centro), Comanda (der) */}
-      <div className="pedido-pos-layout">
-        {/* Columna 1: Riel Vertical Izquierdo de Categorías */}
-        <aside className="pedido-categories-rail">
           <span className="rail-title">Categorías</span>
           <nav className="rail-nav">
             {CATEGORIAS_MENU.map((cat) => {
@@ -425,6 +373,33 @@ function NuevoPedidoForm({ numeroNormalizado }) {
 
         {/* Columna 2: Catálogo de Platos */}
         <section className="pedido-catalog-area">
+          {/* Buscador integrado en la cabecera de la carta */}
+          <div className="catalog-top-toolbar">
+            <div className="catalog-search-box">
+              <Search size={16} className="catalog-search-icon" />
+              <input
+                type="text"
+                className="catalog-search-input"
+                placeholder="Buscar platos, bebidas, combos..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+              {busqueda && (
+                <button
+                  type="button"
+                  className="catalog-search-clear"
+                  onClick={() => setBusqueda('')}
+                  title="Limpiar búsqueda"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            <span className="catalog-counter">
+              {productosFiltrados.length} {productosFiltrados.length === 1 ? 'producto' : 'productos'}
+            </span>
+          </div>
+
           <div className="platos-grid">
             {productosFiltrados.map((prod) => (
               <div key={prod.id} className="plato-card">
@@ -461,7 +436,40 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         {/* Columna Derecha: Panel de la Comanda */}
         <aside className="comanda-panel">
           <div className="comanda-header">
-            <h3 className="comanda-title">Pedido Mesa {numeroNormalizado}</h3>
+            <div className="comanda-header-info">
+              <div className="comanda-title-row">
+                <h3 className="comanda-title">Mesa {numeroNormalizado}</h3>
+                <span className={`comanda-tag-estado ${mesaActual?.estado === 'ocupada' ? 'ocupada' : 'nueva'}`}>
+                  {mesaActual?.estado === 'ocupada' ? 'Ocupada' : 'Nueva orden'}
+                </span>
+              </div>
+              <div className="comanda-sub-row">
+                <div className="comensales-control" title="Ajusta el número de comensales">
+                  <Users size={13} style={{ color: '#57534C' }} />
+                  <button
+                    type="button"
+                    className="comensales-btn"
+                    onClick={() => setComensales((prev) => Math.max(1, prev - 1))}
+                    title="Menos comensales"
+                  >
+                    -
+                  </button>
+                  <span className="comensales-val">{comensales}</span>
+                  <button
+                    type="button"
+                    className="comensales-btn"
+                    onClick={() => setComensales((prev) => Math.min(16, prev + 1))}
+                    title="Más comensales"
+                  >
+                    +
+                  </button>
+                  <span className="comensales-txt">personas</span>
+                </div>
+                <span className="comanda-mesera-tag">
+                  Mesera: <strong>{meseraNombre}</strong>
+                </span>
+              </div>
+            </div>
             {itemsComanda.length > 0 && (
               <button
                 type="button"

@@ -9,34 +9,23 @@
   color: var(--ink);
 }
 
-/* Barra contextual compacta superior (no compite con SiteHeader) */
-.pedido-context-strip {
+/* Navegación y selector de mesa integrados en la cabecera del riel */
+.rail-top-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 24px;
-  background: #FFFFFF;
-  border-bottom: 1px solid #E5E0D8;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.context-strip-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .btn-volver-salon {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 7px 12px;
   background: #FAF9F6;
   border: 1px solid #E5E0D8;
   border-radius: 8px;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: #374151;
   cursor: pointer;
@@ -49,97 +38,62 @@
   color: var(--ink);
 }
 
-.context-mesa-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  background: #F8F6F2;
+.rail-select-mesa {
+  padding: 6px 10px;
   border: 1px solid #E5E0D8;
   border-radius: 8px;
-}
-
-.chip-mesa-num {
-  font-weight: 700;
-  font-size: 0.92rem;
-  color: var(--ink);
-}
-
-.chip-mesa-estado {
-  font-size: 0.76rem;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 12px;
-  letter-spacing: 0.02em;
-}
-
-.chip-mesa-estado.ocupada {
-  background: #FEE2E2;
-  color: #DC2626;
-}
-
-.chip-mesa-estado.libre,
-.chip-mesa-estado.disponible {
-  background: #D1FAE5;
-  color: #059669;
-}
-
-.comensales-control {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 0.82rem;
   background: #FAF9F6;
-  border: 1px solid #E5E0D8;
-  padding: 3px 8px;
-  border-radius: 8px;
-}
-
-.comensales-btn {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  border: none;
-  background: #FFF;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: 600;
   color: var(--ink);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  transition: background 0.1s;
+  outline: none;
+  cursor: pointer;
+  max-width: 96px;
 }
 
-.comensales-btn:hover {
-  background: #E5E1DA;
+.rail-select-mesa:focus {
+  border-color: var(--ember);
 }
 
-.context-strip-right {
+.rail-separator {
+  height: 1px;
+  background: #EFEAE4;
+  margin: 2px 0 4px 0;
+}
+
+/* Barra de herramientas integrada en el catálogo */
+.catalog-top-toolbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 14px;
-  flex-wrap: wrap;
+  margin-bottom: 16px;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 12px;
+  padding: 8px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
-.strip-search-box {
+.catalog-search-box {
   position: relative;
   display: flex;
   align-items: center;
-  min-width: 220px;
+  flex: 1;
+  max-width: 480px;
 }
 
-.strip-search-icon {
+.catalog-search-icon {
   position: absolute;
   left: 10px;
   color: #9CA3AF;
   pointer-events: none;
 }
 
-.strip-search-input {
+.catalog-search-input {
   width: 100%;
-  padding: 6px 12px 6px 32px;
-  border: 1px solid #E5E0D8;
+  padding: 7px 30px 7px 34px;
+  border: 1px solid #EFEAE4;
   border-radius: 8px;
   font-size: 0.88rem;
   outline: none;
@@ -148,39 +102,32 @@
   transition: border-color 0.15s, background 0.15s;
 }
 
-.strip-search-input:focus {
+.catalog-search-input:focus {
   border-color: var(--ember);
   background: #FFF;
 }
 
-.strip-mesa-changer {
-  display: flex;
-  align-items: center;
-}
-
-.strip-select-mesa {
-  padding: 6px 10px;
-  border: 1px solid #E5E0D8;
-  border-radius: 8px;
-  font-size: 0.86rem;
-  background: #FAF9F6;
-  font-weight: 600;
-  color: var(--ink);
-  outline: none;
+.catalog-search-clear {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #9CA3AF;
   cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
 }
 
-.strip-select-mesa:focus {
-  border-color: var(--ember);
-}
-
-.strip-mesera-badge {
-  font-size: 0.84rem;
-  color: #6E655D;
+.catalog-counter {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #8C827A;
   background: #FAF9F6;
-  padding: 5px 10px;
-  border-radius: 6px;
+  padding: 4px 10px;
+  border-radius: 10px;
   border: 1px solid #EFEAE4;
+  white-space: nowrap;
 }
 
 /* Banner de borrador restaurado */
@@ -389,17 +336,108 @@
 
 .comanda-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
+  gap: 10px;
+}
+
+.comanda-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.comanda-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .comanda-title {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
   color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.comanda-tag-estado {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.comanda-tag-estado.ocupada {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.comanda-tag-estado.nueva {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.comanda-sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.comensales-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #FAF9F6;
+  border: 1px solid #E5E0D8;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+
+.comensales-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: none;
+  background: #FFF;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  transition: background 0.1s;
+}
+
+.comensales-btn:hover {
+  background: #E5E1DA;
+}
+
+.comensales-val {
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+  color: var(--ink);
+}
+
+.comensales-txt {
+  font-size: 0.78rem;
+  color: #6B7280;
+}
+
+.comanda-mesera-tag {
+  font-size: 0.8rem;
+  color: #6E655D;
 }
 
 .btn-clear-comanda {
@@ -407,7 +445,7 @@
   border: none;
   color: #EF4444;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   border-radius: 6px;
   transition: background 0.15s;
 }
