@@ -88,11 +88,22 @@ function finDelDia(fecha) {
   return copia;
 }
 
+function parsearFechaFiltro(fecha) {
+  if (fecha instanceof Date) return fecha;
+  if (typeof fecha !== "string") return new Date(fecha);
+
+  const partes = fecha.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!partes) return new Date(fecha);
+
+  const [, year, month, day] = partes;
+  return new Date(Number(year), Number(month) - 1, Number(day));
+}
+
 function filtrarVentasPorFecha(ventas, fechaInicio, fechaFin) {
   if (!fechaInicio && !fechaFin) return ventas;
 
-  const inicio = fechaInicio ? inicioDelDia(new Date(fechaInicio)) : null;
-  const fin = fechaFin ? finDelDia(new Date(fechaFin)) : null;
+  const inicio = fechaInicio ? inicioDelDia(parsearFechaFiltro(fechaInicio)) : null;
+  const fin = fechaFin ? finDelDia(parsearFechaFiltro(fechaFin)) : null;
 
   return ventas.filter((venta) => {
     const fecha = getFechaVenta(venta);
@@ -107,8 +118,8 @@ function crearResumen(ventas) {
   };
 }
 
-function getResumenVentas() {
-  const ventas = getVentas();
+function getResumenVentas(filtros = {}) {
+  const ventas = getVentasFiltradas(filtros);
   const ahora = new Date();
 
   const inicioSemana = inicioDelDia(new Date(ahora));

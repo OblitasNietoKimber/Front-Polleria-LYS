@@ -746,6 +746,14 @@
   justify-content: flex-end;
 }
 
+.admin-filtro-icon {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
 .admin-filtro-campo {
   display: flex;
   flex-direction: column;
@@ -812,7 +820,7 @@
     justify-content: stretch;
   }
 
-  .admin-filtro-fechas > svg {
+  .admin-filtro-icon {
     display: none;
   }
 

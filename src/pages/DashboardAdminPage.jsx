@@ -11,7 +11,7 @@ import VentasMetodoPago from "../components/admin/VentasMetodoPago";
 export default function DashboardAdminPage() {
   const [filtros, setFiltros] = useState({ fechaInicio: "", fechaFin: "" });
 
-  const resumen = useMemo(() => cajaService.getResumenVentas(), []);
+  const resumen = useMemo(() => cajaService.getResumenVentas(filtros), [filtros]);
   const productos = useMemo(() => cajaService.getProductosMasVendidos(filtros), [filtros]);
   const metodosPago = useMemo(() => cajaService.getVentasPorMetodoPago(filtros), [filtros]);
   const ventasPorDia = useMemo(() => cajaService.getVentasPorDia(filtros), [filtros]);
