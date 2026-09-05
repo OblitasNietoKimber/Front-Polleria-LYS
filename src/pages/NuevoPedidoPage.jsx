@@ -10,11 +10,24 @@ import {
   Search,
   CheckCircle2,
   AlertCircle,
+  Flame,
+  Layers,
+  CupSoda,
+  CakeSlice,
+  Grid2X2,
 } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import mesaService from '../services/mesaService';
 import authService from '../services/authService';
 import '../styles/nuevoPedido.css';
+
+const CATEGORIAS_MENU = [
+  { id: 'pollos', label: 'Pollos y Brasas', icono: Flame },
+  { id: 'combos', label: 'Combos & Extras', icono: Layers },
+  { id: 'bebidas', label: 'Bebidas', icono: CupSoda },
+  { id: 'postres', label: 'Postres', icono: CakeSlice },
+  { id: 'todos', label: 'Toda la carta', icono: Grid2X2 },
+];
 
 function NuevoPedidoForm({ numeroNormalizado }) {
   const navigate = useNavigate();
@@ -307,106 +320,111 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         </div>
       )}
 
-      {/* Header superior */}
-      <header className="pedido-header">
-        <div className="pedido-header-title-area">
+      {/* Barra de contexto compacta superior (no una segunda navbar) */}
+      <div className="pedido-context-strip">
+        <div className="context-strip-left">
           <button
             type="button"
-            className="btn-volver-mesas"
+            className="btn-volver-salon"
             onClick={() => navigate('/mesas')}
-            title="Volver al plano de mesas"
+            title="Volver al salón de mesas"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={18} />
+            <span>Salón</span>
           </button>
-          <div>
-            <h1 className="pedido-title">
-              {mesaActual?.estado === 'ocupada' ? 'Modificar comanda' : 'Nuevo pedido'} · Mesa {numeroNormalizado}
-            </h1>
-            <div className="pedido-meta">
-              <div className="comensales-control" title="Ajusta el número de personas si se agregaron sillas extra a la mesa">
-                <Users size={16} style={{ color: '#4B5563' }} />
-                <button
-                  type="button"
-                  className="comensales-btn"
-                  onClick={() => setComensales((prev) => Math.max(1, prev - 1))}
-                  title="Disminuir comensales"
-                >
-                  -
-                </button>
-                <span style={{ fontWeight: '700', minWidth: '18px', textAlign: 'center', fontSize: '0.92rem' }}>
-                  {comensales}
-                </span>
-                <button
-                  type="button"
-                  className="comensales-btn"
-                  onClick={() => setComensales((prev) => Math.min(16, prev + 1))}
-                  title="Aumentar comensales (sillas extras)"
-                >
-                  +
-                </button>
-                <span style={{ fontSize: '0.82rem', color: '#6B7280' }}>personas</span>
-              </div>
-              <span>·</span>
-              <span>Mesera: <strong>{meseraNombre}</strong></span>
-            </div>
+
+          <div className="context-mesa-chip">
+            <span className="chip-mesa-num">Mesa {numeroNormalizado}</span>
+            <span className={`chip-mesa-estado ${mesaActual?.estado || 'libre'}`}>
+              {mesaActual?.estado === 'ocupada' ? 'Ocupada' : 'Nueva comanda'}
+            </span>
+          </div>
+
+          <div className="comensales-control" title="Ajusta el número de personas si se agregaron sillas extra a la mesa">
+            <Users size={15} style={{ color: '#4B5563' }} />
+            <button
+              type="button"
+              className="comensales-btn"
+              onClick={() => setComensales((prev) => Math.max(1, prev - 1))}
+              title="Disminuir comensales"
+            >
+              -
+            </button>
+            <span style={{ fontWeight: '700', minWidth: '18px', textAlign: 'center', fontSize: '0.9rem' }}>
+              {comensales}
+            </span>
+            <button
+              type="button"
+              className="comensales-btn"
+              onClick={() => setComensales((prev) => Math.min(16, prev + 1))}
+              title="Aumentar comensales (sillas extras)"
+            >
+              +
+            </button>
+            <span style={{ fontSize: '0.8rem', color: '#6B7280' }}>personas</span>
           </div>
         </div>
 
-        <div>
-          <label style={{ fontSize: '0.85rem', color: '#6B7280', marginRight: 8, fontWeight: 500 }}>
-            Cambiar mesa:
-          </label>
-          <select
-            className="pedido-mesa-select"
-            value={numeroNormalizado}
-            onChange={(e) => handleCambiarMesa(e.target.value)}
-          >
-            {todasLasMesas.map((m) => (
-              <option key={m.id} value={m.numero}>
-                Mesa {m.numero} ({m.estado})
-              </option>
-            ))}
-          </select>
-        </div>
-      </header>
-
-      {/* Cuerpo principal */}
-      <div className="pedido-layout">
-        {/* Columna Izquierda: Catálogo de Productos */}
-        <section className="catalogo-container">
-          {/* Buscador de platos */}
-          <div className="catalogo-search-box">
-            <Search size={18} style={{ position: 'absolute', left: 14, color: '#9CA3AF', pointerEvents: 'none' }} />
+        <div className="context-strip-right">
+          {/* Buscador integrado de platos */}
+          <div className="strip-search-box">
+            <Search size={16} className="strip-search-icon" />
             <input
               type="text"
-              className="catalogo-search-input"
-              placeholder="Buscar productos de la carta..."
+              className="strip-search-input"
+              placeholder="Buscar en la carta..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
             />
           </div>
 
-          {/* Categorías */}
-          <div className="catalogo-categories">
-            {[
-              { id: 'pollos', label: 'Pollos y Brasas' },
-              { id: 'combos', label: 'Combos y Guarniciones' },
-              { id: 'bebidas', label: 'Bebidas' },
-              { id: 'postres', label: 'Postres' },
-              { id: 'todos', label: 'Todos los productos' },
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                className={`cat-tab-btn ${categoriaActiva === cat.id ? 'active' : ''}`}
-                onClick={() => setCategoriaActiva(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
+          <div className="strip-mesa-changer">
+            <select
+              className="strip-select-mesa"
+              value={numeroNormalizado}
+              onChange={(e) => handleCambiarMesa(e.target.value)}
+              title="Cambiar a otra mesa"
+            >
+              {todasLasMesas.map((m) => (
+                <option key={m.id} value={m.numero}>
+                  Mesa {m.numero} ({m.estado})
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Grid de Platos */}
+          <span className="strip-mesera-badge">
+            Mesera: <strong>{meseraNombre}</strong>
+          </span>
+        </div>
+      </div>
+
+      {/* Cuerpo Tablet POS de 3 Columnas: Categorías (izq), Platos (centro), Comanda (der) */}
+      <div className="pedido-pos-layout">
+        {/* Columna 1: Riel Vertical Izquierdo de Categorías */}
+        <aside className="pedido-categories-rail">
+          <span className="rail-title">Categorías</span>
+          <nav className="rail-nav">
+            {CATEGORIAS_MENU.map((cat) => {
+              const Icono = cat.icono;
+              const esActiva = categoriaActiva === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`rail-category-btn ${esActiva ? 'activo' : ''}`}
+                  onClick={() => setCategoriaActiva(cat.id)}
+                >
+                  <Icono size={18} className="rail-btn-icon" />
+                  <span className="rail-btn-label">{cat.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        {/* Columna 2: Catálogo de Platos */}
+        <section className="pedido-catalog-area">
           <div className="platos-grid">
             {productosFiltrados.map((prod) => (
               <div key={prod.id} className="plato-card">
@@ -430,6 +448,14 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               </div>
             ))}
           </div>
+
+          {productosFiltrados.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '50px 20px', color: '#9CA3AF' }}>
+              <p style={{ fontSize: '1rem', margin: 0 }}>
+                No se encontraron productos con "{busqueda}".
+              </p>
+            </div>
+          )}
         </section>
 
         {/* Columna Derecha: Panel de la Comanda */}
