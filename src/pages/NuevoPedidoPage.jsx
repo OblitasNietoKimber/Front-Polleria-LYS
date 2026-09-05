@@ -5,11 +5,8 @@ import mesaService from '../services/mesaService';
 import authService from '../services/authService';
 import '../styles/nuevoPedido.css';
 
-export default function NuevoPedidoPage() {
-  const { id: mesaParam } = useParams();
+function NuevoPedidoForm({ numeroNormalizado }) {
   const navigate = useNavigate();
-
-  const numeroNormalizado = String(mesaParam || '01').padStart(2, '0');
   const todasLasMesas = useMemo(() => mesaService.getMesas(), []);
   const mesaActual = useMemo(() => {
     return todasLasMesas.find((m) => String(m.numero).padStart(2, '0') === numeroNormalizado) || null;
@@ -19,6 +16,7 @@ export default function NuevoPedidoPage() {
   const [categoriaActiva, setCategoriaActiva] = useState('pollos');
   const [busqueda, setBusqueda] = useState('');
 
+  // Carga los productos de esta mesa si ya tiene una orden activa
   const [itemsComanda, setItemsComanda] = useState(() => {
     if (!mesaActual?.pedidoId) return [];
     try {
@@ -434,3 +432,10 @@ export default function NuevoPedidoPage() {
   );
 }
 
+export default function NuevoPedidoPage() {
+  const { id: mesaParam } = useParams();
+  const numeroNormalizado = String(mesaParam || '01').padStart(2, '0');
+
+  // El key={numeroNormalizado} asegura que al cambiar de mesa se resetee y cargue la comanda correcta
+  return <NuevoPedidoForm key={numeroNormalizado} numeroNormalizado={numeroNormalizado} />;
+}
