@@ -324,7 +324,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
       <div className="pedido-pos-layout">
         {/* Columna 1: Riel Vertical Izquierdo de Categorías */}
         <aside className="pedido-categories-rail">
-          {/* Navegación y selector de mesa integrados */}
+          {/* Botón de retorno al salón a ancho completo (sin desbordes) */}
           <div className="rail-top-nav">
             <button
               type="button"
@@ -333,20 +333,8 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               title="Volver al plano del salón"
             >
               <ArrowLeft size={16} />
-              <span>Salón</span>
+              <span>Volver al Salón</span>
             </button>
-            <select
-              className="rail-select-mesa"
-              value={numeroNormalizado}
-              onChange={(e) => handleCambiarMesa(e.target.value)}
-              title="Cambiar a otra mesa"
-            >
-              {todasLasMesas.map((m) => (
-                <option key={m.id} value={m.numero}>
-                  Mesa {m.numero}
-                </option>
-              ))}
-            </select>
           </div>
 
           <div className="rail-separator" />
@@ -438,7 +426,21 @@ function NuevoPedidoForm({ numeroNormalizado }) {
           <div className="comanda-header">
             <div className="comanda-header-info">
               <div className="comanda-title-row">
-                <h3 className="comanda-title">Mesa {numeroNormalizado}</h3>
+                <div className="comanda-mesa-select-box">
+                  <h3 className="comanda-title">Mesa {numeroNormalizado}</h3>
+                  <select
+                    className="comanda-select-mesa"
+                    value={numeroNormalizado}
+                    onChange={(e) => handleCambiarMesa(e.target.value)}
+                    title="Cambiar a otra mesa"
+                  >
+                    {todasLasMesas.map((m) => (
+                      <option key={m.id} value={m.numero}>
+                        Mesa {m.numero} ({m.estado})
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <span className={`comanda-tag-estado ${mesaActual?.estado === 'ocupada' ? 'ocupada' : 'nueva'}`}>
                   {mesaActual?.estado === 'ocupada' ? 'Ocupada' : 'Nueva orden'}
                 </span>

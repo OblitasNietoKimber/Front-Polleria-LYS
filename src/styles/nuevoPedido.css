@@ -9,23 +9,22 @@
   color: var(--ink);
 }
 
-/* Navegación y selector de mesa integrados en la cabecera del riel */
+/* Navegación al salón en la cabecera del riel */
 .rail-top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  width: 100%;
 }
 
 .btn-volver-salon {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
   background: #FAF9F6;
   border: 1px solid #E5E0D8;
-  border-radius: 8px;
-  font-size: 0.84rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #374151;
   cursor: pointer;
@@ -38,27 +37,10 @@
   color: var(--ink);
 }
 
-.rail-select-mesa {
-  padding: 6px 10px;
-  border: 1px solid #E5E0D8;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  background: #FAF9F6;
-  font-weight: 600;
-  color: var(--ink);
-  outline: none;
-  cursor: pointer;
-  max-width: 96px;
-}
-
-.rail-select-mesa:focus {
-  border-color: var(--ember);
-}
-
 .rail-separator {
   height: 1px;
   background: #EFEAE4;
-  margin: 2px 0 4px 0;
+  margin: 4px 0 6px 0;
 }
 
 /* Barra de herramientas integrada en el catálogo */
@@ -353,7 +335,14 @@
 .comanda-title-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
+}
+
+.comanda-mesa-select-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .comanda-title {
@@ -362,6 +351,26 @@
   margin: 0;
   color: var(--ink);
   letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.comanda-select-mesa {
+  padding: 4px 8px;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #FAF9F6;
+  color: #57534C;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.comanda-select-mesa:hover,
+.comanda-select-mesa:focus {
+  border-color: var(--ember);
+  color: var(--ink);
 }
 
 .comanda-tag-estado {
