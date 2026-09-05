@@ -1,5 +1,16 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {
+  Users,
+  ArrowLeft,
+  Trash2,
+  ClipboardList,
+  BookmarkCheck,
+  ChefHat,
+  Search,
+  CheckCircle2,
+  AlertCircle,
+} from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import mesaService from '../services/mesaService';
 import authService from '../services/authService';
@@ -15,6 +26,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
   const [comensales, setComensales] = useState(() => mesaActual?.capacidad || 4);
   const [categoriaActiva, setCategoriaActiva] = useState('pollos');
   const [busqueda, setBusqueda] = useState('');
+  const [toastMsg, setToastMsg] = useState('');
 
   // Carga los productos de esta mesa si ya tiene una orden activa
   const [itemsComanda, setItemsComanda] = useState(() => {
@@ -38,6 +50,17 @@ function NuevoPedidoForm({ numeroNormalizado }) {
       return pedidoExistente?.observaciones || '';
     } catch {
       return '';
+    }
+  });
+
+  // Verificar si hay un borrador previo guardado para esta mesa
+  const [borradorPendiente, setBorradorPendiente] = useState(() => {
+    if (mesaActual?.pedidoId) return null; // Si ya tiene pedido activo en cocina no mostrar borrador viejo
+    try {
+      const raw = localStorage.getItem(`lys_borrador_mesa_${numeroNormalizado}`);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
     }
   });
 
@@ -111,7 +134,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
 
   function handleGuardarBorrador() {
     if (itemsComanda.length === 0) {
-      alert('Agrega al menos un producto para guardar un borrador.');
+      alert('Agrega al menos un producto a la comanda antes de guardar un borrador.');
       return;
     }
     // Guardar borrador local
@@ -121,7 +144,25 @@ function NuevoPedidoForm({ numeroNormalizado }) {
       comensales,
       guardadoAt: new Date().toISOString(),
     }));
-    alert(`Borrador guardado para la Mesa ${numeroNormalizado}.`);
+    setToastMsg(`Borrador de Mesa ${numeroNormalizado} guardado con éxito`);
+    setTimeout(() => setToastMsg(''), 3000);
+  }
+
+  function handleRestaurarBorrador() {
+    if (!borradorPendiente) return;
+    setItemsComanda(borradorPendiente.items || []);
+    setObservaciones(borradorPendiente.observaciones || '');
+    if (borradorPendiente.comensales) {
+      setComensales(borradorPendiente.comensales);
+    }
+    setBorradorPendiente(null);
+    setToastMsg('Borrador restaurado en la comanda');
+    setTimeout(() => setToastMsg(''), 3000);
+  }
+
+  function handleDescartarBorrador() {
+    localStorage.removeItem(`lys_borrador_mesa_${numeroNormalizado}`);
+    setBorradorPendiente(null);
   }
 
   function handleEnviarCocina() {
@@ -169,6 +210,9 @@ function NuevoPedidoForm({ numeroNormalizado }) {
 
       localStorage.setItem('lys_pedidos', JSON.stringify(pedidosActualizados));
 
+      // Limpiar cualquier borrador pendiente de esta mesa
+      localStorage.removeItem(`lys_borrador_mesa_${numeroNormalizado}`);
+
       // Actualizar mesa a ocupada
       mesaService.ocuparMesa(numeroNormalizado, nuevoId, total);
 
@@ -182,7 +226,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         tipoColor: 'rojo',
       });
 
-      // Disparar storage para sincronizar panel de cocina
+      // Disparar storage para sincronizar panel de cocina y mesas
       window.dispatchEvent(new Event('storage'));
 
       alert(`¡Pedido de Mesa ${numeroNormalizado} enviado a Cocina con éxito!`);
@@ -195,6 +239,74 @@ function NuevoPedidoForm({ numeroNormalizado }) {
 
   return (
     <div className="pedido-screen">
+      {/* Toast flotante de confirmación */}
+      {toastMsg && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '24px',
+          background: '#065F46',
+          color: '#FFF',
+          padding: '12px 20px',
+          borderRadius: '10px',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.18)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          fontSize: '0.92rem',
+          fontWeight: '600',
+          zIndex: 9999,
+        }}>
+          <CheckCircle2 size={20} color="#34D399" />
+          <span>{toastMsg}</span>
+        </div>
+      )}
+
+      {/* Banner de borrador guardado pendiente de restaurar */}
+      {borradorPendiente && (
+        <div className="borrador-banner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <AlertCircle size={20} color="#D97706" />
+            <span>
+              Tienes un borrador pendiente de <strong>{borradorPendiente.items.length} productos</strong> para la Mesa {numeroNormalizado}.
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              type="button"
+              onClick={handleRestaurarBorrador}
+              style={{
+                padding: '6px 14px',
+                background: '#D97706',
+                color: '#FFF',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: '600',
+                fontSize: '0.88rem',
+              }}
+            >
+              Restaurar borrador
+            </button>
+            <button
+              type="button"
+              onClick={handleDescartarBorrador}
+              style={{
+                padding: '6px 12px',
+                background: 'transparent',
+                color: '#92400E',
+                border: '1px solid #FCE3BD',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '0.88rem',
+              }}
+            >
+              Descartar
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header superior */}
       <header className="pedido-header">
         <div className="pedido-header-title-area">
@@ -204,23 +316,36 @@ function NuevoPedidoForm({ numeroNormalizado }) {
             onClick={() => navigate('/mesas')}
             title="Volver al plano de mesas"
           >
-            ←
+            <ArrowLeft size={20} />
           </button>
           <div>
             <h1 className="pedido-title">
               {mesaActual?.estado === 'ocupada' ? 'Modificar comanda' : 'Nuevo pedido'} · Mesa {numeroNormalizado}
             </h1>
             <div className="pedido-meta">
-              <span>
-                👥 <input
-                  type="number"
-                  min="1"
-                  max="12"
-                  value={comensales}
-                  onChange={(e) => setComensales(Math.max(1, parseInt(e.target.value) || 1))}
-                  style={{ width: '44px', padding: '2px 4px', borderRadius: 4, border: '1px solid var(--line)', textAlign: 'center' }}
-                /> comensales
-              </span>
+              <div className="comensales-control" title="Ajusta el número de personas si se agregaron sillas extra a la mesa">
+                <Users size={16} style={{ color: '#4B5563' }} />
+                <button
+                  type="button"
+                  className="comensales-btn"
+                  onClick={() => setComensales((prev) => Math.max(1, prev - 1))}
+                  title="Disminuir comensales"
+                >
+                  -
+                </button>
+                <span style={{ fontWeight: '700', minWidth: '18px', textAlign: 'center', fontSize: '0.92rem' }}>
+                  {comensales}
+                </span>
+                <button
+                  type="button"
+                  className="comensales-btn"
+                  onClick={() => setComensales((prev) => Math.min(16, prev + 1))}
+                  title="Aumentar comensales (sillas extras)"
+                >
+                  +
+                </button>
+                <span style={{ fontSize: '0.82rem', color: '#6B7280' }}>personas</span>
+              </div>
               <span>·</span>
               <span>Mesera: <strong>{meseraNombre}</strong></span>
             </div>
@@ -228,7 +353,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         </div>
 
         <div>
-          <label style={{ fontSize: '0.8rem', color: '#6B7280', marginRight: 8 }}>
+          <label style={{ fontSize: '0.85rem', color: '#6B7280', marginRight: 8, fontWeight: 500 }}>
             Cambiar mesa:
           </label>
           <select
@@ -250,22 +375,25 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         {/* Columna Izquierda: Catálogo de Productos */}
         <section className="catalogo-container">
           {/* Buscador de platos */}
-          <input
-            type="text"
-            className="catalogo-search-input"
-            placeholder="🔍 Buscar productos de la carta..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
+          <div className="catalogo-search-box">
+            <Search size={18} style={{ position: 'absolute', left: 14, color: '#9CA3AF', pointerEvents: 'none' }} />
+            <input
+              type="text"
+              className="catalogo-search-input"
+              placeholder="Buscar productos de la carta..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </div>
 
           {/* Categorías */}
           <div className="catalogo-categories">
             {[
-              { id: 'pollos', label: '🍗 Pollos' },
-              { id: 'combos', label: '🍟 Combos y Guarniciones' },
-              { id: 'bebidas', label: '🥤 Bebidas' },
-              { id: 'postres', label: '🍮 Postres' },
-              { id: 'todos', label: '🍽 Todos' },
+              { id: 'pollos', label: 'Pollos y Brasas' },
+              { id: 'combos', label: 'Combos y Guarniciones' },
+              { id: 'bebidas', label: 'Bebidas' },
+              { id: 'postres', label: 'Postres' },
+              { id: 'todos', label: 'Todos los productos' },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -315,7 +443,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
                 onClick={handleLimpiarComanda}
                 title="Vaciar comanda"
               >
-                🗑
+                <Trash2 size={16} />
               </button>
             )}
           </div>
@@ -337,6 +465,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
                     type="button"
                     className="stepper-btn"
                     onClick={() => handleModificarCantidad(idx, -1)}
+                    title="Disminuir"
                   >
                     -
                   </button>
@@ -345,6 +474,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
                     type="button"
                     className="stepper-btn"
                     onClick={() => handleModificarCantidad(idx, 1)}
+                    title="Aumentar"
                   >
                     +
                   </button>
@@ -366,11 +496,14 @@ function NuevoPedidoForm({ numeroNormalizado }) {
             ))}
 
             {itemsComanda.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '30px 10px', color: '#9CA3AF' }}>
-                <span style={{ fontSize: '2rem' }}>📋</span>
-                <p style={{ margin: '8px 0 0 0', fontSize: '0.85rem' }}>
+              <div style={{ textAlign: 'center', padding: '36px 10px', color: '#9CA3AF' }}>
+                <ClipboardList size={38} strokeWidth={1.5} style={{ margin: '0 auto 10px', display: 'block', color: '#CBD5E1' }} />
+                <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 500 }}>
                   Aún no hay productos en la comanda.
                 </p>
+                <span style={{ fontSize: '0.8rem', color: '#94A3B8' }}>
+                  Selecciona platos de la carta a la izquierda.
+                </span>
               </div>
             )}
           </div>
@@ -378,7 +511,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
           {/* Observaciones a Cocina */}
           <div className="comanda-obs-area">
             <div className="comanda-obs-label">
-              <span>Observaciones</span>
+              <span>Observaciones a cocina</span>
               <span style={{ color: '#9CA3AF', fontWeight: 'normal' }}>
                 {observaciones.length}/120
               </span>
@@ -415,15 +548,19 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               type="button"
               className="btn-borrador"
               onClick={handleGuardarBorrador}
+              title="Guardar comanda como borrador para continuar luego"
             >
-              💾 Guardar borrador
+              <BookmarkCheck size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+              Guardar borrador
             </button>
             <button
               type="button"
               className="btn-enviar-cocina"
               onClick={handleEnviarCocina}
+              title="Enviar comanda a la pantalla de cocina"
             >
-              👨‍🍳 Enviar a cocina
+              <ChefHat size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+              Enviar a cocina
             </button>
           </div>
         </aside>

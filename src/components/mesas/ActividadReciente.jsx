@@ -1,6 +1,6 @@
 import { Clock, CheckCircle2, Utensils, Calendar, ChevronRight, X } from 'lucide-react';
 
-export default function ActividadReciente({ actividades = [], onToggleCollapse }) {
+export default function ActividadReciente({ actividades = [], onToggleCollapse, onVerTodo }) {
   function renderIcono(tipo) {
     switch (tipo) {
       case 'pedido_completado':
@@ -61,7 +61,12 @@ export default function ActividadReciente({ actividades = [], onToggleCollapse }
         )}
       </div>
 
-      <button className="activity-footer-btn" type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+      <button
+        className="activity-footer-btn"
+        type="button"
+        onClick={onVerTodo}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+      >
         <span>Ver toda la actividad</span>
         <ChevronRight size={14} />
       </button>

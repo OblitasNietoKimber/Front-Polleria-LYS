@@ -4,6 +4,7 @@ import useMesas from '../hooks/useMesas';
 import MesaCard from '../components/mesas/MesaCard';
 import EstadisticasMesas from '../components/mesas/EstadisticasMesas';
 import ActividadReciente from '../components/mesas/ActividadReciente';
+import ActividadModal from '../components/mesas/ActividadModal';
 import MesaDetalleModal from '../components/mesas/MesaDetalleModal';
 import { ZONAS_SALON } from '../data/mesasData';
 import '../styles/mesas.css';
@@ -14,6 +15,7 @@ export default function MesasPage() {
   const [busqueda, setBusqueda] = useState('');
   const [sidebarColapsado, setSidebarColapsado] = useState(false);
   const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
+  const [mostrarModalActividad, setMostrarModalActividad] = useState(false);
 
   const { mesas, estadisticas, actividades, recargar } = useMesas(zonaSeleccionada);
 
@@ -134,6 +136,7 @@ export default function MesasPage() {
           <ActividadReciente
             actividades={actividades}
             onToggleCollapse={() => setSidebarColapsado(true)}
+            onVerTodo={() => setMostrarModalActividad(true)}
           />
         )}
       </main>
@@ -144,6 +147,14 @@ export default function MesasPage() {
           mesa={mesaSeleccionada}
           onClose={() => setMesaSeleccionada(null)}
           onMesaUpdated={recargar}
+        />
+      )}
+
+      {/* Modal de historial completo de actividad */}
+      {mostrarModalActividad && (
+        <ActividadModal
+          actividades={actividades}
+          onClose={() => setMostrarModalActividad(false)}
         />
       )}
     </div>
