@@ -222,8 +222,21 @@
 .register-page__field {
   min-width: 0;
 }
+.login-page .login-page__success {
+  padding: 18px;
+  background: #edf7ee;
+  color: #285c31;
+  border: 1px solid #bddcc2;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
 
-/* En celulares pequeños, cada campo ocupa una fila */
+.login-page .login-page__success p {
+  margin: 0 0 12px;
+}
+
 @media (max-width: 480px) {
   .register-page__row {
     grid-template-columns: minmax(0, 1fr);
