@@ -3,7 +3,9 @@ import { IconoCalendario } from "../common/Iconos";
 export default function FiltroFechas({ filtros, onCambiar, onLimpiar }) {
   return (
     <div className="admin-filtro-fechas">
-      <IconoCalendario size={16} color="var(--smoke)" />
+      <span className="admin-filtro-icon" aria-hidden="true">
+        <IconoCalendario size={16} color="var(--smoke)" />
+      </span>
 
       <label className="admin-filtro-campo">
         <span>Desde</span>

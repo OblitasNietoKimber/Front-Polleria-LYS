@@ -21,10 +21,6 @@ import PedidosPage from './pages/PedidosPage'
 import OrderDetailPage from './pages/OrderDetailPage'
 
 
-
-
-
-
 function App() {
   return (
     <BrowserRouter>

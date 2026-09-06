@@ -1,4 +1,5 @@
 import { IconoTarjeta } from "../common/Iconos";
+import EChart from "./EChart";
 
 const colores = ["var(--ember)", "var(--char)", "var(--rust)", "var(--gold)"];
 const formatoSoles = new Intl.NumberFormat("es-PE", {
@@ -17,6 +18,40 @@ function normalizarMetodos(metodos) {
   }));
 }
 
+function crearDonutOption(metodosPago) {
+  return {
+    animationDuration: 800,
+    color: colores.map((color) => color.replace("var(--ember)", "#E23A32").replace("var(--char)", "#17130F").replace("var(--rust)", "#B32B24").replace("var(--gold)", "#E8A33D")),
+    tooltip: {
+      trigger: "item",
+      confine: true,
+      formatter: "{b}<br/>{d}%",
+    },
+    series: [
+      {
+        name: "Metodo de pago",
+        type: "pie",
+        radius: ["58%", "78%"],
+        center: ["50%", "50%"],
+        avoidLabelOverlap: true,
+        label: { show: false },
+        labelLine: { show: false },
+        data: metodosPago.length
+          ? metodosPago.map((item) => ({ name: item.nombre, value: item.total }))
+          : [{ name: "Sin ventas", value: 1, itemStyle: { color: "#E7E2DA" } }],
+        emphasis: {
+          scale: true,
+          scaleSize: 5,
+          itemStyle: {
+            shadowBlur: 12,
+            shadowColor: "rgba(27, 21, 18, 0.18)",
+          },
+        },
+      },
+    ],
+  };
+}
+
 export default function VentasMetodoPago({ metodos = [] }) {
   const metodosPago = normalizarMetodos(metodos);
   const total = metodos.reduce((acc, item) => acc + item.total, 0);
@@ -30,12 +65,11 @@ export default function VentasMetodoPago({ metodos = [] }) {
 
       <div className="admin-payment-content">
         <div className="admin-donut-wrap">
-          <svg className="admin-donut" viewBox="0 0 42 42">
-            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--gold)" strokeWidth="5" strokeDasharray="5 95" strokeDashoffset="0" />
-            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--rust)" strokeWidth="5" strokeDasharray="15 85" strokeDashoffset="-5" />
-            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--char)" strokeWidth="5" strokeDasharray="35 65" strokeDashoffset="-20" />
-            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--ember)" strokeWidth="5" strokeDasharray="45 55" strokeDashoffset="-55" />
-          </svg>
+          <EChart
+            className="admin-donut"
+            option={crearDonutOption(metodosPago)}
+            ariaLabel="Grafico de ventas por metodo de pago"
+          />
 
           <div className="admin-donut-center">
             <span>Total</span>
