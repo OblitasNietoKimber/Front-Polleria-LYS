@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import * as authService from '../services/authService';
 import { validateRegisterForm } from '../services/validators';
 import Logo from '../components/common/Logo';
+import '../styles/login.css';
 
 const initialForm = {
   nombre: '',
@@ -13,27 +14,49 @@ const initialForm = {
   confirmPassword: '',
 };
 
-function Field({ label, name, type = 'text', value, onChange, error, placeholder, autoComplete }) {
+function Field({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  error,
+  placeholder,
+  autoComplete,
+}) {
+  const id = `register-${name}`;
+
   return (
-    <div style={{ marginBottom: 12 }}>
-      <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>{label}</label>
+    <div className="register-page__field">
+      <label htmlFor={id} className="login-page__label">
+        {label}
+      </label>
+
       <input
-        className={`lys-input ${error ? 'err' : ''}`}
-        style={{ width: '100%', margin: '6px 0 4px' }}
+        id={id}
+        className={`lys-input login-page__input ${error ? 'err' : ''}`}
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
       />
-      {error && <p style={{ color: '#B23A2E', fontSize: '0.8rem', margin: 0 }}>{error}</p>}
+
+      {error && (
+        <p id={`${id}-error`} className="login-page__field-error">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
 
 function RegisterPage() {
   const navigate = useNavigate();
+
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState('');
@@ -41,45 +64,69 @@ function RegisterPage() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: null,
+      }));
+    }
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+
+    if (loading) return;
+
     setFormError('');
 
     const fieldErrors = validateRegisterForm(form);
     setErrors(fieldErrors);
+
     if (Object.keys(fieldErrors).length > 0) return;
 
     setLoading(true);
+
     try {
-      authService.register(form);
-      authService.login({ email: form.email, password: form.password });
+      await authService.register(form);
+
+      await authService.login({
+        email: form.email,
+        password: form.password,
+      });
+
       navigate('/profile');
     } catch (err) {
-      setFormError(err.message);
+      setFormError(
+        err.message || 'No se pudo completar el registro.'
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="lys-root" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: 24 }}>
-      <div style={{ width: '100%', maxWidth: 420, background: '#fff', borderRadius: 16, padding: '32px 28px', boxShadow: '0 10px 30px rgba(27,21,18,0.08)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+    <div className="lys-root login-page register-page">
+      <div className="login-page__card">
+        <div className="login-page__logo">
           <Logo size="md" />
         </div>
-        <h1 className="font-display" style={{ fontSize: '1.4rem', textAlign: 'center', margin: '0 0 6px' }}>
+
+        <h1 className="font-display login-page__title">
           Crea tu cuenta
         </h1>
-        <p style={{ textAlign: 'center', color: '#7A6F65', fontSize: '0.9rem', margin: '0 0 24px' }}>
+
+        <p className="login-page__subtitle">
           Regístrate para hacer pedidos y guardar tus datos en Leñas y Sabores.
         </p>
 
         <form onSubmit={handleSubmit} noValidate>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="register-page__row">
             <Field
               label="Nombre"
               name="nombre"
@@ -89,6 +136,7 @@ function RegisterPage() {
               placeholder="Juan"
               autoComplete="given-name"
             />
+
             <Field
               label="Apellido"
               name="apellido"
@@ -110,6 +158,7 @@ function RegisterPage() {
             placeholder="tucorreo@ejemplo.com"
             autoComplete="email"
           />
+
           <Field
             label="Teléfono"
             name="telefono"
@@ -120,6 +169,7 @@ function RegisterPage() {
             placeholder="987 654 321"
             autoComplete="tel"
           />
+
           <Field
             label="Contraseña"
             name="password"
@@ -130,6 +180,7 @@ function RegisterPage() {
             placeholder="••••••••"
             autoComplete="new-password"
           />
+
           <Field
             label="Confirmar contraseña"
             name="confirmPassword"
@@ -142,17 +193,23 @@ function RegisterPage() {
           />
 
           {formError && (
-            <p style={{ color: '#B23A2E', fontSize: '0.85rem', marginBottom: 14 }}>{formError}</p>
+            <p className="login-page__form-error" role="alert">
+              {formError}
+            </p>
           )}
 
-          <button type="submit" className="btn-ember" style={{ width: '100%' }} disabled={loading}>
+          <button
+            type="submit"
+            className="btn-ember login-page__submit"
+            disabled={loading}
+          >
             {loading ? 'Creando cuenta...' : 'Crear cuenta'}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', fontSize: '0.85rem', marginTop: 20 }}>
+        <p className="login-page__register">
           ¿Ya tienes cuenta?{' '}
-          <Link to="/login" style={{ color: 'var(--ember)', fontWeight: 600 }}>
+          <Link to="/login" className="login-page__link">
             Inicia sesión
           </Link>
         </p>
