@@ -2,11 +2,9 @@ const METODOS = ["Efectivo", "Yape/Plin", "Tarjeta"];
 
 export default function FormularioPago({ metodo, onMetodoChange, monto, onMontoChange }) {
   return (
-    <div style={{ marginTop: 20 }}>
-      <p className="font-mono" style={{ fontSize: "0.8rem", color: "var(--smoke)", marginBottom: 8 }}>
-        Método de pago
-      </p>
-      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+    <div className="caja-payment">
+      <p className="font-mono caja-label">Método de pago</p>
+      <div className="caja-metodos">
         {METODOS.map((m) => (
           <button
             key={m}
@@ -18,10 +16,8 @@ export default function FormularioPago({ metodo, onMetodoChange, monto, onMontoC
         ))}
       </div>
 
-      <p className="font-mono" style={{ fontSize: "0.8rem", color: "var(--smoke)", marginBottom: 8 }}>
-        Monto recibido
-      </p>
-    <input
+      <p className="font-mono caja-label">Monto recibido</p>
+      <input
         className="lys-input"
         type="number"
         min="0"
@@ -31,7 +27,9 @@ export default function FormularioPago({ metodo, onMetodoChange, monto, onMontoC
         value={monto}
         onChange={(e) => {
           const valor = e.target.value;
-          if(valor === "" || parseFloat(valor)<= 10000){onMontoChange(e.target.value);}
+          if (valor === "" || parseFloat(valor) <= 10000) {
+            onMontoChange(e.target.value);
+          }
         }}
       />
     </div>

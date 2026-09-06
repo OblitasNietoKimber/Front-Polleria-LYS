@@ -23,10 +23,6 @@ import MesasPage from './pages/MesasPage'
 import NuevoPedidoPage from './pages/NuevoPedidoPage'
 
 
-
-
-
-
 function App() {
   return (
     <BrowserRouter>
