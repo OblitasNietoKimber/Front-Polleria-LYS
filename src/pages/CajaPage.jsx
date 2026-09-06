@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cajaService from "../services/cajaService";
 import ListaPedidos from "../components/caja/ListaPedidos";
 import BuscadorPedidos from "../components/caja/BuscadorPedidos";
