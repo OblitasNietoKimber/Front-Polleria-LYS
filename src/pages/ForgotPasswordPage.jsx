@@ -1,97 +1,160 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import * as authService from '../services/authService';
 import { validateForgotPasswordForm } from '../services/validators';
 import Logo from '../components/common/Logo';
+import '../styles/login.css';
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   const [devCode, setDevCode] = useState(null);
+  const [sentEmail, setSentEmail] = useState(null);
 
-  function handleSubmit(e) {
+  useEffect(() => {
+    if (sentEmail === null) return;
+
+    const timer = setTimeout(() => {
+      navigate('/reset-password', {
+        state: { email: sentEmail },
+      });
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [sentEmail, navigate]);
+
+  function handleChange(e) {
+    setEmail(e.target.value);
+
+    if (errors.email) {
+      setErrors((prev) => ({
+        ...prev,
+        email: null,
+      }));
+    }
+
+    setFormError('');
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
+
+    if (loading || sentEmail !== null) return;
+
     setFormError('');
 
     const fieldErrors = validateForgotPasswordForm({ email });
     setErrors(fieldErrors);
+
     if (Object.keys(fieldErrors).length > 0) return;
 
     setLoading(true);
+
     try {
-      const { code } = authService.requestPasswordReset(email);
+      const { code } = await authService.requestPasswordReset(email);
+
       setDevCode(code);
-      setTimeout(() => {
-        navigate('/reset-password', { state: { email } });
-      }, 1500);
+      setSentEmail(email);
     } catch (err) {
-      setFormError(err.message);
+      setFormError(
+        err.message || 'No se pudo solicitar el código de recuperación.'
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="lys-root" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: 24 }}>
-      <div style={{ width: '100%', maxWidth: 380, background: '#fff', borderRadius: 16, padding: '32px 28px', boxShadow: '0 10px 30px rgba(27,21,18,0.08)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+    <div className="lys-root login-page">
+      <div className="login-page__card">
+        <div className="login-page__logo">
           <Logo size="md" />
         </div>
-        <h1 className="font-display" style={{ fontSize: '1.4rem', textAlign: 'center', margin: '0 0 6px' }}>
+
+        <h1 className="font-display login-page__title">
           Recupera tu contraseña
         </h1>
-        <p style={{ textAlign: 'center', color: '#7A6F65', fontSize: '0.9rem', margin: '0 0 24px' }}>
+
+        <p className="login-page__subtitle">
           Ingresa tu correo y te enviaremos un código de verificación.
         </p>
 
         <form onSubmit={handleSubmit} noValidate>
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Correo electrónico</label>
+          <label
+            htmlFor="forgot-email"
+            className="login-page__label"
+          >
+            Correo electrónico
+          </label>
+
           <input
-            className={`lys-input ${errors.email ? 'err' : ''}`}
-            style={{ width: '100%', margin: '6px 0 4px' }}
+            id="forgot-email"
+            className={`lys-input login-page__input ${
+              errors.email ? 'err' : ''
+            }`}
             type="email"
             name="email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (errors.email) setErrors({});
-            }}
+            onChange={handleChange}
             placeholder="tucorreo@ejemplo.com"
             autoComplete="email"
+            disabled={loading || sentEmail !== null}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={
+              errors.email ? 'forgot-email-error' : undefined
+            }
           />
-          {errors.email && <p style={{ color: '#B23A2E', fontSize: '0.8rem', margin: '0 0 12px' }}>{errors.email}</p>}
 
-          {formError && (
-            <p style={{ color: '#B23A2E', fontSize: '0.85rem', marginBottom: 14 }}>{formError}</p>
-          )}
-
-          {devCode && (
+          {errors.email && (
             <p
-              className="font-mono"
-              style={{
-                background: '#FBF3E1',
-                border: '1.5px solid var(--gold)',
-                borderRadius: 3,
-                padding: '10px 12px',
-                fontSize: '0.82rem',
-                marginBottom: 14,
-              }}
+              id="forgot-email-error"
+              className="login-page__field-error"
             >
-              Código de verificación (demo): <strong>{devCode}</strong>. Te redirigimos para
-              ingresarlo...
+              {errors.email}
             </p>
           )}
 
-          <button type="submit" className="btn-ember" style={{ width: '100%' }} disabled={loading}>
-            {loading ? 'Enviando...' : 'Enviar código de recuperación'}
+          {formError && (
+            <p className="login-page__form-error" role="alert">
+              {formError}
+            </p>
+          )}
+
+          {sentEmail !== null && (
+            <p
+              className="login-page__demo-code"
+              role="status"
+            >
+              {devCode != null && (
+                <>
+                  Código de verificación (demo):{' '}
+                  <strong className="font-mono">{devCode}</strong>.
+                  {' '}
+                </>
+              )}
+              Te redirigimos para ingresar el código...
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="btn-ember login-page__submit"
+            disabled={loading || sentEmail !== null}
+          >
+            {loading
+              ? 'Enviando...'
+              : sentEmail !== null
+                ? 'Continuando...'
+                : 'Enviar código de recuperación'}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', fontSize: '0.85rem', marginTop: 20 }}>
-          <Link to="/login" style={{ color: 'var(--ember)', fontWeight: 600 }}>
+        <p className="login-page__register">
+          <Link to="/login" className="login-page__link">
             Volver a iniciar sesión
           </Link>
         </p>
