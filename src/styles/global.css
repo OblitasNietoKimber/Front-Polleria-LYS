@@ -364,3 +364,25 @@
   color: var(--rust);
   background: #FBF3E1;
 }
+.lys-login {
+  display: inline-block;
+  padding: 9px 18px;
+  margin-left: 15px;
+  border-radius: 20px;
+  background-color: #f4b400;
+  color: #222;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.lys-login:hover {
+  background-color: #e09f00;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.lys-login.active {
+  background-color: #d62828;
+  color: #fff;
+}
