@@ -36,6 +36,9 @@ export default function SiteHeader() {
           <NavLink to="/mesas" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Mesas
           </NavLink>
+          <NavLink to="/cocina" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
+            Cocina
+          </NavLink>
           <NavLink to="/dashboard" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Dashboard
           </NavLink>
