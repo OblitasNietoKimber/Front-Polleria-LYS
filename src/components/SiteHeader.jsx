@@ -47,6 +47,9 @@ export default function SiteHeader() {
           <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Mis pedidos
           </NavLink>
+          <NavLink to="/login" className={({ isActive }) => `lys-login ${isActive ? 'active' : ''}`}>
+            Iniciar Sesion
+          </NavLink>
           <button
             type="button"
             onClick={openCart}
