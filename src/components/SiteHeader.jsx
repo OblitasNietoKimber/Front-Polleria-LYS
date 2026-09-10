@@ -1,9 +1,20 @@
 import { Flame, ShoppingCart } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext'
-
+import { useState } from 'react';
+import * as authService from '../services/authService';
 export default function SiteHeader() {
   const { cartCount, openCart } = useCart()
+  const location = useLocation();
+  const [menuPath, setMenuPath] = useState(null);
+
+  const user = authService.getCurrentUser();
+
+  const initials = user
+    ? `${user.nombre?.[0] || ''}${user.apellido?.[0] || ''}`.toUpperCase() || 'U'
+    : '';
+
+  const menuOpen = menuPath === location.key;
 
   return (
     <nav className="lys-nav">
@@ -42,9 +53,39 @@ export default function SiteHeader() {
           <NavLink to="/dashboard" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Dashboard
           </NavLink>
-          <NavLink to="/login" className={({ isActive }) => `lys-login ${isActive ? 'active' : ''}`}>
-            Iniciar Sesion
-          </NavLink>
+          {user ? (
+            <div
+              className="lys-account"
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                  setMenuPath(null);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setMenuPath(null);
+                  e.currentTarget.querySelector('button')?.focus();
+                }
+              }}
+            >
+              <button
+                type="button"
+                className="lys-account-avatar"
+                onClick={() => setMenuPath(menuOpen ? null : location.key)}
+                aria-label="Opciones de mi cuenta"
+                aria-expanded={menuOpen}
+                aria-controls="lys-account-dropdown"
+              >
+                {initials}
+              </button>
+
+              
+            </div>
+          ) : (
+            <NavLink to="/login" className={({ isActive }) =>`lys-login ${isActive ? 'active' : ''}` } >
+              Iniciar sesión
+            </NavLink>
+          )}
           <button
             type="button"
             onClick={openCart}
