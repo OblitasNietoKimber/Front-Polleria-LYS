@@ -39,13 +39,13 @@ function App() {
           <Route path="/checkout/pago" element={<PagoPage />} />
           <Route path="/checkout/resumen" element={<ResumenPage />} />
           <Route path="/confirmacion" element={<ConfirmacionPage />} />
-          <Route path="/caja" element={<CajaPage />} />
-          <Route path="/dashboard" element={<DashboardAdminPage />} />
+          <Route path="/caja" element={<ProtectedRoute allowedRoles={['admin']}><CajaPage /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><DashboardAdminPage /></ProtectedRoute>} />
           <Route path="/pedidos" element={<PedidosPage />} />
           <Route path="/pedidos/:id" element={<OrderDetailPage />} />
-          <Route path="/cocina" element={<CocinaPage />} />
-          <Route path="/mesas" element={<MesasPage />} />
-          <Route path="/mesas/:id/pedido" element={<NuevoPedidoPage />} />
+          <Route path="/cocina" element={<ProtectedRoute allowedRoles={['cocina', 'admin']}><CocinaPage /></ProtectedRoute>} />
+          <Route path="/mesas" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><MesasPage /></ProtectedRoute>} />
+          <Route path="/mesas/:id/pedido" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><NuevoPedidoPage /></ProtectedRoute>} />
         </Route>
         
 

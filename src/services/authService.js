@@ -14,7 +14,6 @@ const USERS_KEY = 'lys_users';
 const SESSION_KEY = 'lys_session';
 const RESET_KEY = 'lys_reset_requests';
 
-// --- Helpers internos -------------------------------------------------
 
 function getUsers() {
   const raw = localStorage.getItem(USERS_KEY);
@@ -29,7 +28,6 @@ function normalizeEmail(email) {
   return (email || '').trim().toLowerCase();
 }
 
-// --- Registro / Login / Sesión ----------------------------------------
 
 export function register(data) {
   const email = normalizeEmail(data.email);
@@ -45,7 +43,7 @@ export function register(data) {
     apellido: data.apellido.trim(),
     email,
     telefono: data.telefono.trim(),
-    password: data.password, // mock: en un backend real esto se guarda hasheado
+    password: data.password, 
     rol: 'cliente',
     preferencias: {
       notificacionesEmail: true,
@@ -163,8 +161,6 @@ export function changePassword({ currentPassword, newPassword }) {
   saveUsers(users);
 }
 
-// --- Perfil --------------------------------------------------------------
-
 export function updateProfile(data) {
   const session = getCurrentUser();
   if (!session) throw new Error('Debes iniciar sesión para editar tu perfil.');
@@ -206,7 +202,7 @@ export function updatePreferences(preferencias) {
 
 export function seedTestAccounts() {
   const users = getUsers();
-  if (users.length > 0) return; // ya hay datos, no pisar nada
+  if (users.length > 0) return; 
 
   const demoUsers = [
     {
