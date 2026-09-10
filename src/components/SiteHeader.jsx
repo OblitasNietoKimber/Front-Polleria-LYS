@@ -9,6 +9,7 @@ export default function SiteHeader() {
   const [menuPath, setMenuPath] = useState(null);
 
   const user = authService.getCurrentUser();
+  const canAccess = (roles) => Boolean(user && roles.includes(user.rol));
 
   const initials = user
     ? `${user.nombre?.[0] || ''}${user.apellido?.[0] || ''}`.toUpperCase() || 'U'
@@ -38,21 +39,20 @@ export default function SiteHeader() {
           <NavLink to="/catalogo" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Menú
           </NavLink>
-          <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Mis pedidos
-          </NavLink>
-          <NavLink to="/mesas" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Mesas
-          </NavLink>
-          <NavLink to="/cocina" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Cocina
-          </NavLink>
-          <NavLink to="/caja" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Caja
-          </NavLink>
-          <NavLink to="/dashboard" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Dashboard
-          </NavLink>
+          {user && (
+            <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Mis pedidos</NavLink>
+          )}
+          {canAccess(['mesera', 'admin']) && (
+            <NavLink to="/mesas" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}> Mesas </NavLink>
+          )}
+          {canAccess(['cocina', 'admin']) && (
+            <NavLink to="/cocina" className={({ isActive }) =>  `lys-navlink ${isActive ? 'active' : ''}` } > Cocina</NavLink>
+          )}
+          {canAccess(['admin']) && (
+            <><NavLink to="/caja" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Caja</NavLink>
+
+              <NavLink to="/dashboard"className={({ isActive }) =>`lys-navlink ${isActive ? 'active' : ''}`}> Dashboard</NavLink> </>
+          )}
           {user ? (
             <div
               className="lys-account"
@@ -89,14 +89,14 @@ export default function SiteHeader() {
                     <span>{user.email}</span>
                   </div>
 
-                  <NavLink to="/profile"className="lys-account-link"onClick={() => setMenuPath(null)}>
+                  <NavLink to="/profile" className="lys-account-link" onClick={() => setMenuPath(null)}>
                     Mi perfil
                   </NavLink>
                 </div>
               )}
             </div>
           ) : (
-            <NavLink to="/login" className={({ isActive }) =>`lys-login ${isActive ? 'active' : ''}` } >
+            <NavLink to="/login" className={({ isActive }) => `lys-login ${isActive ? 'active' : ''}`} >
               Iniciar sesión
             </NavLink>
           )}
