@@ -79,7 +79,21 @@ export default function SiteHeader() {
                 {initials}
               </button>
 
-              
+              {menuOpen && (
+                <div
+                  id="lys-account-dropdown"
+                  className="lys-account-dropdown"
+                >
+                  <div className="lys-account-info">
+                    <strong>{user.nombre} {user.apellido}</strong>
+                    <span>{user.email}</span>
+                  </div>
+
+                  <NavLink to="/profile"className="lys-account-link"onClick={() => setMenuPath(null)}>
+                    Mi perfil
+                  </NavLink>
+                </div>
+              )}
             </div>
           ) : (
             <NavLink to="/login" className={({ isActive }) =>`lys-login ${isActive ? 'active' : ''}` } >
