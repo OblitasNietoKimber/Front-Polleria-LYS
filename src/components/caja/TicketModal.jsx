@@ -1,44 +1,55 @@
+import { Check, Printer, X } from "lucide-react";
+
 export default function TicketModal({ pedido, total, metodo, monto, vuelto, onClose }) {
   if (!pedido) return null;
 
   return (
-    <div className="cart-backdrop open" onClick={onClose}>
-      <div
-        className="ticket-card"
-        style={{ maxWidth: 380, margin: "80px auto", padding: 24, background: "var(--cream)" }}
+    <div className="cart-backdrop open caja-modal-backdrop" onClick={onClose}>
+      <section
+        className="caja-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ticket-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="font-display" style={{ fontSize: "1.3rem", textAlign: "center" }}>
-          Leñas y Sabores
-        </p>
-        <p className="font-mono" style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--smoke)" }}>
-          Comprobante de venta
-        </p>
-
-        <div style={{ borderTop: "1px dashed var(--line)", margin: "16px 0" }} />
-
-        <p>{pedido.id} — Mesa {pedido.mesa}</p>
-        {pedido.items.map((item, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.9rem" }}>
-            <span>{item.cantidad}x {item.nombre}</span>
-            <span className="font-mono">S/ {(item.cantidad * item.precio).toFixed(2)}</span>
-          </div>
-        ))}
-
-        <div style={{ borderTop: "1px dashed var(--line)", margin: "16px 0" }} />
-
-        <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700 }}>
-          <span>Total</span>
-          <span className="font-mono">S/ {total.toFixed(2)}</span>
-        </div>
-        <p className="font-mono" style={{ fontSize: "0.8rem", marginTop: 8 }}>
-          Método: {metodo} · Vuelto: S/ {vuelto.toFixed(2)}
-        </p>
-
-        <button className="btn-ember" style={{ width: "100%", marginTop: 20 }} onClick={onClose}>
-          Cerrar
+        <button type="button" className="caja-modal-close" onClick={onClose} aria-label="Cerrar comprobante">
+          <X size={20} />
         </button>
-      </div>
+
+        <header className="caja-modal-success">
+          <span><Check size={28} strokeWidth={3} /></span>
+          <p>Pago completado</p>
+          <h2 id="ticket-title">¡Venta registrada!</h2>
+          <small>{pedido.id} · Mesa {pedido.mesa}</small>
+        </header>
+
+        <div className="caja-receipt">
+          {pedido.items.map((item, i) => (
+            <div key={`${item.nombre}-${i}`}>
+              <span>{item.cantidad} × {item.nombre}</span>
+              <strong>S/ {(item.cantidad * item.precio).toFixed(2)}</strong>
+            </div>
+          ))}
+
+          <div className="caja-receipt-total">
+            <span>Total</span>
+            <strong>S/ {total.toFixed(2)}</strong>
+          </div>
+
+          <dl>
+            <div><dt>Método</dt><dd>{metodo}</dd></div>
+            <div><dt>Recibido</dt><dd>S/ {monto.toFixed(2)}</dd></div>
+            {metodo === "Efectivo" && <div><dt>Vuelto</dt><dd>S/ {vuelto.toFixed(2)}</dd></div>}
+          </dl>
+        </div>
+
+        <div className="caja-modal-actions">
+          <button type="button" className="caja-print-button" onClick={() => window.print()}>
+            <Printer size={18} /> Imprimir
+          </button>
+          <button type="button" className="btn-ember" onClick={onClose}>Nueva venta</button>
+        </div>
+      </section>
     </div>
   );
 }
