@@ -1,6 +1,11 @@
 import { MapPin, Store } from 'lucide-react'
 
 export default function DeliveryForm({ deliveryType, form, errors, onTypeChange, onFormChange, onContinue }) {
+  function handlePhoneChange(event) {
+    const onlyDigits = event.target.value.replace(/\D/g, '').slice(0, 9)
+    onFormChange('phone', onlyDigits)
+  }
+
   return (
     <div>
       <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
@@ -30,6 +35,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
             value={form.name}
             onChange={(event) => onFormChange('name', event.target.value)}
             placeholder="Ej. María Torres"
+            maxLength={50}
           />
           {errors.name && <span style={{ color: '#B23A2E', fontSize: '0.75rem' }}>{errors.name}</span>}
         </label>
@@ -42,6 +48,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
                 value={form.address}
                 onChange={(event) => onFormChange('address', event.target.value)}
                 placeholder="Av. Ejemplo 123, distrito"
+                maxLength={50}
               />
               {errors.address && <span style={{ color: '#B23A2E', fontSize: '0.75rem' }}>{errors.address}</span>}
             </label>
@@ -52,6 +59,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
                 value={form.reference}
                 onChange={(event) => onFormChange('reference', event.target.value)}
                 placeholder="Ej. frente al parque, edificio azul"
+                maxLength={50}
               />
             </label>
           </>
@@ -61,8 +69,10 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
           <input
             className={`lys-input ${errors.phone ? 'err' : ''}`}
             value={form.phone}
-            onChange={(event) => onFormChange('phone', event.target.value)}
+            onChange={handlePhoneChange}
             placeholder="9XX XXX XXX"
+            inputMode="numeric"
+            maxLength={9}
           />
           {errors.phone && <span style={{ color: '#B23A2E', fontSize: '0.75rem' }}>{errors.phone}</span>}
         </label>
