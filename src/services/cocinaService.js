@@ -7,6 +7,8 @@ export const ESTADOS_COCINA = {
   ENTREGADO: "entregado",
 };
 
+const seedPedidos = [];
+
 function inicializar() {
   const data = localStorage.getItem(STORAGE_KEY);
 
