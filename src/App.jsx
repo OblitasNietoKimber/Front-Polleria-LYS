@@ -21,7 +21,6 @@ import PedidosPage from './pages/PedidosPage'
 import OrderDetailPage from './pages/OrderDetailPage'
 import MesasPage from './pages/MesasPage'
 import NuevoPedidoPage from './pages/NuevoPedidoPage'
-import HistorialCocinaPage from './pages/HistorialCocinaPage'
 
 
 function App() {
@@ -42,10 +41,9 @@ function App() {
           <Route path="/confirmacion" element={<ConfirmacionPage />} />
           <Route path="/caja" element={<ProtectedRoute allowedRoles={['admin']}><CajaPage /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><DashboardAdminPage /></ProtectedRoute>} />
-          <Route path="/pedidos" element={<PedidosPage />} />
+          <Route path="/pedidos" element={<ProtectedRoute allowedRoles={['cliente']}><PedidosPage /></ProtectedRoute>} />
           <Route path="/pedidos/:id" element={<OrderDetailPage />} />
           <Route path="/cocina" element={<ProtectedRoute allowedRoles={['cocina', 'admin']}><CocinaPage /></ProtectedRoute>} />
-          <Route path="/cocina/historial" element={<ProtectedRoute allowedRoles={['cocina', 'admin']}><HistorialCocinaPage /></ProtectedRoute>} />
           <Route path="/mesas" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><MesasPage /></ProtectedRoute>} />
           <Route path="/mesas/:id/pedido" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><NuevoPedidoPage /></ProtectedRoute>} />
         </Route>
