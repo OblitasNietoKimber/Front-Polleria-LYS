@@ -1,67 +1,80 @@
 import "../styles/cocina.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ClipboardList, CookingPot, BellRing } from "lucide-react";
 import usePedidosCocina from "../hooks/usePedidosCocina";
 import cocinaService, { ESTADOS_COCINA } from "../services/cocinaService";
 import ColumnaPedidos from "../components/cocina/ColumnaPedidos";
 import TarjetaPedidoCocina from "../components/cocina/TarjetaPedidoCocina";
-import PedidosFinalizados from "../components/cocina/PedidosFinalizados";
-import { IconoCampana } from "../components/common/Iconos";
+import CocinaNavLateral from "../components/cocina/CocinaNavLateral";
+import FiltrosTipoPedido from "../components/cocina/FiltrosTipoPedido";
 
 export default function CocinaPage() {
-  const navigate = useNavigate();
   const { pedidos, recargar } = usePedidosCocina();
-  const [mostrarFinalizados, setMostrarFinalizados] = useState(false);
+  const [filtro, setFiltro] = useState("todos");
+  const [ahora, setAhora] = useState(new Date());
+
+  useEffect(() => {
+    const intervalo = setInterval(() => setAhora(new Date()), 1000);
+    return () => clearInterval(intervalo);
+  }, []);
 
   function handleCambiarEstado(id, nuevoEstado) {
     cocinaService.cambiarEstado(id, nuevoEstado);
     recargar();
   }
 
-  const nuevos = pedidos.filter((p) => p.estadoCocina === ESTADOS_COCINA.NUEVO);
-  const enPreparacion = pedidos.filter((p) => p.estadoCocina === ESTADOS_COCINA.EN_PREPARACION);
-  const listos = pedidos.filter((p) => p.estadoCocina === ESTADOS_COCINA.LISTO);
-  const finalizados = cocinaService.getPedidosFinalizados();
+  const pedidosFiltrados =
+    filtro === "todos" ? pedidos : pedidos.filter((p) => (p.tipo || "salon") === filtro);
+
+  const nuevos = pedidosFiltrados.filter((p) => p.estadoCocina === ESTADOS_COCINA.NUEVO);
+  const enPreparacion = pedidosFiltrados.filter((p) => p.estadoCocina === ESTADOS_COCINA.EN_PREPARACION);
+  const listos = pedidosFiltrados.filter((p) => p.estadoCocina === ESTADOS_COCINA.LISTO);
 
   return (
     <div className="lys-root admin-screen">
-      <main style={{ padding: 32, maxWidth: 1300, margin: "0 auto" }}>
-        <h1 className="font-display" style={{ fontSize: "1.8rem", marginBottom: 24 }}>
-          Panel de Cocina
-        </h1>
+      <div className="cocina-shell">
+        <CocinaNavLateral />
 
-        <div className="cocina-board">
-          <ColumnaPedidos titulo="Nuevos" colorClase="cocina-dot--nuevo" pedidos={nuevos}>
-            {nuevos.map((p) => (
-              <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
-            ))}
-          </ColumnaPedidos>
-
-          <ColumnaPedidos titulo="En preparación" colorClase="cocina-dot--preparacion" pedidos={enPreparacion}>
-            {enPreparacion.map((p) => (
-              <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
-            ))}
-          </ColumnaPedidos>
-
-          <ColumnaPedidos titulo="Listos" colorClase="cocina-dot--listo" pedidos={listos}>
-            {listos.map((p) => (
-              <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
-            ))}
-          </ColumnaPedidos>
-        </div>
-
-        <div style={{ marginTop: 40 }}>
-          <button className="btn-outline" onClick={() => setMostrarFinalizados((v) => !v)}>
-            {mostrarFinalizados ? "Ocultar" : "Ver"} pedidos finalizados ({finalizados.length})
-          </button>
-
-          {mostrarFinalizados && (
-            <div style={{ marginTop: 16 }}>
-              <PedidosFinalizados pedidos={finalizados} />
+        <div className="cocina-main">
+          <div className="cocina-topbar-local">
+            <h1 className="font-display" style={{ fontSize: "1.8rem", margin: 0 }}>
+              Panel de Cocina
+            </h1>
+            <div className="cocina-reloj-actual">
+              <div className="cocina-reloj-hora">
+                {ahora.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
+              </div>
+              <div className="cocina-reloj-fecha">
+                {ahora
+                  .toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" })
+                  .toUpperCase()}
+              </div>
             </div>
-          )}
+          </div>
+
+          <FiltrosTipoPedido filtroActivo={filtro} onCambiarFiltro={setFiltro} />
+
+          <div className="cocina-board">
+            <ColumnaPedidos titulo="Nuevos pedidos" variante="nuevo" icono={ClipboardList} pedidos={nuevos}>
+              {nuevos.map((p) => (
+                <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
+              ))}
+            </ColumnaPedidos>
+
+            <ColumnaPedidos titulo="Preparando" variante="preparacion" icono={CookingPot} pedidos={enPreparacion}>
+              {enPreparacion.map((p) => (
+                <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
+              ))}
+            </ColumnaPedidos>
+
+            <ColumnaPedidos titulo="Listos" variante="listo" icono={BellRing} pedidos={listos}>
+              {listos.map((p) => (
+                <TarjetaPedidoCocina key={p.id} pedido={p} onCambiarEstado={handleCambiarEstado} />
+              ))}
+            </ColumnaPedidos>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

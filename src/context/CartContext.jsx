@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { DELIVERY_COST, PRODUCTS } from '../data/products'
 import { generateOrderNumber } from '../utils/orderNumber'
 import orderService from '../services/orderService'
+import cocinaService from '../services/cocinaService'
 
 const CartContext = createContext(null)
 const CART_STORAGE_KEY = 'lys-cart'
@@ -135,22 +136,40 @@ export function CartProvider({ children }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
-    function confirmOrder() {
-    const number = generateOrderNumber()
-    orderService.createOrder({
-      id: number,
-      items: cartItems,
-      subtotal,
-      shipping,
-      total,
-      deliveryType,
-      form,
-      payment,
-    })
-    setOrderNumber(number)
-    setCart({})
-    return number
-  }
+  function confirmOrder() {
+  const number = generateOrderNumber()
+
+  orderService.createOrder({
+    id: number,
+    items: cartItems,
+    subtotal,
+    shipping,
+    total,
+    deliveryType,
+    form,
+    payment,
+  })
+
+  // Sincroniza el pedido con Caja y Cocina (comparten la misma fuente: "lys_pedidos")
+  cocinaService.crearPedido({
+    id: number,
+    mesa: null,
+    cliente: form.name?.trim() || 'Cliente web',
+    tipo: deliveryType, // 'delivery' | 'recojo'
+    observaciones: form.reference || '',
+    items: cartItems.map(({ product, qty }) => ({
+      nombre: product.name,
+      cantidad: qty,
+      precio: product.price,
+      observacion: '',
+    })),
+    total,
+  })
+
+  setOrderNumber(number)
+  setCart({})
+  return number
+}
 
   function resetAll() {
     setCart({})
