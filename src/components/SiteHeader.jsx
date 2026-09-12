@@ -1,11 +1,18 @@
 import { Flame, ShoppingCart } from 'lucide-react'
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext'
 import { useState } from 'react';
 import * as authService from '../services/authService';
 export default function SiteHeader() {
   const { cartCount, openCart } = useCart()
   const location = useLocation();
+  const navigate = useNavigate();
+
+const handleLogout = () => {
+  authService.logout();
+  setMenuPath(null);
+  navigate('/login');
+};
   const [menuPath, setMenuPath] = useState(null);
 
   const user = authService.getCurrentUser();
@@ -39,7 +46,7 @@ export default function SiteHeader() {
           <NavLink to="/catalogo" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
             Menú
           </NavLink>
-          {user && (
+          {canAccess(['cliente',]) && (
             <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Mis pedidos</NavLink>
           )}
           {canAccess(['mesera', 'admin']) && (
@@ -92,6 +99,15 @@ export default function SiteHeader() {
                   <NavLink to="/profile" className="lys-account-link" onClick={() => setMenuPath(null)}>
                     Mi perfil
                   </NavLink>
+
+                  <button
+            type="button"
+            className="profile-menu-item danger"
+            onClick={handleLogout}
+          >
+            Cerrar sesión
+          </button>
+        
                 </div>
               )}
             </div>

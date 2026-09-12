@@ -202,18 +202,17 @@ export function updatePreferences(preferencias) {
 
 export function seedTestAccounts() {
   const users = getUsers();
-  if (users.length > 0) return; 
 
   const demoUsers = [
     {
-      id: 'demo-cliente-1',
-      nombre: 'Juan',
-      apellido: 'Pérez',
+           id: 'demo-cliente-1',
+      nombre: 'Cliente',
+      apellido: 'Demo',
       email: 'cliente@lenasysabores.test',
       telefono: '987654321',
       password: 'Cliente123',
       rol: 'cliente',
-      preferencias: { notificacionesEmail: true, notificacionesPromos: true },
+      preferencias: { notificacionesEmail: true, notificacionesPromos: true,},
       creadoEn: new Date().toISOString(),
     },
     {
@@ -227,14 +226,42 @@ export function seedTestAccounts() {
       preferencias: { notificacionesEmail: true, notificacionesPromos: false },
       creadoEn: new Date().toISOString(),
     },
+    {
+      id: 'demo-mesera-1',
+      nombre: 'Fernando',
+      apellido: 'Celis',
+      email: 'mesera@lenasysabores.test',
+      telefono: '987654323',
+      password: 'Mesera123',
+      rol: 'mesera',
+      preferencias: {notificacionesEmail: true,notificacionesPromos: false,},
+      creadoEn: new Date().toISOString(),
+    },
+    {
+      id: 'demo-cocina-1',
+      nombre: 'Carlos',
+      apellido: 'Ramírez',
+      email: 'cocina@lenasysabores.test',
+      telefono: '987654324',
+      password: 'Cocina123',
+      rol: 'cocina',
+      preferencias: { notificacionesEmail: true,notificacionesPromos: false,
+      },
+      creadoEn: new Date().toISOString(),
+    },
   ];
 
-  saveUsers(demoUsers);
-  console.info(
-    '[LyS] Cuentas de prueba creadas:\n' +
-      '  Cliente -> cliente@lenasysabores.test / Cliente123\n' +
-      '  Admin   -> admin@lenasysabores.test / Admin123'
-  );
+  demoUsers.forEach((demoUser) => {
+    const accountExists = users.some(
+      (user) => user.email === demoUser.email
+    );
+
+    if (!accountExists) {
+      users.push(demoUser);
+    }
+  });
+
+  saveUsers(users);
 }
 
 export default {

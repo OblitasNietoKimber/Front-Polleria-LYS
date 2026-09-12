@@ -46,3 +46,34 @@ a {
 .font-mono {
   font-family: 'IBM Plex Mono', monospace;
 }
+.profile-menu-item {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-menu-item.danger {
+  color: #c62828;
+}
+
+.profile-menu-item.danger:hover {
+  color: #ffffff;
+  background-color: #c62828;
+}
+
+.profile-menu-item.danger:focus-visible {
+  color: #ffffff;
+  background-color: #c62828;
+  outline: 2px solid #ef9a9a;
+  outline-offset: 2px;
+}

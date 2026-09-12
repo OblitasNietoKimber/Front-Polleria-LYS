@@ -430,14 +430,6 @@ function ProfilePage() {
               {item.label}
             </button>
           ))}
-
-          <button
-            type="button"
-            className="profile-menu-item danger"
-            onClick={handleLogout}
-          >
-            Cerrar sesión
-          </button>
         </nav>
 
         {tab === 'datos' && (
