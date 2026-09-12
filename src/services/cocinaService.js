@@ -7,36 +7,7 @@ export const ESTADOS_COCINA = {
   ENTREGADO: "entregado",
 };
 
-const seedPedidos = [
-  {
-    id: "PED-1001",
-    mesa: 4,
-    cliente: "Mesa 4",
-    tipo: "salon",
-    estadoCocina: ESTADOS_COCINA.NUEVO,
-    estado: "pendiente",
-    observaciones: "Cliente alérgico al maní",
-    items: [
-      { nombre: "Pollo a la brasa 1/4", cantidad: 2, precio: 22.5, observacion: "Bien cocido" },
-      { nombre: "Gaseosa 1.5L", cantidad: 1, precio: 9.0, observacion: "" },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "PED-1002",
-    mesa: 7,
-    cliente: "Mesa 7",
-    tipo: "salon",
-    estadoCocina: ESTADOS_COCINA.EN_PREPARACION,
-    estado: "pendiente",
-    observaciones: "",
-    items: [
-      { nombre: "Pollo entero", cantidad: 1, precio: 68.0, observacion: "Sin papas" },
-      { nombre: "Papas extra", cantidad: 2, precio: 8.5, observacion: "" },
-    ],
-    createdAt: new Date(Date.now() - 6 * 60000).toISOString(),
-  },
-];
+const seedPedidos = [];
 
 function inicializar() {
   const data = localStorage.getItem(STORAGE_KEY);
