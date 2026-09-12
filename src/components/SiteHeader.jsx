@@ -40,13 +40,13 @@ const handleLogout = () => {
         </NavLink>
 
         <div className="lys-navlinks">
-          <NavLink to="/" end className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Inicio
-          </NavLink>
-          <NavLink to="/catalogo" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}`}>
-            Menú
-          </NavLink>
-          {user && (
+          {canAccess(['cliente', 'admin']) && (
+            <NavLink to="/" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Inicio</NavLink>
+          )}
+          {canAccess(['cliente', 'admin']) && (
+            <NavLink to="/catalogo" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Menu</NavLink>
+          )}
+          {canAccess(['cliente',]) && (
             <NavLink to="/pedidos" className={({ isActive }) => `lys-navlink ${isActive ? 'active' : ''}` }> Mis pedidos</NavLink>
           )}
           {canAccess(['mesera', 'admin']) && (
