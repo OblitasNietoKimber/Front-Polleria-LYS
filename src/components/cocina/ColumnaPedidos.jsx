@@ -1,17 +1,15 @@
-export default function ColumnaPedidos({ titulo, colorClase, pedidos, children }) {
+export default function ColumnaPedidos({ titulo, variante, icono: Icono, pedidos, children }) {
   return (
     <div className="cocina-column">
       <div className="cocina-column-header">
-        <span className={`cocina-dot ${colorClase}`} />
-        <h3 className="font-display" style={{ fontSize: "1.1rem", margin: 0 }}>{titulo}</h3>
-        <span className="cocina-count">{pedidos.length}</span>
+        <Icono size={17} className={`cocina-column-icono cocina-column-icono--${variante}`} />
+        <h3 className="font-display" style={{ fontSize: "1.05rem", margin: 0 }}>{titulo}</h3>
+        <span className={`cocina-count cocina-count--${variante}`}>{pedidos.length}</span>
       </div>
 
-      {pedidos.length === 0 ? (
-        <p className="cocina-empty">Sin pedidos</p>
-      ) : (
-        children
-      )}
+      <div className="cocina-column-body">
+        {pedidos.length === 0 ? <p className="cocina-empty">Sin pedidos</p> : children}
+      </div>
     </div>
   );
 }

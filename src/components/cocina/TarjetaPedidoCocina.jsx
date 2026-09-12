@@ -1,11 +1,5 @@
-import { IconoCheckCirculo, IconoReloj } from "../common/Iconos";
-
-function tiempoTranscurrido(fechaISO) {
-  const minutos = Math.floor((Date.now() - new Date(fechaISO).getTime()) / 60000);
-  if (minutos < 1) return { texto: "Recién llegado", alerta: false };
-  if (minutos === 1) return { texto: "Hace 1 min", alerta: false };
-  return { texto: `Hace ${minutos} min`, alerta: minutos >= 12 };
-}
+import { Clock, CheckCircle2, Play, ChefHat } from "lucide-react";
+import { useTiempoTranscurrido } from "../../hooks/useTiempoTranscurrido";
 
 const ESTADO_CLASE = {
   nuevo: "cocina-card--nuevo",
@@ -13,22 +7,33 @@ const ESTADO_CLASE = {
   listo: "cocina-card--listo",
 };
 
+const TIPO_LABEL = {
+  salon: "Salón",
+  delivery: "Delivery",
+  recojo: "Para llevar",
+};
+
 export default function TarjetaPedidoCocina({ pedido, onCambiarEstado }) {
-  const tiempo = tiempoTranscurrido(pedido.createdAt);
+  const { texto: tiempo } = useTiempoTranscurrido(pedido.createdAt, pedido.finalizadoAt);
+  const tipo = pedido.tipo || "salon";
 
   return (
     <div className={`cocina-card ${ESTADO_CLASE[pedido.estadoCocina] || ""}`}>
       <div className="cocina-card-top">
-        <div>
-          <p style={{ fontWeight: 700, margin: 0 }}>{pedido.cliente}</p>
-          <span className="cocina-id">{pedido.id}</span>
+        <span className="cocina-codigo">{pedido.id}</span>
+        <div className="cocina-card-top-right">
+          {pedido.mesa && <span className="cocina-mesa-texto">Mesa {pedido.mesa}</span>}
+          <span className={`cocina-tipo-badge cocina-tipo-badge--${tipo}`}>
+            {TIPO_LABEL[tipo] || "Salón"}
+          </span>
         </div>
-        <span className="cocina-mesa-chip">Mesa {pedido.mesa}</span>
       </div>
 
-      {pedido.observaciones && (
-        <p className="cocina-obs-general">Obs: {pedido.observaciones}</p>
-      )}
+      <div className="cocina-timer">
+        <Clock size={13} /> {tiempo}
+      </div>
+
+      {pedido.observaciones && <p className="cocina-obs-general">Obs: {pedido.observaciones}</p>}
 
       <ul className="cocina-items">
         {pedido.items.map((item, i) => (
@@ -42,27 +47,21 @@ export default function TarjetaPedidoCocina({ pedido, onCambiarEstado }) {
         ))}
       </ul>
 
-      <div className="cocina-card-footer">
-        <span className={`cocina-timer ${tiempo.alerta ? "cocina-timer--alerta" : ""}`}>
-          <IconoReloj size={13} /> {tiempo.texto}
-        </span>
-
-        {pedido.estadoCocina === "nuevo" && (
-          <button className="cocina-btn cocina-btn--iniciar" onClick={() => onCambiarEstado(pedido.id, "en_preparacion")}>
-            Iniciar preparación
-          </button>
-        )}
-        {pedido.estadoCocina === "en_preparacion" && (
-          <button className="cocina-btn cocina-btn--listo" onClick={() => onCambiarEstado(pedido.id, "listo")}>
-            Marcar como listo
-          </button>
-        )}
-        {pedido.estadoCocina === "listo" && (
-          <button className="cocina-btn cocina-btn--entregar" onClick={() => onCambiarEstado(pedido.id, "entregado")}>
-            <IconoCheckCirculo size={13} /> Entregar
-          </button>
-        )}
-      </div>
+      {pedido.estadoCocina === "nuevo" && (
+        <button className="cocina-btn cocina-btn--iniciar" onClick={() => onCambiarEstado(pedido.id, "en_preparacion")}>
+          <Play size={14} /> Comenzar
+        </button>
+      )}
+      {pedido.estadoCocina === "en_preparacion" && (
+        <button className="cocina-btn cocina-btn--listo" onClick={() => onCambiarEstado(pedido.id, "listo")}>
+          <ChefHat size={14} /> Marcar listo
+        </button>
+      )}
+      {pedido.estadoCocina === "listo" && (
+        <button className="cocina-btn cocina-btn--entregar" onClick={() => onCambiarEstado(pedido.id, "entregado")}>
+          <CheckCircle2 size={14} /> Entregar
+        </button>
+      )}
     </div>
   );
 }

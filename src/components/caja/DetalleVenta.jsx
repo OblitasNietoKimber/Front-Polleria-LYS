@@ -1,11 +1,14 @@
+import { CheckCircle2, ReceiptText, UtensilsCrossed } from "lucide-react";
 import cajaService from "../../services/cajaService";
 
 export default function DetalleVenta({ pedido }) {
   if (!pedido) {
     return (
-      <p className="font-mono" style={{ color: "var(--smoke)" }}>
-        Selecciona un pedido para ver el detalle
-      </p>
+      <div className="caja-detail-empty">
+        <span><ReceiptText size={30} /></span>
+        <strong>Selecciona un pedido</strong>
+        <p>Aquí verás los productos y podrás completar el cobro.</p>
+      </div>
     );
   }
 
@@ -13,27 +16,42 @@ export default function DetalleVenta({ pedido }) {
 
   return (
     <div className="caja-detail">
-      <p className="font-display caja-detail-title">
-        {pedido.id} — Mesa {pedido.mesa}
-      </p>
-
-      <div className="caja-divider" />
+      <div className="caja-detail-head">
+        <div>
+          <span className="caja-eyebrow">Detalle del pedido</span>
+          <h2>{pedido.cliente}</h2>
+          <p>{pedido.id}</p>
+        </div>
+        <span className={`caja-detail-status ${pedido.estado}`}>
+          {pedido.estado === "pagado" ? <CheckCircle2 size={16} /> : null}
+          {pedido.estado === "pagado" ? "Cobrado" : `Mesa ${pedido.mesa}`}
+        </span>
+      </div>
 
       <div className="caja-detail-items">
         {pedido.items.map((item, i) => (
-          <div key={i} className="caja-detail-row">
-            <span>{item.cantidad}x {item.nombre}</span>
-            <span className="font-mono">S/ {(item.cantidad * item.precio).toFixed(2)}</span>
+          <div key={`${item.nombre}-${i}`} className="caja-detail-row">
+            <span className="caja-product-icon"><UtensilsCrossed size={19} /></span>
+            <span className="caja-product-name">
+              <strong>{item.cantidad} × {item.nombre}</strong>
+              <small>S/ {item.precio.toFixed(2)} c/u</small>
+            </span>
+            <strong className="font-mono">S/ {(item.cantidad * item.precio).toFixed(2)}</strong>
           </div>
         ))}
       </div>
 
-      <div className="caja-divider" />
-
       <div className="caja-total-row">
         <span>Total</span>
-        <span className="font-mono caja-total-value">S/ {total.toFixed(2)}</span>
+        <strong className="font-mono">S/ {total.toFixed(2)}</strong>
       </div>
+
+      {pedido.estado === "pagado" && pedido.pago && (
+        <div className="caja-paid-note">
+          <CheckCircle2 size={18} />
+          Pagado con {pedido.pago.metodo}
+        </div>
+      )}
     </div>
   );
 }

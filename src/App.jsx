@@ -28,13 +28,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<ProtectedRoute allowedRoles={['cliente', 'admin']}><HomePage /></ProtectedRoute>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profile/*" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="/catalogo" element={<ProtectedRoute allowedRoles={['cliente', 'admin']}><CatalogoPage /></ProtectedRoute>} />
+          <Route path="/catalogo" element={<CatalogoPage />} />
           <Route path="/checkout/entrega" element={<EntregaPage />} />
           <Route path="/checkout/pago" element={<PagoPage />} />
           <Route path="/checkout/resumen" element={<ResumenPage />} />
@@ -48,6 +48,7 @@ function App() {
           <Route path="/mesas/:id/pedido" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><NuevoPedidoPage /></ProtectedRoute>} />
         </Route>
         
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

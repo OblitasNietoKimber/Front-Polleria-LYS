@@ -48,15 +48,24 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      await authService.login(form);
-      navigate('/profile');
-    } catch (err) {
-      setFormError(
-        err.message || 'No se pudo iniciar sesión. Inténtalo nuevamente.'
-      );
-    } finally {
-      setLoading(false);
-    }
+  const loggedUser = await authService.login(form);
+  const rol = loggedUser.rol?.toLowerCase();
+
+  const routesByRole = {
+    cliente: '/',
+    mesera: '/mesas',
+    cocina: '/cocina',
+    admin: '/dashboard',
+  };
+
+  navigate(routesByRole[rol] || '/profile', { replace: true });
+} catch (err) {
+  setFormError(
+    err.message || 'No se pudo iniciar sesión. Inténtalo nuevamente.'
+  );
+} finally {
+  setLoading(false);
+}
   }
 
   return (

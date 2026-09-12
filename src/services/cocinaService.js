@@ -12,8 +12,9 @@ const seedPedidos = [
     id: "PED-1001",
     mesa: 4,
     cliente: "Mesa 4",
+    tipo: "salon",
     estadoCocina: ESTADOS_COCINA.NUEVO,
-    estadoPago: "pendiente",
+    estado: "pendiente",
     observaciones: "Cliente alérgico al maní",
     items: [
       { nombre: "Pollo a la brasa 1/4", cantidad: 2, precio: 22.5, observacion: "Bien cocido" },
@@ -25,8 +26,9 @@ const seedPedidos = [
     id: "PED-1002",
     mesa: 7,
     cliente: "Mesa 7",
+    tipo: "salon",
     estadoCocina: ESTADOS_COCINA.EN_PREPARACION,
-    estadoPago: "pendiente",
+    estado: "pendiente",
     observaciones: "",
     items: [
       { nombre: "Pollo entero", cantidad: 1, precio: 68.0, observacion: "Sin papas" },
@@ -44,15 +46,20 @@ function inicializar() {
     return;
   }
 
-  // Compatibilidad: si Caja creó pedidos sin estadoCocina, se les asigna "nuevo"
+  // Compatibilidad: pedidos viejos sin estadoCocina, o creados por otro módulo
   const pedidos = JSON.parse(data);
   let necesitaMigrar = false;
   const migrados = pedidos.map((p) => {
+    let cambios = {};
     if (!p.estadoCocina) {
       necesitaMigrar = true;
-      return { ...p, estadoCocina: ESTADOS_COCINA.NUEVO };
+      cambios.estadoCocina = ESTADOS_COCINA.NUEVO;
     }
-    return p;
+    if (!p.estado) {
+      necesitaMigrar = true;
+      cambios.estado = "pendiente";
+    }
+    return Object.keys(cambios).length ? { ...p, ...cambios } : p;
   });
   if (necesitaMigrar) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(migrados));
@@ -94,18 +101,22 @@ function cambiarEstado(id, nuevoEstado) {
   return actualizados.find((p) => p.id === id);
 }
 
-// Útil para simular que llega un pedido nuevo desde Mozo/Mesas (Epic 4)
-function crearPedido({ mesa, cliente, items, observaciones = "" }) {
+// Crea un pedido nuevo desde cualquier módulo (Mesas, Checkout web, etc.)
+// "id" es opcional: si el módulo que llama ya generó un número de pedido
+// (ej. el checkout del cliente con "LS-XXXX"), se reutiliza para no duplicar.
+function crearPedido({ id, mesa = null, cliente, items, observaciones = "", tipo = "salon", total } = {}) {
   const pedidos = getPedidos();
-  const nuevoId = `PED-${1000 + pedidos.length + 1}`;
+  const nuevoId = id || `PED-${1000 + pedidos.length + 1}`;
   const nuevoPedido = {
     id: nuevoId,
     mesa,
-    cliente: cliente || `Mesa ${mesa}`,
+    cliente: cliente || (mesa ? `Mesa ${mesa}` : "Cliente"),
+    tipo,
     estadoCocina: ESTADOS_COCINA.NUEVO,
-    estadoPago: "pendiente",
+    estado: "pendiente",
     observaciones,
     items,
+    ...(total !== undefined ? { total } : {}),
     createdAt: new Date().toISOString(),
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...pedidos, nuevoPedido]));
