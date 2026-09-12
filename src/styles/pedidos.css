@@ -1,20 +1,39 @@
-/* Estilos del EPIC "Gestión de pedidos del cliente" */
-
 .orders-page {
   max-width: 780px;
   margin: 0 auto;
   padding: 36px 20px 100px;
 }
 
+.orders-page-header h1,
+.order-detail-header h1 {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
 .orders-page-header h1 {
   font-size: 1.8rem;
-  font-weight: 600;
   margin-bottom: 6px;
 }
 
 .orders-page-header p {
   color: var(--smoke);
   margin-bottom: 28px;
+}
+
+.order-detail-header {
+  margin-bottom: 24px;
+}
+
+.order-detail-header h1 {
+  font-size: 1.6rem;
+}
+
+.order-detail-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--rust);
+  margin-bottom: 22px;
 }
 
 .orders-empty {
@@ -28,6 +47,7 @@
   gap: 14px;
   color: var(--smoke);
 }
+
 .orders-list {
   display: flex;
   flex-direction: column;
@@ -68,9 +88,13 @@
   font-size: 0.95rem;
 }
 
+.order-card-date,
+.delivery-info-row {
+  color: var(--smoke);
+}
+
 .order-card-date {
   font-size: 0.8rem;
-  color: var(--smoke);
 }
 
 .order-card-status {
@@ -90,24 +114,7 @@
   font-size: 1rem;
 }
 
-.order-detail-back {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--rust);
-  margin-bottom: 22px;
-}
-
-.order-detail-header {
-  margin-bottom: 24px;
-}
-
-.order-detail-header h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
+/* --- Tarjeta "comanda" del detalle --- */
 .order-items-card {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -148,6 +155,7 @@
   color: var(--rust);
 }
 
+/* --- Información de entrega y pago --- */
 .delivery-info {
   margin-top: 20px;
   background: var(--paper);
@@ -170,7 +178,11 @@
   padding: 6px 0;
 }
 
+/* --- Badge de estado (colores por etapa) --- */
 .status-badge {
+  --status-bg: #EAE3D8;
+  --status-color: #6B5B3E;
+
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -181,6 +193,8 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
   width: fit-content;
+  background: var(--status-bg);
+  color: var(--status-color);
 }
 
 .status-dot {
@@ -190,11 +204,13 @@
   background: currentColor;
 }
 
-.status-recibido { background: #EAE3D8; color: #6B5B3E; }
-.status-preparacion { background: #FCEDE5; color: var(--ember); }
-.status-listo { background: #FBF3E1; color: var(--rust); }
-.status-camino { background: #E3EEF7; color: #2B6CA3; }
-.status-entregado { background: #E4F3E7; color: #2E7D46; }
+.status-recibido    { --status-bg: #EAE3D8; --status-color: #6B5B3E; }
+.status-preparacion { --status-bg: #FCEDE5; --status-color: var(--ember); }
+.status-listo       { --status-bg: #FBF3E1; --status-color: var(--rust); }
+.status-camino      { --status-bg: #E3EEF7; --status-color: #2B6CA3; }
+.status-entregado   { --status-bg: #E4F3E7; --status-color: #2E7D46; }
+
+/* --- Stepper de estado (Recibido → Entregado) --- */
 .status-stepper {
   display: flex;
   align-items: flex-start;
