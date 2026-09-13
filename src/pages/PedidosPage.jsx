@@ -22,7 +22,7 @@ export default function PedidosPage() {
       </div>
 
       <div className="orders-banner">
-        <span className="orders-banner-eyebrow">GRACIAS POR ELEGIRNOS</span>
+        <span className="orders-banner-eyebrow">GRACIAS POR ELEGRNOS</span>
         <h2 className="orders-banner-title font-display">
           Cada pedido tuyo <em>alimenta</em><br />nuestra tradición.
         </h2>
