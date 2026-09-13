@@ -7,7 +7,7 @@ export const PRODUCTS = [
     price: 42.90,
     available: true,
     desc: 'Pollo entero marinado 24h a fuego de leña. Incluye papas fritas y ensalada clásica.',
-    image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/pollo-entero.png',
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ export const PRODUCTS = [
     price: 24.90,
     available: true,
     desc: 'Medio pollo dorado a la leña, servido con papas crujientes y cremas de la casa.',
-    image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/medio-pollo.png',
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const PRODUCTS = [
     price: 14.90,
     available: true,
     desc: 'Porción individual clásica con papas fritas doradas y salsas caseras.',
-    image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/cuarto-pollo.png',
   },
   {
     id: 4,
@@ -34,7 +34,7 @@ export const PRODUCTS = [
     price: 26.90,
     available: true,
     desc: 'Jugosa pechuga a la leña servida con ensalada fresca y guarnición de papas.',
-    image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/pechuga-brasa.png',
   },
   {
     id: 5,
@@ -43,7 +43,7 @@ export const PRODUCTS = [
     price: 18.90,
     available: true,
     desc: 'Alitas glaseadas en salsa barbacoa artesanal con toque ahumado.',
-    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/alitas-bbq.png',
   },
   {
     id: 6,
@@ -52,7 +52,7 @@ export const PRODUCTS = [
     price: 18.90,
     available: true,
     desc: 'Alitas crocantes bañadas en salsa picante especial de rocoto y miel.',
-    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258511/alitas-picantes.png',
   },
 
   // --- Combos y Parrillas ---
@@ -63,7 +63,7 @@ export const PRODUCTS = [
     price: 16.90,
     available: true,
     desc: 'Dos palitos de corazón tierno macerado en ají panca con choclo y papas.',
-    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258511/anticuchos.png',
   },
   {
     id: 8,
@@ -72,7 +72,7 @@ export const PRODUCTS = [
     price: 12.90,
     available: true,
     desc: 'Papas nativas amarillas doraditas y crocantes en porción para compartir.',
-    image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/papa-frita-familiar.png',
   },
   {
     id: 9,
@@ -81,7 +81,7 @@ export const PRODUCTS = [
     price: 12.90,
     available: true,
     desc: 'Mix de lechugas, tomate, palta y vinagreta clásica de pollería.',
-    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/ensalada-familiar.png',
   },
   {
     id: 10,
@@ -90,7 +90,7 @@ export const PRODUCTS = [
     price: 15.90,
     available: true,
     desc: 'Chaufa ahumado al wok con cebollita china, huevo y toques de pollo.',
-    image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258511/arroz-chaufa-familiar.png',
   },
   {
     id: 11,
@@ -99,7 +99,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Plátano maduro frito en láminas caramelizadas.',
-    image: 'https://images.unsplash.com/photo-1528751014936-863e6e7a319c?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/maduro-frito.png',
   },
   {
     id: 12,
@@ -108,7 +108,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Bastones de yuca crocantes con crema huancaína y ocopa.',
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/yuca-frita-cremas.png',
   },
 
   // --- Bebidas ---
@@ -119,7 +119,7 @@ export const PRODUCTS = [
     price: 11.90,
     available: true,
     desc: 'Gaseosa Inca Kola bien helada en botella de 1.5 litros.',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/inca-kola-1-5l-v2.png',
   },
   {
     id: 14,
@@ -128,7 +128,7 @@ export const PRODUCTS = [
     price: 5.50,
     available: true,
     desc: 'Gaseosa personal bien fría para acompañar tu plato.',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/inca-kola-500ml-v2.png',
   },
   {
     id: 15,
@@ -137,7 +137,7 @@ export const PRODUCTS = [
     price: 11.90,
     available: true,
     desc: 'Gaseosa Coca-Cola clásica de 1.5 litros.',
-    image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/coca-cola-1-5l-v2.png',
   },
   {
     id: 16,
@@ -146,7 +146,7 @@ export const PRODUCTS = [
     price: 5.50,
     available: true,
     desc: 'Gaseosa personal clásica helada.',
-    image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/coca-cola-500ml-v2.png',
   },
   {
     id: 17,
@@ -155,7 +155,7 @@ export const PRODUCTS = [
     price: 10.00,
     available: true,
     desc: 'Jarra de chicha morada natural con canela, clavo y limón.',
-    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/chicha-morada.png',
   },
 
   // --- Postres ---
@@ -166,7 +166,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Manjar blanco suave y merengue aromatizado con oporto y canela.',
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/suspiro-limena.png',
   },
   {
     id: 19,
@@ -175,7 +175,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Postre tradicional limeño de maíz morado, frutas y canela.',
-    image: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/mazamorra-morada.png',
   },
   {
     id: 20,
@@ -184,7 +184,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Cremoso arroz con leche aromatizado con canela y cáscara de naranja.',
-    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/arroz-con-leche.png',
   },
   {
     id: 21,
@@ -193,7 +193,7 @@ export const PRODUCTS = [
     price: 9.90,
     available: true,
     desc: 'Flan de vainilla tradicional bañado en caramelo líquido.',
-    image: 'https://images.unsplash.com/photo-1528975604071-b4dc52a2d18c?auto=format&fit=crop&w=400&q=80',
+    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/flan-casero.png',
   },
 ];
 
