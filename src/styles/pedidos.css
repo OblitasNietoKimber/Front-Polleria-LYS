@@ -366,3 +366,35 @@
 .order-card:hover .order-card-side svg {
   transform: translateX(3px);
 }
+
+/* --- Pulso en el paso activo del stepper --- */
+.status-stepper-dot.active {
+  animation: stepper-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes stepper-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px #FCEDE5; }
+  50% { box-shadow: 0 0 0 7px #FCEDE5; }
+}
+
+/* --- Encabezado de la sección con acento visual --- */
+.orders-page-header {
+  position: relative;
+  padding-left: 16px;
+  border-left: 3px solid var(--ember);
+}
+
+/* --- Estado vacío con más personalidad --- */
+.orders-empty {
+  background: linear-gradient(180deg, var(--paper) 0%, #FBF3E1 100%);
+  border-color: var(--gold);
+}
+
+.orders-empty svg {
+  animation: empty-float 2.4s ease-in-out infinite;
+}
+
+@keyframes empty-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
