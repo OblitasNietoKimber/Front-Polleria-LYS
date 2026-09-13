@@ -587,8 +587,8 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               onClick={handleGuardarBorrador}
               title="Guardar comanda como borrador para continuar luego"
             >
-              <BookmarkCheck size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
-              Guardar borrador
+              <BookmarkCheck size={18} />
+              <span>Guardar borrador</span>
             </button>
             <button
               type="button"
@@ -596,8 +596,8 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               onClick={handleEnviarCocina}
               title="Enviar comanda a la pantalla de cocina"
             >
-              <ChefHat size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
-              Enviar a cocina
+              <ChefHat size={18} />
+              <span>Enviar a cocina</span>
             </button>
           </div>
         </aside>
