@@ -27,7 +27,7 @@ export default function HistorialVentas({ ventas = [] }) {
               <th>Cliente</th>
               <th>Mesa / Tipo</th>
               <th>Total</th>
-              <th>Metodo</th>
+              <th>Método</th>
               <th>Hora</th>
               <th>Estado</th>
             </tr>
@@ -39,7 +39,7 @@ export default function HistorialVentas({ ventas = [] }) {
               </tr>
             ) : ventas.slice(0, 5).map((venta) => {
               const fechaVenta = new Date(venta.pagadoAt || venta.createdAt);
-              const metodo = venta.pago?.metodo || "Sin metodo";
+              const metodo = venta.pago?.metodo || "Sin método";
 
               return (
               <tr key={venta.id}>

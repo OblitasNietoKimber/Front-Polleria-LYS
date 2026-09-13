@@ -184,7 +184,7 @@ function getVentasPorMetodoPago(filtros = {}) {
   const metodos = new Map();
 
   getVentasFiltradas(filtros).forEach((venta) => {
-    const metodo = venta.pago?.metodo || "Sin metodo";
+    const metodo = venta.pago?.metodo || "Sin método";
     const actual = metodos.get(metodo) || {
       nombre: metodo,
       cantidad: 0,
@@ -300,7 +300,7 @@ function getTendenciasResumen() {
 
   return {
     dia: crearTendencia(horasHoy.map((hora) => `${hora}h`), dia),
-    semana: crearTendencia(["lun", "mar", "mie", "jue", "vie", "sab", "dom"], semana),
+    semana: crearTendencia(["lun", "mar", "mié", "jue", "vie", "sáb", "dom"], semana),
     mes: crearTendencia(diasMes.map((fecha) => String(new Date(`${fecha}T00:00:00`).getDate())), mes),
     total: crearTendencia(["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"], total),
   };

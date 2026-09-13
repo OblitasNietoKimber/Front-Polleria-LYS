@@ -15,7 +15,7 @@ function crearTarjetas(resumen, tendencias = {}) {
   return [
     {
       id: 1,
-      titulo: "Ventas del dia",
+      titulo: "Ventas del día",
       monto: formatoSoles.format(resumen?.dia?.totalVentas || 0),
       comparativa: `${resumen?.dia?.cantidadPedidos || 0} pedidos pagados`,
       icono: <IconoBilletera size={18} color="var(--ember)" />,
@@ -27,7 +27,7 @@ function crearTarjetas(resumen, tendencias = {}) {
       monto: formatoSoles.format(resumen?.semana?.totalVentas || 0),
       comparativa: `${resumen?.semana?.cantidadPedidos || 0} pedidos pagados`,
       icono: <IconoCalendario size={18} color="var(--ember)" />,
-      tendencia: tendencias.semana || { labels: ["lun", "mar", "mie", "jue", "vie", "sab", "dom"], values: [0, 0, 0, 0, 0, 0, 0] },
+      tendencia: tendencias.semana || { labels: ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"], values: [0, 0, 0, 0, 0, 0, 0] },
     },
     {
       id: 3,

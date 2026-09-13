@@ -29,7 +29,7 @@ function crearDonutOption(metodosPago) {
     },
     series: [
       {
-        name: "Metodo de pago",
+        name: "Método de pago",
         type: "pie",
         radius: ["58%", "78%"],
         center: ["50%", "50%"],
@@ -60,7 +60,7 @@ export default function VentasMetodoPago({ metodos = [] }) {
     <section className="ticket-card admin-payment-card">
       <div className="admin-block-title">
         <IconoTarjeta size={18} color="var(--ember)" />
-        <span className="font-display">Ventas por metodo de pago</span>
+        <span className="font-display">Ventas por método de pago</span>
       </div>
 
       <div className="admin-payment-content">
@@ -68,7 +68,7 @@ export default function VentasMetodoPago({ metodos = [] }) {
           <EChart
             className="admin-donut"
             option={crearDonutOption(metodosPago)}
-            ariaLabel="Grafico de ventas por metodo de pago"
+            ariaLabel="Gráfico de ventas por método de pago"
           />
 
           <div className="admin-donut-center">

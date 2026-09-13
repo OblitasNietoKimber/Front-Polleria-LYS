@@ -61,7 +61,7 @@ export default function ProductosTop({ productos = [] }) {
     <section className="ticket-card admin-products-card">
       <div className="admin-block-title">
         <IconoBolsa size={18} color="var(--ember)" />
-        <span className="font-display">Productos mas vendidos</span>
+        <span className="font-display">Productos más vendidos</span>
       </div>
 
       <div className="admin-table-wrap">
@@ -72,7 +72,7 @@ export default function ProductosTop({ productos = [] }) {
               <th>Producto</th>
               <th>Cantidad vendida</th>
               <th>Total generado</th>
-              <th>Participacion</th>
+              <th>Participación</th>
             </tr>
           </thead>
           <tbody>

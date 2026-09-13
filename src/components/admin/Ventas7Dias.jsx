@@ -8,8 +8,8 @@ const formatoSoles = new Intl.NumberFormat("es-PE", {
 });
 
 const opcionesPeriodo = {
-  "7dias": { dias: 7, label: "Ultimos 7 dias" },
-  "30dias": { dias: 30, label: "Ultimos 30 dias" },
+  "7dias": { dias: 7, label: "Últimos 7 días" },
+  "30dias": { dias: 30, label: "Últimos 30 días" },
 };
 
 function formatearFechaLocal(fecha) {
@@ -109,7 +109,7 @@ export default function Ventas7Dias({ ventas = [] }) {
         <EChart
           className="admin-line-chart"
           option={crearVentasOption(puntos)}
-          ariaLabel={`Grafico de ${titulo.toLowerCase()}`}
+          ariaLabel={`Gráfico de ${titulo.toLowerCase()}`}
         />
       </div>
 

@@ -138,7 +138,7 @@ export default function MetricasOperativas({ resumen, pedidosPendientes = 0, ten
     <section className="ticket-card admin-ops-card">
       <div className="admin-block-title">
         <IconoTendencia size={18} color="var(--ember)" />
-        <span className="font-display">Metricas operativas</span>
+        <span className="font-display">Métricas operativas</span>
       </div>
 
       <div className="admin-ops-grid">
@@ -159,11 +159,11 @@ export default function MetricasOperativas({ resumen, pedidosPendientes = 0, ten
             </div>
 
             <div className={`admin-mini-chart-panel ${metrica.claseIcono}`}>
-              <span className="admin-mini-period">Ultimos 5 dias</span>
+              <span className="admin-mini-period">Últimos 5 días</span>
               <EChart
                 className="admin-echart"
                 option={crearTendenciaOption(metrica)}
-                ariaLabel={`Grafico de ${metrica.etiqueta}`}
+                ariaLabel={`Gráfico de ${metrica.etiqueta}`}
               />
             </div>
           </article>
