@@ -85,6 +85,14 @@
 
 .home-category-icon {
   aspect-ratio: 3 / 2;
+  overflow: hidden;
+  padding: 0;
+}
+
+.home-category-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .home-category-body {

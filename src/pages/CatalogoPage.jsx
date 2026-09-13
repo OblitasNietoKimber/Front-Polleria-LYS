@@ -68,7 +68,7 @@ export default function CatalogoPage() {
             className={`chip ${activeCategory === c.id ? 'active' : ''}`}
             onClick={() => updateParams({ categoria: c.id })}
           >
-            <c.icon size={14} strokeWidth={2} /> {c.label}
+            <img src={c.image} alt="" className="catalogo-chip-icon" /> {c.label}
           </button>
         ))}
       </div>

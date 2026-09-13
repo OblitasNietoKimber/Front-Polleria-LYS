@@ -43,7 +43,7 @@ export default function HomePage() {
               className="ticket-card home-category-card"
             >
               <div className="icon-tile home-category-icon">
-                <c.icon size={34} strokeWidth={1.5} />
+                <img src={c.image} alt={c.label} />
               </div>
               <div className="home-category-body">
                 <div className="font-display home-category-label">
