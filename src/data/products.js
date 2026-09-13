@@ -157,44 +157,6 @@ export const PRODUCTS = [
     desc: 'Jarra de chicha morada natural con canela, clavo y limón.',
     image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/chicha-morada.png',
   },
-
-  // --- Postres ---
-  {
-    id: 18,
-    category: 'postres',
-    name: 'Suspiro a la limeña',
-    price: 9.90,
-    available: true,
-    desc: 'Manjar blanco suave y merengue aromatizado con oporto y canela.',
-    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258510/suspiro-limena.png',
-  },
-  {
-    id: 19,
-    category: 'postres',
-    name: 'Mazamorra morada',
-    price: 9.90,
-    available: true,
-    desc: 'Postre tradicional limeño de maíz morado, frutas y canela.',
-    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258509/mazamorra-morada.png',
-  },
-  {
-    id: 20,
-    category: 'postres',
-    name: 'Arroz con leche',
-    price: 9.90,
-    available: true,
-    desc: 'Cremoso arroz con leche aromatizado con canela y cáscara de naranja.',
-    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/arroz-con-leche.png',
-  },
-  {
-    id: 21,
-    category: 'postres',
-    name: 'Flan casero',
-    price: 9.90,
-    available: true,
-    desc: 'Flan de vainilla tradicional bañado en caramelo líquido.',
-    image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258508/flan-casero.png',
-  },
 ];
 
 export const DELIVERY_COST = 6.0;

@@ -36,7 +36,7 @@ export default function HomePage() {
           </button>
         </div>
         <div className="home-categories-grid">
-          {CATEGORIES.filter((c) => c.id !== 'postres').map((c) => (
+          {CATEGORIES.map((c) => (
             <button
               key={c.id}
               onClick={() => navigate(`/catalogo?categoria=${c.id}`)}
