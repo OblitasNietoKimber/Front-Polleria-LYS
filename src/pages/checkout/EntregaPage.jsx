@@ -15,6 +15,7 @@ export default function EntregaPage() {
     const nextErrors = {}
     if (!form.name.trim()) nextErrors.name = 'Ingresa tu nombre.'
     if (!form.phone.trim()) nextErrors.phone = 'Ingresa un teléfono de contacto.'
+    else if (!/^9\d{8}$/.test(form.phone.trim())) nextErrors.phone = 'El teléfono debe tener 9 dígitos y empezar con 9.'
     if (deliveryType === 'delivery' && !form.address.trim()) nextErrors.address = 'Ingresa tu dirección.'
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0

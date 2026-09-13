@@ -1,6 +1,12 @@
 import { MapPin, Store } from 'lucide-react'
 
 export default function DeliveryForm({ deliveryType, form, errors, onTypeChange, onFormChange, onContinue }) {
+  function handlePhoneChange(event) {
+    const digitsOnly = event.target.value.replace(/\D/g, '').slice(0, 9)
+    if (digitsOnly && digitsOnly[0] !== '9') return
+    onFormChange('phone', digitsOnly)
+  }
+
   return (
     <div>
       <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
@@ -61,8 +67,11 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
           <input
             className={`lys-input ${errors.phone ? 'err' : ''}`}
             value={form.phone}
-            onChange={(event) => onFormChange('phone', event.target.value)}
-            placeholder="9XX XXX XXX"
+            onChange={handlePhoneChange}
+            type="tel"
+            inputMode="numeric"
+            maxLength={9}
+            placeholder="9XXXXXXXX"
           />
           {errors.phone && <span style={{ color: '#B23A2E', fontSize: '0.75rem' }}>{errors.phone}</span>}
         </label>
