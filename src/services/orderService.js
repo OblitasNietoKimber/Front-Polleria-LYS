@@ -1,3 +1,5 @@
+import cocinaService from './cocinaService'
+
 const STORAGE_KEY = 'lys-client-orders'
 
 export const ORDER_STATUS_STEPS = [
@@ -7,10 +9,6 @@ export const ORDER_STATUS_STEPS = [
   { key: 'camino', label: 'En camino' },
   { key: 'entregado', label: 'Entregado' },
 ]
-
-// Minutos transcurridos en los que el pedido avanza de etapa (simulación sin backend)
-const TIMELINE_DELIVERY = [0, 2, 5, 8, 14]
-const TIMELINE_PICKUP = [0, 2, 5, 5, 9] // recojo en tienda no tiene "en camino"
 
 function readOrders() {
   if (typeof window === 'undefined') return []
@@ -62,16 +60,32 @@ function createOrder({ id, items, subtotal, shipping, total, deliveryType, form,
   return order
 }
 
-// Calcula la etapa actual según el tiempo transcurrido desde la creación
-function getOrderStatus(order) {
-  const timeline = order.deliveryType === 'delivery' ? TIMELINE_DELIVERY : TIMELINE_PICKUP
-  const minutesElapsed = (Date.now() - new Date(order.createdAt).getTime()) / 60000
+// Traduce el estado real de cocina (fuente compartida "lys_pedidos") al
+// vocabulario que usa el cliente en su stepper.
+function mapKitchenStatus(pedidoCocina, deliveryType) {
+  if (!pedidoCocina) return 'recibido'
 
-  let stepIndex = 0
-  for (let i = 0; i < timeline.length; i++) {
-    if (minutesElapsed >= timeline[i]) stepIndex = i
+  switch (pedidoCocina.estadoCocina) {
+    case 'nuevo':
+      return 'recibido'
+    case 'en_preparacion':
+      return 'preparacion'
+    case 'listo':
+      // Si es delivery, "listo" en cocina significa que ya salió a reparto.
+      // Si es recojo en tienda, se queda en "listo" hasta que lo retiren.
+      return deliveryType === 'delivery' ? 'camino' : 'listo'
+    case 'entregado':
+      return 'entregado'
+    default:
+      return 'recibido'
   }
-  return ORDER_STATUS_STEPS[stepIndex].key
+}
+
+// Estado en tiempo real: ya no se simula con un cronómetro, se lee
+// directamente de lo que cocina/caja van actualizando.
+function getOrderStatus(order) {
+  const pedidoCocina = cocinaService.getPedidos().find((p) => p.id === order.id)
+  return mapKitchenStatus(pedidoCocina, order.deliveryType)
 }
 
 export default {
