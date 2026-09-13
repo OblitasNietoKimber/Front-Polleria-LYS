@@ -93,10 +93,10 @@ function crearTendenciaOption(metrica) {
       formatter: (items) => {
         const item = items[0];
         return `
-          <div style="min-width: 150px">
-            <div style="color:#6E655D;font-size:11px;font-weight:700;margin-bottom:3px">${item.axisValue}</div>
-            <div style="color:#17130F;font-weight:700;margin-bottom:2px">${metrica.etiqueta}</div>
-            <div style="color:${metrica.colorBarra};font-weight:700">Valor: ${item.value}</div>
+          <div class="echart-tooltip">
+            <div class="echart-tooltip-axis">${item.axisValue}</div>
+            <div class="echart-tooltip-title">${metrica.etiqueta}</div>
+            <div class="echart-tooltip-value ${metrica.claseIcono}">Valor: ${item.value}</div>
           </div>
         `;
       },

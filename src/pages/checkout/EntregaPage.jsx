@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import CheckoutSteps from '../../components/CheckoutSteps'
 import DeliveryForm from '../../components/DeliveryForm'
 import { useCart } from '../../context/CartContext'
+import '../../styles/compras.css'
 
 export default function EntregaPage() {
   const navigate = useNavigate()
@@ -14,17 +15,17 @@ export default function EntregaPage() {
     const nextErrors = {}
     if (!form.name.trim()) nextErrors.name = 'Ingresa tu nombre.'
     if (!form.phone.trim()) nextErrors.phone = 'Ingresa un teléfono de contacto.'
+    else if (!/^9\d{8}$/.test(form.phone.trim())) nextErrors.phone = 'El teléfono debe tener 9 dígitos y empezar con 9.'
     if (deliveryType === 'delivery' && !form.address.trim()) nextErrors.address = 'Ingresa tu dirección.'
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
   }
 
   return (
-    <section style={{ maxWidth: 720, margin: '0 auto', padding: '36px 20px 100px' }}>
+    <section className="checkout-page">
       <button
         onClick={() => navigate('/catalogo')}
-        className="lys-navlink"
-        style={{ color: 'var(--rust)', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 22 }}
+        className="lys-navlink checkout-back-link"
       >
         <ArrowLeft size={15} /> Seguir comprando
       </button>

@@ -1,76 +1,52 @@
-export default function OrderSummary({ items, subtotal, shipping, total, deliveryType, form, payment, money, onBack, onConfirm }) {
+export default function OrderSummary({ items, subtotal, shipping, total, deliveryType, form, payment, cardReceipt, money, onBack, onConfirm }) {
   return (
     <div>
-      <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
-        Resumen de tu compra
-      </h2>
-      <div style={{ background: 'var(--paper)', border: '1px solid var(--line)' }}>
-        <div
-          style={{
-            background: 'var(--char)',
-            color: 'var(--cream)',
-            padding: '14px 18px',
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.78rem',
-            letterSpacing: '0.05em',
-          }}
-        >
-          COMANDA · LEÑAS &amp; SABORES
-        </div>
-        <div style={{ padding: '18px' }}>
+      <h2 className="font-display checkout-form-title">Resumen de tu compra</h2>
+      <div className="order-ticket">
+        <div className="order-ticket-header">COMANDA · LEÑAS &amp; SABORES</div>
+        <div className="order-ticket-body">
           {items.map(({ product, qty }) => (
-            <div
-              key={product.id}
-              className="font-mono"
-              style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', padding: '6px 0', borderBottom: '1px dashed var(--line)' }}
-            >
+            <div key={product.id} className="font-mono order-ticket-line">
               <span>
                 {qty}× {product.name}
               </span>
               <span>{money(qty * product.price)}</span>
             </div>
           ))}
-          <div className="font-mono" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', padding: '10px 0 4px' }}>
-            <span style={{ color: 'var(--smoke)' }}>Subtotal</span>
+          <div className="font-mono order-ticket-summary-row">
+            <span>Subtotal</span>
             <span>{money(subtotal)}</span>
           </div>
-          <div className="font-mono" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', padding: '4px 0' }}>
-            <span style={{ color: 'var(--smoke)' }}>Envío ({deliveryType === 'delivery' ? 'delivery' : 'recojo en tienda'})</span>
+          <div className="font-mono order-ticket-summary-row">
+            <span>Envío ({deliveryType === 'delivery' ? 'delivery' : 'recojo en tienda'})</span>
             <span>{shipping === 0 ? 'Gratis' : money(shipping)}</span>
           </div>
-          <div
-            className="font-mono"
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              fontSize: '1.1rem',
-              fontWeight: 700,
-              padding: '12px 0 0',
-              borderTop: '1.5px solid var(--ink)',
-              marginTop: 8,
-              color: 'var(--rust)',
-            }}
-          >
+          <div className="font-mono order-ticket-total">
             <span>TOTAL</span>
             <span>{money(total)}</span>
           </div>
         </div>
       </div>
-      <div style={{ marginTop: 18, fontSize: '0.85rem', color: 'var(--smoke)', lineHeight: 1.7 }}>
+      <div className="order-details">
         <div>
-          <strong style={{ color: 'var(--ink)' }}>Entrega:</strong> {form.name} · {form.phone}
+          <strong>Entrega:</strong> {form.name} · {form.phone}
         </div>
         <div>{deliveryType === 'delivery' ? `${form.address}${form.reference ? ` (${form.reference})` : ''}` : 'Recojo en tienda'}</div>
         <div>
-          <strong style={{ color: 'var(--ink)' }}>Pago:</strong>{' '}
-          {payment === 'efectivo' ? 'Efectivo' : payment === 'tarjeta' ? 'Tarjeta' : 'Yape / Plin'}
+          <strong>Pago:</strong>{' '}
+          {payment === 'efectivo' && 'Efectivo'}
+          {payment === 'yape' && 'Yape / Plin'}
+          {payment === 'tarjeta' &&
+            (cardReceipt
+              ? `${cardReceipt.brandLabel} terminada en ${cardReceipt.last4} · Aprobado (${cardReceipt.authCode})`
+              : 'Tarjeta')}
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 12, marginTop: 26 }}>
-        <button className="btn-outline" style={{ flex: 1 }} onClick={onBack}>
+      <div className="checkout-actions">
+        <button className="btn-outline checkout-actions-back" onClick={onBack}>
           Atrás
         </button>
-        <button className="btn-ember" style={{ flex: 2 }} onClick={onConfirm}>
+        <button className="btn-ember checkout-actions-primary" onClick={onConfirm}>
           Confirmar pedido
         </button>
       </div>
