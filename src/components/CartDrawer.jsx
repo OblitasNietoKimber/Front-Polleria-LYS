@@ -1,6 +1,5 @@
 import { Minus, Plus, Trash2, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import CategoryIcon from './CategoryIcon'
 import { useCart } from '../context/CartContext'
 import { money } from '../utils/currency'
 
@@ -44,9 +43,18 @@ export default function CartDrawer() {
                 key={product.id}
                 style={{ display: 'flex', gap: 12, padding: '14px 0', borderBottom: '1px dashed var(--line)' }}
               >
-                <div className="icon-tile" style={{ width: 56, height: 56, aspectRatio: 'unset', flexShrink: 0 }}>
-                  <CategoryIcon id={product.category} size={22} />
-                </div>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={{
+                    width: 56,
+                    height: 56,
+                    flexShrink: 0,
+                    borderRadius: 8,
+                    objectFit: 'cover',
+                    border: '1px solid var(--line)',
+                  }}
+                />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 600, fontSize: '0.92rem' }}>{product.name}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '8px 0 0' }}>
