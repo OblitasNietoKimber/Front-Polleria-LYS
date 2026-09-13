@@ -338,3 +338,31 @@
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* --- Franja punteada tipo ticket + hover en tarjetas del historial --- */
+.order-card {
+  position: relative;
+  border-left: none;
+  padding-top: 20px;
+  overflow: hidden;
+}
+
+.order-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-image: repeating-linear-gradient(90deg, var(--ember) 0 8px, transparent 8px 14px);
+  opacity: 0.9;
+}
+
+.order-card-side svg {
+  transition: transform 0.15s ease;
+}
+
+.order-card:hover .order-card-side svg {
+  transform: translateX(3px);
+}
