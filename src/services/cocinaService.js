@@ -13,24 +13,35 @@ function inicializar() {
   const data = localStorage.getItem(STORAGE_KEY);
 
   if (!data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(seedPedidos));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     return;
   }
 
-  // Compatibilidad: pedidos viejos sin estadoCocina, o creados por otro módulo
+  // Completa los campos faltantes de pedidos creados por módulos antiguos.
   const pedidos = JSON.parse(data);
+  let pedidosCliente = [];
+  try {
+    pedidosCliente = JSON.parse(localStorage.getItem("lys-client-orders")) || [];
+  } catch {
+    pedidosCliente = [];
+  }
+
   let necesitaMigrar = false;
   const migrados = pedidos.map((p) => {
-    let cambios = {};
-    if (!p.estadoCocina) {
-      necesitaMigrar = true;
-      cambios.estadoCocina = ESTADOS_COCINA.NUEVO;
+    const cambios = {};
+    if (!p.estadoCocina) cambios.estadoCocina = ESTADOS_COCINA.NUEVO;
+    if (!p.estado) cambios.estado = p.estadoPago || "pendiente";
+    if (!p.estadoPago) cambios.estadoPago = p.estado || "pendiente";
+    if (!p.tipo) {
+      const pedidoCliente = pedidosCliente.find((pedido) => pedido.id === p.id);
+      cambios.tipo = p.mesa ? "salon" : pedidoCliente?.deliveryType || "salon";
     }
-    if (!p.estado) {
+
+    if (Object.keys(cambios).length > 0) {
       necesitaMigrar = true;
-      cambios.estado = "pendiente";
+      return { ...p, ...cambios };
     }
-    return Object.keys(cambios).length ? { ...p, ...cambios } : p;
+    return p;
   });
   if (necesitaMigrar) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(migrados));
@@ -69,13 +80,20 @@ function cambiarEstado(id, nuevoEstado) {
     return cambios;
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(actualizados));
+  window.dispatchEvent(new CustomEvent("lys_pedidos_updated"));
   return actualizados.find((p) => p.id === id);
 }
 
-// Crea un pedido nuevo desde cualquier módulo (Mesas, Checkout web, etc.)
-// "id" es opcional: si el módulo que llama ya generó un número de pedido
-// (ej. el checkout del cliente con "LS-XXXX"), se reutiliza para no duplicar.
-function crearPedido({ id, mesa = null, cliente, items, observaciones = "", tipo = "salon", total } = {}) {
+// Crea pedidos desde Mesas, Checkout web u otros módulos sin perder su tipo.
+function crearPedido({
+  id,
+  mesa = null,
+  cliente,
+  items = [],
+  observaciones = "",
+  tipo = "salon",
+  total,
+} = {}) {
   const pedidos = getPedidos();
   const nuevoId = id || `PED-${1000 + pedidos.length + 1}`;
   const nuevoPedido = {
@@ -85,12 +103,19 @@ function crearPedido({ id, mesa = null, cliente, items, observaciones = "", tipo
     tipo,
     estadoCocina: ESTADOS_COCINA.NUEVO,
     estado: "pendiente",
+    estadoPago: "pendiente",
     observaciones,
     items,
     ...(total !== undefined ? { total } : {}),
     createdAt: new Date().toISOString(),
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...pedidos, nuevoPedido]));
+  const existente = pedidos.findIndex((pedido) => pedido.id === nuevoId);
+  const actualizados = [...pedidos];
+  if (existente >= 0) actualizados[existente] = nuevoPedido;
+  else actualizados.push(nuevoPedido);
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(actualizados));
+  window.dispatchEvent(new CustomEvent("lys_pedidos_updated"));
   return nuevoPedido;
 }
 
