@@ -1,7 +1,18 @@
+/* ============================================
+   EPIC 3 — Gestión de pedidos del cliente
+   ============================================ */
+
 .orders-page {
+  --shadow-soft: 0 4px 14px rgba(27, 21, 18, 0.06);
   max-width: 780px;
   margin: 0 auto;
   padding: 36px 20px 100px;
+}
+
+/* --- Encabezados y navegación --- */
+.orders-page-header {
+  padding-left: 16px;
+  border-left: 3px solid var(--ember);
 }
 
 .orders-page-header h1,
@@ -10,22 +21,12 @@
   margin-bottom: 4px;
 }
 
-.orders-page-header h1 {
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
+.orders-page-header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+.order-detail-header h1 { font-size: 1.6rem; }
 
 .orders-page-header p {
   color: var(--smoke);
   margin-bottom: 28px;
-}
-
-.order-detail-header {
-  margin-bottom: 24px;
-}
-
-.order-detail-header h1 {
-  font-size: 1.6rem;
 }
 
 .order-detail-back {
@@ -36,8 +37,63 @@
   margin-bottom: 22px;
 }
 
+.order-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.order-detail-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-id-btn {
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--smoke);
+  transition: all .15s ease;
+}
+
+.copy-id-btn:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+}
+
+/* --- Loading skeleton --- */
+.orders-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orders-skeleton-card {
+  height: 74px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--paper) 25%, var(--line) 50%, var(--paper) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Estado vacío --- */
 .orders-empty {
-  border: 1.5px dashed var(--line);
+  border: 1.5px dashed var(--gold);
   border-radius: 6px;
   padding: 60px 20px;
   text-align: center;
@@ -46,8 +102,19 @@
   align-items: center;
   gap: 14px;
   color: var(--smoke);
+  background: linear-gradient(180deg, var(--paper) 0%, #FBF3E1 100%);
 }
 
+.orders-empty svg {
+  animation: empty-float 2.4s ease-in-out infinite;
+}
+
+@keyframes empty-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* --- Lista / historial de pedidos --- */
 .orders-list {
   display: flex;
   flex-direction: column;
@@ -55,6 +122,8 @@
 }
 
 .order-card {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,18 +131,42 @@
   width: 100%;
   background: var(--paper);
   border: 1px solid var(--line);
-  border-left: 4px solid var(--ember);
   border-radius: 4px;
-  padding: 16px 18px;
+  padding: 20px 18px 16px;
   cursor: pointer;
   text-align: left;
-  transition: transform .15s ease, box-shadow .15s ease;
   font-family: inherit;
+  transition: transform .15s ease, box-shadow .15s ease;
+  animation: order-card-in 0.35s ease both;
+}
+
+.orders-list .order-card:nth-child(1) { animation-delay: 0.03s; }
+.orders-list .order-card:nth-child(2) { animation-delay: 0.08s; }
+.orders-list .order-card:nth-child(3) { animation-delay: 0.13s; }
+.orders-list .order-card:nth-child(4) { animation-delay: 0.18s; }
+.orders-list .order-card:nth-child(5) { animation-delay: 0.23s; }
+
+@keyframes order-card-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.order-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background-image: repeating-linear-gradient(90deg, var(--ember) 0 8px, transparent 8px 14px);
+  opacity: 0.9;
 }
 
 .order-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(27, 21, 18, 0.10);
+}
+
+.order-card:hover .order-card-side svg {
+  transform: translateX(3px);
 }
 
 .order-card-main {
@@ -88,13 +181,9 @@
   font-size: 0.95rem;
 }
 
-.order-card-date,
-.delivery-info-row {
-  color: var(--smoke);
-}
-
 .order-card-date {
   font-size: 0.8rem;
+  color: var(--smoke);
 }
 
 .order-card-status {
@@ -109,16 +198,26 @@
   gap: 10px;
 }
 
+.order-card-side svg {
+  transition: transform 0.15s ease;
+}
+
 .order-card-total {
   font-weight: 700;
   font-size: 1rem;
 }
 
-/* --- Tarjeta "comanda" del detalle --- */
-.order-items-card {
+/* --- Tarjetas con fondo blanco compartido (comanda + entrega) --- */
+.order-items-card,
+.delivery-info {
   background: var(--paper);
   border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: var(--shadow-soft);
 }
+
+.order-items-card { overflow: hidden; }
+.delivery-info { margin-top: 20px; padding: 18px; }
 
 .order-items-card-title {
   background: var(--char);
@@ -155,14 +254,6 @@
   color: var(--rust);
 }
 
-/* --- Información de entrega y pago --- */
-.delivery-info {
-  margin-top: 20px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: 18px;
-}
-
 .delivery-info-title {
   font-size: 1rem;
   font-weight: 600;
@@ -178,11 +269,19 @@
   padding: 6px 0;
 }
 
-/* --- Badge de estado (colores por etapa) --- */
+.delivery-info-row svg {
+  background: #FCEDE5;
+  border-radius: 50%;
+  padding: 5px;
+  width: 26px !important;
+  height: 26px !important;
+  flex-shrink: 0;
+}
+
+/* --- Badge de estado (colores por etapa vía variables) --- */
 .status-badge {
   --status-bg: #EAE3D8;
   --status-color: #6B5B3E;
-
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -251,6 +350,12 @@
   border-color: var(--ember);
   background: var(--ember);
   box-shadow: 0 0 0 4px #FCEDE5;
+  animation: stepper-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes stepper-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px #FCEDE5; }
+  50% { box-shadow: 0 0 0 7px #FCEDE5; }
 }
 
 .status-stepper-dot.done {
@@ -278,123 +383,10 @@
   color: var(--ember);
   font-weight: 700;
 }
-/* --- Loading skeleton --- */
-.orders-skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 
-.orders-skeleton-card {
-  height: 74px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--paper) 25%, var(--line) 50%, var(--paper) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-pulse 1.3s ease-in-out infinite;
-  border: 1px solid var(--line);
-}
-
-@keyframes skeleton-pulse {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-/* --- Copiar número de pedido --- */
-.order-detail-id {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.copy-id-btn {
-  background: none;
-  border: 1.5px solid var(--line);
-  border-radius: 4px;
-  width: 30px;
-  height: 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--smoke);
-  transition: all .15s ease;
-}
-
-.copy-id-btn:hover {
-  border-color: var(--ember);
-  color: var(--ember);
-}
-/* --- Animación de entrada de las tarjetas del historial --- */
-.order-card {
-  animation: order-card-in 0.35s ease both;
-}
-
-.orders-list .order-card:nth-child(1) { animation-delay: 0.03s; }
-.orders-list .order-card:nth-child(2) { animation-delay: 0.08s; }
-.orders-list .order-card:nth-child(3) { animation-delay: 0.13s; }
-.orders-list .order-card:nth-child(4) { animation-delay: 0.18s; }
-.orders-list .order-card:nth-child(5) { animation-delay: 0.23s; }
-
-@keyframes order-card-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* --- Franja punteada tipo ticket + hover en tarjetas del historial --- */
-.order-card {
-  position: relative;
-  border-left: none;
-  padding-top: 20px;
-  overflow: hidden;
-}
-
-.order-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background-image: repeating-linear-gradient(90deg, var(--ember) 0 8px, transparent 8px 14px);
-  opacity: 0.9;
-}
-
-.order-card-side svg {
-  transition: transform 0.15s ease;
-}
-
-.order-card:hover .order-card-side svg {
-  transform: translateX(3px);
-}
-
-/* --- Pulso en el paso activo del stepper --- */
-.status-stepper-dot.active {
-  animation: stepper-pulse 1.8s ease-in-out infinite;
-}
-
-@keyframes stepper-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px #FCEDE5; }
-  50% { box-shadow: 0 0 0 7px #FCEDE5; }
-}
-
-/* --- Encabezado de la sección con acento visual --- */
-.orders-page-header {
-  position: relative;
-  padding-left: 16px;
-  border-left: 3px solid var(--ember);
-}
-
-/* --- Estado vacío con más personalidad --- */
-.orders-empty {
-  background: linear-gradient(180deg, var(--paper) 0%, #FBF3E1 100%);
-  border-color: var(--gold);
-}
-
-.orders-empty svg {
-  animation: empty-float 2.4s ease-in-out infinite;
-}
-
-@keyframes empty-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+/* --- Responsive: mobile --- */
+@media (max-width: 480px) {
+  .status-stepper-label { font-size: 0.62rem; }
+  .status-stepper-dot { width: 20px; height: 20px; min-width: 20px; }
+  .order-detail-header { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
