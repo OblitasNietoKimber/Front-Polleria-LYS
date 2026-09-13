@@ -298,3 +298,28 @@
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+/* --- Copiar número de pedido --- */
+.order-detail-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-id-btn {
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--smoke);
+  transition: all .15s ease;
+}
+
+.copy-id-btn:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+}
