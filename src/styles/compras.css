@@ -13,3 +13,94 @@
   gap: 6px;
   margin-bottom: 22px;
 }
+
+/* Pasarela de pago con tarjeta */
+
+.card-payment-form {
+  margin-top: 14px;
+  padding: 18px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+}
+
+.card-payment-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-payment-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.card-payment-secure {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: var(--smoke);
+  letter-spacing: 0.02em;
+}
+
+.card-number-wrap {
+  position: relative;
+}
+
+.card-brand-badge {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--rust);
+  background: #FCEDE5;
+  padding: 3px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.card-field-error {
+  display: block;
+  color: #B23A2E;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.card-gateway-error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: #FBE7E4;
+  border: 1px solid #E3A79C;
+  color: #8A2E22;
+  font-size: 0.82rem;
+}
+
+.card-processing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: #FCEDE5;
+  color: var(--rust);
+  font-size: 0.82rem;
+}
+
+.card-spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(198, 82, 42, 0.3);
+  border-top-color: var(--rust);
+  animation: card-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes card-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,4 +1,5 @@
 import { CreditCard, Smartphone, Wallet } from 'lucide-react'
+import CardPaymentForm from './CardPaymentForm'
 
 const METHODS = [
   { id: 'efectivo', label: 'Efectivo', desc: 'Pagas al recibir tu pedido.', icon: Wallet },
@@ -6,7 +7,17 @@ const METHODS = [
   { id: 'yape', label: 'Yape / Plin', desc: 'Pago digital mediante QR.', icon: Smartphone },
 ]
 
-export default function PaymentMethod({ payment, onChange, onBack, onContinue }) {
+export default function PaymentMethod({
+  payment,
+  onChange,
+  card,
+  cardErrors,
+  processing,
+  gatewayError,
+  onCardChange,
+  onBack,
+  onContinue,
+}) {
   return (
     <div>
       <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
@@ -17,6 +28,7 @@ export default function PaymentMethod({ payment, onChange, onBack, onContinue })
           <button
             key={method.id}
             onClick={() => onChange(method.id)}
+            disabled={processing}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -38,12 +50,23 @@ export default function PaymentMethod({ payment, onChange, onBack, onContinue })
           </button>
         ))}
       </div>
+
+      {payment === 'tarjeta' && (
+        <CardPaymentForm
+          card={card}
+          errors={cardErrors}
+          processing={processing}
+          gatewayError={gatewayError}
+          onChange={onCardChange}
+        />
+      )}
+
       <div style={{ display: 'flex', gap: 12, marginTop: 26 }}>
-        <button className="btn-outline" style={{ flex: 1 }} onClick={onBack}>
+        <button className="btn-outline" style={{ flex: 1 }} onClick={onBack} disabled={processing}>
           Atrás
         </button>
-        <button className="btn-ember" style={{ flex: 2 }} disabled={!payment} onClick={onContinue}>
-          Ver resumen
+        <button className="btn-ember" style={{ flex: 2 }} disabled={!payment || processing} onClick={onContinue}>
+          {processing ? 'Procesando…' : 'Ver resumen'}
         </button>
       </div>
     </div>

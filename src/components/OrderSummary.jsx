@@ -1,4 +1,4 @@
-export default function OrderSummary({ items, subtotal, shipping, total, deliveryType, form, payment, money, onBack, onConfirm }) {
+export default function OrderSummary({ items, subtotal, shipping, total, deliveryType, form, payment, cardReceipt, money, onBack, onConfirm }) {
   return (
     <div>
       <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
@@ -63,7 +63,12 @@ export default function OrderSummary({ items, subtotal, shipping, total, deliver
         <div>{deliveryType === 'delivery' ? `${form.address}${form.reference ? ` (${form.reference})` : ''}` : 'Recojo en tienda'}</div>
         <div>
           <strong style={{ color: 'var(--ink)' }}>Pago:</strong>{' '}
-          {payment === 'efectivo' ? 'Efectivo' : payment === 'tarjeta' ? 'Tarjeta' : 'Yape / Plin'}
+          {payment === 'efectivo' && 'Efectivo'}
+          {payment === 'yape' && 'Yape / Plin'}
+          {payment === 'tarjeta' &&
+            (cardReceipt
+              ? `${cardReceipt.brandLabel} terminada en ${cardReceipt.last4} · Aprobado (${cardReceipt.authCode})`
+              : 'Tarjeta')}
         </div>
       </div>
       <div style={{ display: 'flex', gap: 12, marginTop: 26 }}>
