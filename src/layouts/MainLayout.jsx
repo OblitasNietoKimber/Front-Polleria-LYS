@@ -6,7 +6,7 @@ import { CartProvider } from '../context/CartContext'
 export default function MainLayout() {
   return (
     <CartProvider>
-      <div style={{ minHeight: '100%' }}>
+      <div className="app-shell">
         <SiteHeader />
         <Outlet />
         <CartDrawer />

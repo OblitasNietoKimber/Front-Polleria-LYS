@@ -12,7 +12,7 @@ function normalizarMetodos(metodos) {
 
   return metodos.map((item, index) => ({
     ...item,
-    color: colores[index % colores.length],
+    colorIndex: index % colores.length,
     monto: formatoSoles.format(item.total),
     porcentaje: totalGeneral ? `${Math.round((item.total / totalGeneral) * 100)}%` : "0%",
   }));
@@ -83,7 +83,7 @@ export default function VentasMetodoPago({ metodos = [] }) {
           ) : metodosPago.map((item) => (
             <div className="admin-payment-row" key={item.nombre}>
               <div className="admin-payment-left">
-                <span className="admin-color-dot" style={{ backgroundColor: item.color }} />
+                <span className={`admin-color-dot admin-color-dot-${item.colorIndex}`} />
                 <span>{item.nombre}</span>
               </div>
 

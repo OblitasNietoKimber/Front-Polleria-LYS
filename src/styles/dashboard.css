@@ -467,7 +467,28 @@
 }
 
 .admin-pill-bar {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  width: 100px;
   height: 6px;
+  border-radius: 999px;
+  background: #EFEAE4;
+  overflow: hidden;
+}
+
+.admin-pill-bar::-webkit-progress-bar {
+  background: #EFEAE4;
+  border-radius: 999px;
+}
+
+.admin-pill-bar::-webkit-progress-value {
+  background: var(--ember);
+  border-radius: 999px;
+}
+
+.admin-pill-bar::-moz-progress-bar {
   background: var(--ember);
   border-radius: 999px;
 }
@@ -578,6 +599,40 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+.admin-color-dot-0 { background: var(--ember); }
+.admin-color-dot-1 { background: var(--char); }
+.admin-color-dot-2 { background: var(--rust); }
+.admin-color-dot-3 { background: var(--gold); }
+
+/* Tooltips de EChart (se insertan como HTML en document.body, por eso
+   pueden reutilizar clases del stylesheet global en vez de estilos inline) */
+
+.echart-tooltip {
+  min-width: 150px;
+}
+
+.echart-tooltip-axis {
+  color: #6E655D;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.echart-tooltip-title {
+  color: #17130F;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.echart-tooltip-value {
+  font-weight: 700;
+}
+
+.echart-tooltip-value.green { color: #2E7D32; }
+.echart-tooltip-value.yellow { color: #E8A33D; }
+.echart-tooltip-value.red { color: #E23A32; }
+.echart-tooltip-value.blue { color: #1565C0; }
 
 .admin-payment-values {
   gap: 8px;

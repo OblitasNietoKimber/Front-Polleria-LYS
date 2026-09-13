@@ -30,12 +30,10 @@ export default function HistorialCocinaPage() {
 
         <div className="cocina-main">
           <div className="cocina-topbar-local">
-            <h1 className="font-display" style={{ fontSize: "1.8rem", margin: 0 }}>
-              Historial de pedidos
-            </h1>
+            <h1 className="font-display cocina-page-title">Historial de pedidos</h1>
           </div>
 
-          <section style={{ marginBottom: 36 }}>
+          <section className="cocina-history-section">
             <h2 className="cocina-seccion-titulo">Hoy ({deHoy.length})</h2>
             <PedidosFinalizados pedidos={deHoy} />
           </section>

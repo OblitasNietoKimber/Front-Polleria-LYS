@@ -11,6 +11,9 @@ const PAYMENT_STORAGE_KEY = 'lys-checkout-payment'
 const ORDER_STORAGE_KEY = 'lys-order-number'
 
 const EMPTY_FORM = { name: '', address: '', reference: '', phone: '' }
+// Los datos de tarjeta NUNCA se guardan en localStorage (ni completos ni parciales):
+// viven solo en memoria mientras dura la sesión de pago.
+const EMPTY_CARD = { number: '', name: '', expiry: '', cvv: '' }
 
 function readStoredCart() {
   if (typeof window === 'undefined') return {}
@@ -57,6 +60,8 @@ export function CartProvider({ children }) {
   const [form, setForm] = useState(() => readStoredDelivery().form)
   const [payment, setPayment] = useState(readStoredPayment)
   const [orderNumber, setOrderNumber] = useState(readStoredOrderNumber)
+  const [card, setCard] = useState(EMPTY_CARD)
+  const [cardReceipt, setCardReceipt] = useState(null)
 
   useEffect(() => {
     try {
@@ -136,6 +141,14 @@ export function CartProvider({ children }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
+  function updateCardField(field, value) {
+    setCard((current) => ({ ...current, [field]: value }))
+  }
+
+  function clearCard() {
+    setCard(EMPTY_CARD)
+  }
+
   function confirmOrder() {
   const number = generateOrderNumber()
 
@@ -148,6 +161,7 @@ export function CartProvider({ children }) {
     deliveryType,
     form,
     payment,
+    paymentReceipt: cardReceipt,
   })
 
   // Sincroniza el pedido con Caja y Cocina (comparten la misma fuente: "lys_pedidos")
@@ -168,6 +182,8 @@ export function CartProvider({ children }) {
 
   setOrderNumber(number)
   setCart({})
+  clearCard()
+  setCardReceipt(null)
   return number
 }
 
@@ -177,6 +193,8 @@ export function CartProvider({ children }) {
     setForm(EMPTY_FORM)
     setPayment('')
     setOrderNumber(null)
+    clearCard()
+    setCardReceipt(null)
   }
 
   const value = {
@@ -197,6 +215,11 @@ export function CartProvider({ children }) {
     updateFormField,
     payment,
     setPayment,
+    card,
+    updateCardField,
+    clearCard,
+    cardReceipt,
+    setCardReceipt,
     orderNumber,
     confirmOrder,
     resetAll,

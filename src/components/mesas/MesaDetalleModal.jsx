@@ -123,10 +123,8 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
       <div className="mesa-modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="mesa-modal-header">
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700 }}>
-              Mesa {numero}
-            </h3>
-            <span style={{ fontSize: '0.82rem', color: '#6B7280' }}>
+            <h3 className="mesa-modal-section-title">Mesa {numero}</h3>
+            <span className="mesa-modal-subtitle">
               Capacidad: {capacidad} comensales · Zona {mesa.zona === 'terraza' ? 'Terraza' : mesa.zona === 'segundo_piso' ? 'Segundo piso' : 'Salón principal'}
             </span>
           </div>
@@ -137,37 +135,18 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
 
         <div className="mesa-modal-body">
           {estado === 'libre' && !modoReserva && (
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <p style={{ color: '#4B5563', fontSize: '0.95rem', marginBottom: 20 }}>
+            <div className="mesa-empty-state">
+              <p className="mesa-empty-text">
                 Esta mesa se encuentra disponible para nuevos comensales.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div className="mesa-actions-col">
                 <button
-                  className="btn-nuevo-pedido"
-                  style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+                  className="btn-nuevo-pedido mesa-btn-block mesa-btn-block-lg"
                   onClick={handleIrAPedido}
                 >
                   + Tomar pedido ahora
                 </button>
-                <button
-                  type="button"
-                  style={{
-                    width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1.5px solid #F59E0B',
-                    background: '#FFFBEB',
-                    color: '#B45309',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    fontSize: '0.9rem',
-                  }}
-                  onClick={() => setModoReserva(true)}
-                >
+                <button type="button" className="mesa-btn-reservar" onClick={() => setModoReserva(true)}>
                   <Calendar size={16} />
                   <span>Reservar esta mesa</span>
                 </button>
@@ -176,23 +155,17 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
           )}
 
           {estado === 'libre' && modoReserva && (
-            <div style={{ background: '#FFFBEB', border: '1.5px solid #FDE68A', padding: '16px', borderRadius: '12px', textAlign: 'left' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', color: '#B45309' }}>
+            <div className="mesa-reserva-form">
+              <div className="mesa-reserva-form-head">
                 <Calendar size={18} />
-                <h4 style={{ margin: 0, fontSize: '0.98rem', fontWeight: 700 }}>Nueva reserva · Mesa {numero}</h4>
+                <h4 className="mesa-reserva-form-title">Nueva reserva · Mesa {numero}</h4>
               </div>
 
-              {errorReserva && (
-                <div style={{ color: '#DC2626', fontSize: '0.82rem', marginBottom: '10px' }}>
-                  {errorReserva}
-                </div>
-              )}
+              {errorReserva && <div className="mesa-reserva-error">{errorReserva}</div>}
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div className="mesa-reserva-fields">
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
-                    Nombre del cliente / grupo:
-                  </label>
+                  <label className="mesa-reserva-label">Nombre del cliente / grupo:</label>
                   <input
                     type="text"
                     placeholder="Ej: Familia López, Carlos Vega..."
@@ -201,64 +174,50 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
                       setClienteNombre(e.target.value);
                       if (errorReserva) setErrorReserva('');
                     }}
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                    className="mesa-reserva-input"
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="mesa-reserva-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
-                      Hora programada:
-                    </label>
+                    <label className="mesa-reserva-label">Hora programada:</label>
                     <input
                       type="time"
                       value={horaReservaInput}
                       onChange={(e) => setHoraReservaInput(e.target.value)}
-                      style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                      className="mesa-reserva-input"
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
-                      Comensales:
-                    </label>
+                    <label className="mesa-reserva-label">Comensales:</label>
                     <input
                       type="number"
                       min="1"
                       max="16"
                       value={comensalesReserva}
                       onChange={(e) => setComensalesReserva(Math.max(1, parseInt(e.target.value) || 1))}
-                      style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                      className="mesa-reserva-input"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#78350F', marginBottom: '4px' }}>
-                    Teléfono de contacto (opcional):
-                  </label>
+                  <label className="mesa-reserva-label">Teléfono de contacto (opcional):</label>
                   <input
                     type="tel"
                     placeholder="Ej: 987 654 321"
                     value={telefonoReserva}
                     onChange={(e) => setTelefonoReserva(e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.9rem', outline: 'none' }}
+                    className="mesa-reserva-input"
                   />
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
-                  <button
-                    type="button"
-                    onClick={handleConfirmarReserva}
-                    style={{ flex: 1, padding: '10px', background: '#D97706', color: '#FFF', border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer' }}
-                  >
+                <div className="mesa-reserva-actions">
+                  <button type="button" onClick={handleConfirmarReserva} className="mesa-reserva-save-btn">
                     Guardar reserva
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setModoReserva(false)}
-                    style={{ padding: '10px 14px', background: '#FFF', color: '#6B7280', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '0.9rem', cursor: 'pointer' }}
-                  >
+                  <button type="button" onClick={() => setModoReserva(false)} className="mesa-reserva-cancel-btn">
                     Cancelar
                   </button>
                 </div>
@@ -268,24 +227,22 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
 
           {estado === 'ocupada' && (
             <div>
-              <div style={{ background: '#F8F9FA', padding: 14, borderRadius: 10, marginBottom: 16 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: '0.88rem' }}>
-                  <span style={{ color: '#6B7280' }}>Tiempo en mesa:</span>
-                  <span style={{ fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                    <Clock size={14} style={{ color: '#718096' }} />
+              <div className="mesa-ocupada-info">
+                <div className="mesa-ocupada-row">
+                  <span className="mesa-ocupada-label">Tiempo en mesa:</span>
+                  <span className="mesa-ocupada-value">
+                    <Clock size={14} className="mesa-inline-icon" />
                     {minutos} minutos
                   </span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: '0.88rem' }}>
-                  <span style={{ color: '#6B7280' }}>Total consumido:</span>
-                  <span style={{ fontWeight: 700, color: 'var(--ember)', fontFamily: 'IBM Plex Mono' }}>
-                    S/ {Number(totalAcumulado || 0).toFixed(2)}
-                  </span>
+                <div className="mesa-ocupada-row">
+                  <span className="mesa-ocupada-label">Total consumido:</span>
+                  <span className="mesa-ocupada-total">S/ {Number(totalAcumulado || 0).toFixed(2)}</span>
                 </div>
                 {pedidoActivo && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
-                    <span style={{ color: '#6B7280' }}>Estado en cocina:</span>
-                    <span style={{ fontWeight: 600, textTransform: 'capitalize', color: '#1F8844' }}>
+                  <div className="mesa-ocupada-row">
+                    <span className="mesa-ocupada-label">Estado en cocina:</span>
+                    <span className="mesa-ocupada-estado-cocina">
                       {pedidoActivo.estadoCocina?.replace('_', ' ') || 'En espera'}
                     </span>
                   </div>
@@ -293,13 +250,11 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
               </div>
 
               {pedidoActivo?.items?.length > 0 && (
-                <div style={{ marginBottom: 16 }}>
-                  <h4 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: '#6B7280', textTransform: 'uppercase' }}>
-                    Comanda actual
-                  </h4>
-                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: '0.85rem', color: '#374151' }}>
+                <div className="mesa-comanda-box">
+                  <h4 className="mesa-comanda-title">Comanda actual</h4>
+                  <ul className="mesa-comanda-list">
                     {pedidoActivo.items.map((it, idx) => (
-                      <li key={idx} style={{ marginBottom: 4 }}>
+                      <li key={idx}>
                         {it.cantidad}x {it.nombre} - S/ {(it.precio * it.cantidad).toFixed(2)}
                       </li>
                     ))}
@@ -307,42 +262,14 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
                 </div>
               )}
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <button
-                  className="btn-nuevo-pedido"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                  onClick={handleIrAPedido}
-                >
+              <div className="mesa-actions-col">
+                <button className="btn-nuevo-pedido mesa-btn-block" onClick={handleIrAPedido}>
                   Ver / Agregar a la comanda
                 </button>
-                <button
-                  type="button"
-                  style={{
-                    padding: '10px',
-                    borderRadius: 8,
-                    border: '1px solid #E8A33D',
-                    background: '#FEF6E8',
-                    color: '#C47F17',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                  onClick={handleSolicitarCuenta}
-                >
+                <button type="button" className="mesa-btn-secondary-warn" onClick={handleSolicitarCuenta}>
                   Solicitar cuenta para caja
                 </button>
-                <button
-                  type="button"
-                  style={{
-                    padding: '8px',
-                    borderRadius: 8,
-                    border: '1px solid var(--line)',
-                    background: '#FFF',
-                    color: '#6B7280',
-                    fontSize: '0.82rem',
-                    cursor: 'pointer',
-                  }}
-                  onClick={handleLiberarMesa}
-                >
+                <button type="button" className="mesa-btn-secondary-neutral" onClick={handleLiberarMesa}>
                   Liberar mesa manualmente
                 </button>
               </div>
@@ -350,67 +277,47 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
           )}
 
           {estado === 'reservada' && (
-            <div style={{ textAlign: 'center', padding: '10px 0' }}>
-              <div style={{ background: '#FEF8EF', border: '1px solid #FDE6C8', padding: 16, borderRadius: 12, marginBottom: 16, textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, borderBottom: '1px solid #FCE3BD', paddingBottom: 10 }}>
-                  <div style={{ background: '#FDE68A', color: '#92400E', padding: 6, borderRadius: 8, display: 'flex' }}>
+            <div className="mesa-reservada-wrap">
+              <div className="mesa-reservada-card">
+                <div className="mesa-reservada-head">
+                  <div className="mesa-reservada-icon-wrap">
                     <Calendar size={20} />
                   </div>
                   <div>
-                    <h4 style={{ margin: 0, fontSize: '1.02rem', color: '#92400E', fontWeight: 700 }}>
-                      Reserva programada
-                    </h4>
-                    <span style={{ fontSize: '0.78rem', color: '#B45309' }}>
-                      Mesa reservada y apartada
-                    </span>
+                    <h4 className="mesa-reservada-title">Reserva programada</h4>
+                    <span className="mesa-reservada-subtitle">Mesa reservada y apartada</span>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.86rem', marginBottom: 10 }}>
+                <div className="mesa-reservada-grid mesa-reservada-grid-first">
                   <div>
-                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Cliente:</span>
-                    <strong style={{ color: 'var(--ink)' }}>{mesa.clienteReserva || 'Cliente'}</strong>
+                    <span className="mesa-reservada-field-label">Cliente:</span>
+                    <strong className="mesa-reservada-field-value">{mesa.clienteReserva || 'Cliente'}</strong>
                   </div>
                   <div>
-                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Hora:</span>
-                    <strong style={{ color: '#D97706' }}>{horaReserva || '20:00'} hrs</strong>
+                    <span className="mesa-reservada-field-label">Hora:</span>
+                    <strong className="mesa-reservada-field-value-accent">{horaReserva || '20:00'} hrs</strong>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.86rem' }}>
+                <div className="mesa-reservada-grid">
                   <div>
-                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Comensales:</span>
-                    <strong style={{ color: 'var(--ink)' }}>{mesa.comensalesReserva || capacidad} personas</strong>
+                    <span className="mesa-reservada-field-label">Comensales:</span>
+                    <strong className="mesa-reservada-field-value">{mesa.comensalesReserva || capacidad} personas</strong>
                   </div>
                   <div>
-                    <span style={{ color: '#8C827A', display: 'block', fontSize: '0.76rem' }}>Teléfono:</span>
-                    <span style={{ color: '#4B5563' }}>{mesa.telefonoReserva || 'Sin registrar'}</span>
+                    <span className="mesa-reservada-field-label">Teléfono:</span>
+                    <span className="mesa-reservada-field-text">{mesa.telefonoReserva || 'Sin registrar'}</span>
                   </div>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <button
-                  className="btn-nuevo-pedido"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                  onClick={handleIrAPedido}
-                >
-                  <CheckCircle2 size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+              <div className="mesa-actions-col">
+                <button className="btn-nuevo-pedido mesa-btn-block" onClick={handleIrAPedido}>
+                  <CheckCircle2 size={18} className="mesa-btn-icon-inline" />
                   Llegó el cliente · Sentar y abrir pedido
                 </button>
-                <button
-                  type="button"
-                  style={{
-                    padding: '8px',
-                    borderRadius: 8,
-                    border: '1px solid var(--line)',
-                    background: '#FFF',
-                    color: '#6B7280',
-                    fontSize: '0.82rem',
-                    cursor: 'pointer',
-                  }}
-                  onClick={handleCancelarReserva}
-                >
+                <button type="button" className="mesa-btn-secondary-neutral" onClick={handleCancelarReserva}>
                   Cancelar / Liberar reserva
                 </button>
               </div>
@@ -419,18 +326,7 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
         </div>
 
         <div className="mesa-modal-footer">
-          <button
-            type="button"
-            style={{
-              padding: '8px 16px',
-              borderRadius: 8,
-              border: '1px solid var(--line)',
-              background: '#FFF',
-              cursor: 'pointer',
-              fontWeight: 500,
-            }}
-            onClick={onClose}
-          >
+          <button type="button" className="mesa-modal-close-btn" onClick={onClose}>
             Cerrar
           </button>
         </div>
@@ -438,4 +334,3 @@ export default function MesaDetalleModal({ mesa, onClose, onMesaUpdated }) {
     </div>
   );
 }
-

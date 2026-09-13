@@ -6,14 +6,12 @@ function FilaPedido({ pedido }) {
   return (
     <div className="cocina-finalizado-item">
       <div>
-        <span style={{ fontWeight: 700 }}>{pedido.id}</span>
-        <span className="cocina-id" style={{ marginLeft: 8 }}>{pedido.cliente}</span>
+        <span className="cocina-finalizado-id">{pedido.id}</span>
+        <span className="cocina-id cocina-finalizado-cliente">{pedido.cliente}</span>
       </div>
-      <div style={{ display: "flex", gap: 18, alignItems: "center" }}>
-        <span className="font-mono" style={{ fontSize: "0.78rem", color: "var(--smoke)" }}>
-          Preparación: {duracion}
-        </span>
-        <span className="font-mono" style={{ fontSize: "0.8rem", color: "var(--smoke)" }}>
+      <div className="cocina-finalizado-meta">
+        <span className="font-mono cocina-finalizado-duracion">Preparación: {duracion}</span>
+        <span className="font-mono cocina-finalizado-hora">
           {new Date(pedido.finalizadoAt).toLocaleTimeString()}
         </span>
       </div>

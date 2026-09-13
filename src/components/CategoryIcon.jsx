@@ -1,9 +1,22 @@
-import { Flame } from 'lucide-react'
 import { CATEGORIES } from '../data/categories'
 
-export default function CategoryIcon({ id, size = 22, style }) {
-  const category = CATEGORIES.find((item) => item.id === id)
-  const Icon = category ? category.icon : Flame
+const TAMANOS = {
+  sm: 'category-icon-sm',
+  md: 'category-icon-md',
+  lg: 'category-icon-lg',
+}
 
-  return <Icon size={size} style={style} strokeWidth={1.8} />
+export default function CategoryIcon({ id, size = 'md' }) {
+  const category = CATEGORIES.find((item) => item.id === id)
+  if (!category) return null
+
+  const claseTamano = TAMANOS[size] || TAMANOS.md
+
+  return (
+    <img
+      src={category.image}
+      alt={category.label}
+      className={`category-icon ${claseTamano}`}
+    />
+  )
 }

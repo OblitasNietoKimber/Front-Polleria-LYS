@@ -1,4 +1,4 @@
-import { Flame, ShoppingCart } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext'
 import { useState } from 'react';
@@ -32,7 +32,11 @@ const handleLogout = () => {
           className="lys-brand-link"
         >
           <span className="lys-logo-badge">
-            <Flame size={19} color="var(--ember)" strokeWidth={2} />
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN453N6mpAhn09UKYb6yIXeJS43lFNZ41j7YQtRNGHgbZONCxXKd-xog&s=10"
+              alt="Leña y Sabores"
+              className="lys-logo-img"
+            />
           </span>
           <span className="font-display lys-brand-title">
             Leña y Sabores

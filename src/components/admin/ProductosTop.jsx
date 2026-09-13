@@ -16,7 +16,7 @@ const aliasProductos = {
 function normalizarTexto(texto = "") {
   return texto
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
     .replace(/[^\w\s/]/g, "")
     .replace(/\s+/g, " ")
@@ -49,7 +49,6 @@ function prepararProductos(productos) {
       pct,
       imagen: producto?.image || item.imagen || null,
       totalFormateado: formatoSoles.format(item.total),
-      ancho: `${Math.max(18, Math.round(pct * 2))}px`,
     };
   });
 }
@@ -99,7 +98,9 @@ export default function ProductosTop({ productos = [] }) {
                 <td className="font-mono">{item.totalFormateado}</td>
                 <td>
                   <div className="admin-participation">
-                    <span className="admin-pill-bar" style={{ width: item.ancho }} />
+                    {/* <progress> nativo: el navegador dibuja el ancho de la barra
+                        según value/max, sin necesidad de calcular ni pasar un style */}
+                    <progress className="admin-pill-bar" value={item.pct} max="100" />
                     <span className="font-mono">{item.pct}%</span>
                   </div>
                 </td>
