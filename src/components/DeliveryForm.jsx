@@ -32,6 +32,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
             value={form.name}
             onChange={(event) => onFormChange('name', event.target.value)}
             placeholder="Ej. María Torres"
+            maxLength={50}
           />
           {errors.name && <span className="checkout-field-error">{errors.name}</span>}
         </label>
@@ -44,6 +45,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
                 value={form.address}
                 onChange={(event) => onFormChange('address', event.target.value)}
                 placeholder="Av. Ejemplo 123, distrito"
+                maxLength={50}
               />
               {errors.address && <span className="checkout-field-error">{errors.address}</span>}
             </label>
@@ -54,6 +56,7 @@ export default function DeliveryForm({ deliveryType, form, errors, onTypeChange,
                 value={form.reference}
                 onChange={(event) => onFormChange('reference', event.target.value)}
                 placeholder="Ej. frente al parque, edificio azul"
+                maxLength={50}
               />
             </label>
           </>
