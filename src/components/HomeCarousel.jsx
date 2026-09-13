@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-export default function HomeCarousel({ slides, interval = 5000 }) {
+export default function HomeCarousel({ slides, interval = 5000, showArrows = true, showDots = true }) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -20,13 +20,16 @@ export default function HomeCarousel({ slides, interval = 5000 }) {
 
   return (
     <div className="home-carousel">
-      <div className="home-carousel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-        {slides.map((slide) => (
-          <img key={slide.id} src={slide.image} alt={slide.alt} className="home-carousel-slide" />
-        ))}
-      </div>
+      {slides.map((slide, i) => (
+        <img
+          key={slide.id}
+          src={slide.image}
+          alt={slide.alt}
+          className={`home-carousel-slide ${i === index ? 'active' : ''}`}
+        />
+      ))}
 
-      {slides.length > 1 && (
+      {showArrows && slides.length > 1 && (
         <>
           <button
             type="button"
@@ -44,19 +47,21 @@ export default function HomeCarousel({ slides, interval = 5000 }) {
           >
             <ChevronRight size={20} />
           </button>
-
-          <div className="home-carousel-dots">
-            {slides.map((slide, i) => (
-              <button
-                key={slide.id}
-                type="button"
-                className={`home-carousel-dot ${i === index ? 'active' : ''}`}
-                onClick={() => goTo(i)}
-                aria-label={`Ir a la diapositiva ${i + 1}`}
-              />
-            ))}
-          </div>
         </>
+      )}
+
+      {showDots && slides.length > 1 && (
+        <div className="home-carousel-dots">
+          {slides.map((slide, i) => (
+            <button
+              key={slide.id}
+              type="button"
+              className={`home-carousel-dot ${i === index ? 'active' : ''}`}
+              onClick={() => goTo(i)}
+              aria-label={`Ir a la diapositiva ${i + 1}`}
+            />
+          ))}
+        </div>
       )}
     </div>
   )
