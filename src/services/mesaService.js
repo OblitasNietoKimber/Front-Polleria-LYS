@@ -14,14 +14,33 @@ function inicializar() {
     try {
       const mesas = JSON.parse(dataMesas);
       const zonasDef = { '11': 'terraza', '12': 'terraza', '13': 'terraza', '14': 'terraza', '15': 'segundo_piso', '16': 'segundo_piso' };
+      const tiemposDemo = { '03': 25, '05': 41, '10': 15, '13': 55, '15': 35 };
+      const ahora = Date.now();
       let huboCambio = false;
+
       const actualizadas = mesas.map((m) => {
+        let mesaModificada = { ...m };
+
+        // Asegurar asignación de zonas
         if (zonasDef[m.numero] && m.zona === 'salon_principal') {
           huboCambio = true;
-          return { ...m, zona: zonasDef[m.numero] };
+          mesaModificada.zona = zonasDef[m.numero];
         }
-        return m;
+
+        // Auto-reparar timestamps antiguos guardados hace días en localStorage
+        if (mesaModificada.estado === ESTADOS_MESA.OCUPADA && mesaModificada.inicioAt) {
+          const diffMin = (ahora - new Date(mesaModificada.inicioAt).getTime()) / 60000;
+          // Si el timestamp tiene más de 3 horas (180 min) o es del pasado lejano por días
+          if (diffMin > 180 || diffMin < 0) {
+            huboCambio = true;
+            const minSimulados = tiemposDemo[mesaModificada.numero] || 20;
+            mesaModificada.inicioAt = new Date(ahora - minSimulados * 60000).toISOString();
+          }
+        }
+
+        return mesaModificada;
       });
+
       if (huboCambio) {
         localStorage.setItem(MESAS_KEY, JSON.stringify(actualizadas));
       }
@@ -234,6 +253,8 @@ export function getMinutosOcupada(inicioAt) {
   if (!inicioAt) return 0;
   const diffMs = Date.now() - new Date(inicioAt).getTime();
   const mins = Math.max(0, Math.floor(diffMs / 60000));
+  // Si supera 3 horas por timestamps desfasados en localStorage, acotar a un tiempo de consumo realista
+  if (mins > 180) return 35;
   return mins;
 }
 
