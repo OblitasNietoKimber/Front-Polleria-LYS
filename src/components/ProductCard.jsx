@@ -2,12 +2,11 @@ import { money } from '../utils/currency'
 import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product, onSelect }) {
-  const { addToCart, openCart } = useCart()
+  const { addToCart } = useCart()
 
   function handleAdd(event) {
     event.stopPropagation()
     addToCart(product.id)
-    openCart()
   }
 
   return (

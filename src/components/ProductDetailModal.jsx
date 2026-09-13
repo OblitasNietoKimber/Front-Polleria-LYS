@@ -4,13 +4,12 @@ import { money } from '../utils/currency'
 import { useCart } from '../context/CartContext'
 
 export default function ProductDetailModal({ product, onClose }) {
-  const { addToCart, openCart } = useCart()
+  const { addToCart } = useCart()
 
   if (!product) return null
 
   function handleAdd() {
     addToCart(product.id)
-    openCart()
     onClose()
   }
 
