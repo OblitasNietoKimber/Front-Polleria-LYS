@@ -1,6 +1,8 @@
 import { Flame } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { CATEGORIES } from '../data/categories'
+import { BANNERS } from '../data/banners'
+import HomeCarousel from '../components/HomeCarousel'
 import '../styles/home.css'
 
 export default function HomePage() {
@@ -9,6 +11,10 @@ export default function HomePage() {
   return (
     <>
       <header className="home-hero">
+        <div className="home-hero-media">
+          <HomeCarousel slides={BANNERS} />
+          <div className="home-hero-overlay" />
+        </div>
         <div className="home-hero-inner">
           <div className="home-hero-badge">
             <Flame size={14} strokeWidth={2.4} /> Pollería a la leña
