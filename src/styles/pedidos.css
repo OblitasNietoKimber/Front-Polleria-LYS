@@ -233,3 +233,8 @@
   color: var(--ember);
 }
 
+@media (max-width: 480px) {
+  .orders-banner-title {
+    font-size: 1.15rem;
+  }
+}
