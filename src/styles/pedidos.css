@@ -10,73 +10,33 @@
 }
 
 /* --- Encabezados y navegación --- */
-.orders-page-header {
-  padding-left: 16px;
-  border-left: 3px solid var(--ember);
-}
-
-.orders-page-header h1,
-.order-detail-header h1 {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
+.orders-page-header { padding-left: 16px; border-left: 3px solid var(--ember); }
+.orders-page-header h1, .order-detail-header h1 { font-weight: 600; margin-bottom: 4px; }
 .orders-page-header h1 { font-size: 1.8rem; margin-bottom: 6px; }
 .order-detail-header h1 { font-size: 1.6rem; }
+.orders-page-header p { color: var(--smoke); margin-bottom: 28px; }
 
-.orders-page-header p {
-  color: var(--smoke);
-  margin-bottom: 28px;
-}
-
-.order-detail-back {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--rust);
-  margin-bottom: 22px;
-}
-
-.order-detail-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.order-detail-id {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.order-detail-back { display: flex; align-items: center; gap: 6px; color: var(--rust); margin-bottom: 22px; }
+.order-detail-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.order-detail-id { display: flex; align-items: center; gap: 10px; }
 
 .copy-id-btn {
-  background: none;
-  border: 1.5px solid var(--line);
-  border-radius: 4px;
-  width: 30px;
-  height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
   color: var(--smoke);
+  cursor: pointer;
   transition: all .15s ease;
 }
-
-.copy-id-btn:hover {
-  border-color: var(--ember);
-  color: var(--ember);
-}
+.copy-id-btn:hover { border-color: var(--ember); color: var(--ember); }
 
 /* --- Loading skeleton --- */
-.orders-skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
+.orders-skeleton { display: flex; flex-direction: column; gap: 12px; }
 .orders-skeleton-card {
   height: 74px;
   border: 1px solid var(--line);
@@ -85,41 +45,26 @@
   background-size: 200% 100%;
   animation: skeleton-pulse 1.3s ease-in-out infinite;
 }
-
-@keyframes skeleton-pulse {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
 /* --- Estado vacío --- */
 .orders-empty {
-  border: 1.5px dashed var(--gold);
-  border-radius: 6px;
-  padding: 60px 20px;
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  padding: 60px 20px;
+  text-align: center;
   color: var(--smoke);
+  border: 1.5px dashed var(--gold);
+  border-radius: 6px;
   background: linear-gradient(180deg, var(--paper) 0%, #FBF3E1 100%);
 }
+.orders-empty svg { animation: empty-float 2.4s ease-in-out infinite; }
+@keyframes empty-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-.orders-empty svg {
-  animation: empty-float 2.4s ease-in-out infinite;
-}
-
-@keyframes empty-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-/* --- Lista / historial de pedidos --- */
-.orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+/* --- Historial de pedidos --- */
+.orders-list { display: flex; flex-direction: column; gap: 12px; }
 
 .order-card {
   position: relative;
@@ -129,27 +74,22 @@
   justify-content: space-between;
   gap: 16px;
   width: 100%;
+  padding: 20px 18px 16px;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 20px 18px 16px;
-  cursor: pointer;
-  text-align: left;
   font-family: inherit;
+  text-align: left;
+  cursor: pointer;
   transition: transform .15s ease, box-shadow .15s ease;
   animation: order-card-in 0.35s ease both;
 }
-
 .orders-list .order-card:nth-child(1) { animation-delay: 0.03s; }
 .orders-list .order-card:nth-child(2) { animation-delay: 0.08s; }
 .orders-list .order-card:nth-child(3) { animation-delay: 0.13s; }
 .orders-list .order-card:nth-child(4) { animation-delay: 0.18s; }
 .orders-list .order-card:nth-child(5) { animation-delay: 0.23s; }
-
-@keyframes order-card-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes order-card-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 .order-card::before {
   content: "";
@@ -159,149 +99,64 @@
   background-image: repeating-linear-gradient(90deg, var(--ember) 0 8px, transparent 8px 14px);
   opacity: 0.9;
 }
+.order-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(27, 21, 18, 0.10); }
+.order-card:hover .order-card-side svg { transform: translateX(3px); }
 
-.order-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(27, 21, 18, 0.10);
-}
+.order-card-main { display: flex; flex-direction: column; gap: 4px; }
+.order-card-id { font-weight: 700; font-size: 0.95rem; color: var(--rust); }
+.order-card-date { font-size: 0.8rem; color: var(--smoke); }
+.order-card-status { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+.order-card-total { font-weight: 700; font-size: 1rem; }
 
-.order-card:hover .order-card-side svg {
-  transform: translateX(3px);
-}
+.order-card-side, .delivery-info-row { display: flex; align-items: center; gap: 10px; }
+.order-card-side svg { transition: transform 0.15s ease; }
 
-.order-card-main {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.order-card-id {
-  font-weight: 700;
-  color: var(--rust);
-  font-size: 0.95rem;
-}
-
-.order-card-date {
-  font-size: 0.8rem;
-  color: var(--smoke);
-}
-
-.order-card-status {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.order-card-side {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.order-card-side svg {
-  transition: transform 0.15s ease;
-}
-
-.order-card-total {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-/* --- Tarjetas con fondo blanco compartido (comanda + entrega) --- */
-.order-items-card,
-.delivery-info {
+/* --- Comanda + info de entrega (mismo look de tarjeta) --- */
+.order-items-card, .delivery-info {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow: var(--shadow-soft);
 }
-
 .order-items-card { overflow: hidden; }
 .delivery-info { margin-top: 20px; padding: 18px; }
 
-.order-items-card-title {
-  background: var(--char);
-  color: var(--cream);
-  padding: 14px 18px;
-  font-size: 0.78rem;
-  letter-spacing: 0.05em;
-}
+.order-items-card-title { padding: 14px 18px; font-size: 0.78rem; letter-spacing: 0.05em; background: var(--char); color: var(--cream); }
+.order-items-card-body { padding: 18px; }
 
-.order-items-card-body {
-  padding: 18px;
-}
-
-.order-item-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--line);
-}
-
-.order-item-row.subtotal {
-  border-bottom: none;
-  color: var(--smoke);
-  padding: 10px 0 2px;
-}
-
+.order-item-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.order-item-row.subtotal { padding: 10px 0 2px; color: var(--smoke); border-bottom: none; }
 .order-item-row.total {
-  border-top: 1.5px solid var(--ink);
   margin-top: 8px;
   padding-top: 12px;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--rust);
+  border-top: 1.5px solid var(--ink);
 }
 
-.delivery-info-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
+.delivery-info-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
+.delivery-info-row { font-size: 0.88rem; color: var(--ink); padding: 6px 0; }
+.delivery-info-row svg { flex-shrink: 0; width: 26px !important; height: 26px !important; padding: 5px; border-radius: 50%; background: #FCEDE5; }
 
-.delivery-info-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.88rem;
-  color: var(--ink);
-  padding: 6px 0;
-}
-
-.delivery-info-row svg {
-  background: #FCEDE5;
-  border-radius: 50%;
-  padding: 5px;
-  width: 26px !important;
-  height: 26px !important;
-  flex-shrink: 0;
-}
-
-/* --- Badge de estado (colores por etapa vía variables) --- */
+/* --- Badge de estado --- */
 .status-badge {
   --status-bg: #EAE3D8;
   --status-color: #6B5B3E;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  width: fit-content;
+  padding: 6px 12px;
   font-size: 0.75rem;
   font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  width: fit-content;
+  border-radius: 999px;
   background: var(--status-bg);
   color: var(--status-color);
 }
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-}
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 
 .status-recibido    { --status-bg: #EAE3D8; --status-color: #6B5B3E; }
 .status-preparacion { --status-bg: #FCEDE5; --status-color: var(--ember); }
@@ -309,82 +164,39 @@
 .status-camino      { --status-bg: #E3EEF7; --status-color: #2B6CA3; }
 .status-entregado   { --status-bg: #E4F3E7; --status-color: #2E7D46; }
 
-/* --- Stepper de estado (Recibido → Entregado) --- */
-.status-stepper {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 26px;
-  padding: 20px 6px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-}
-
-.status-stepper-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.status-stepper-line-wrap {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
+/* --- Stepper de estado --- */
+.status-stepper { display: flex; align-items: flex-start; margin-bottom: 26px; padding: 20px 6px; background: var(--paper); border: 1px solid var(--line); }
+.status-stepper-item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.status-stepper-line-wrap { display: flex; align-items: center; width: 100%; }
 
 .status-stepper-dot {
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  border-radius: 50%;
-  border: 2px solid var(--line);
-  background: var(--paper);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
   color: #fff;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--paper);
 }
-
 .status-stepper-dot.active {
   border-color: var(--ember);
   background: var(--ember);
   box-shadow: 0 0 0 4px #FCEDE5;
   animation: stepper-pulse 1.8s ease-in-out infinite;
 }
+@keyframes stepper-pulse { 0%, 100% { box-shadow: 0 0 0 4px #FCEDE5; } 50% { box-shadow: 0 0 0 7px #FCEDE5; } }
+.status-stepper-dot.done { border-color: var(--gold); background: var(--gold); }
 
-@keyframes stepper-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px #FCEDE5; }
-  50% { box-shadow: 0 0 0 7px #FCEDE5; }
-}
+.status-stepper-line { flex: 1; height: 2px; background: var(--line); }
+.status-stepper-line.done { background: var(--gold); }
 
-.status-stepper-dot.done {
-  border-color: var(--gold);
-  background: var(--gold);
-}
+.status-stepper-label { font-size: 0.72rem; color: var(--smoke); margin-top: 8px; }
+.status-stepper-label.active { color: var(--ember); font-weight: 700; }
 
-.status-stepper-line {
-  flex: 1;
-  height: 2px;
-  background: var(--line);
-}
-
-.status-stepper-line.done {
-  background: var(--gold);
-}
-
-.status-stepper-label {
-  font-size: 0.72rem;
-  color: var(--smoke);
-  margin-top: 8px;
-}
-
-.status-stepper-label.active {
-  color: var(--ember);
-  font-weight: 700;
-}
-
-/* --- Responsive: mobile --- */
+/* --- Responsive --- */
 @media (max-width: 480px) {
   .status-stepper-label { font-size: 0.62rem; }
   .status-stepper-dot { width: 20px; height: 20px; min-width: 20px; }
