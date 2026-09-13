@@ -55,19 +55,21 @@ export const PRODUCTS = [
     image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258511/alitas-picantes.png',
   },
 
-  // --- Combos y Parrillas ---
+  // --- Parrillas ---
   {
     id: 7,
-    category: 'combos',
+    category: 'parrillas',
     name: 'Anticucho de corazón',
     price: 16.90,
     available: true,
     desc: 'Dos palitos de corazón tierno macerado en ají panca con choclo y papas.',
     image: 'https://res.cloudinary.com/msprqskb/image/upload/v1789258511/anticuchos.png',
   },
+
+  // --- Entradas ---
   {
     id: 8,
-    category: 'combos',
+    category: 'entradas',
     name: 'Papa frita familiar',
     price: 12.90,
     available: true,
@@ -76,7 +78,7 @@ export const PRODUCTS = [
   },
   {
     id: 9,
-    category: 'combos',
+    category: 'entradas',
     name: 'Ensalada familiar',
     price: 12.90,
     available: true,
@@ -85,7 +87,7 @@ export const PRODUCTS = [
   },
   {
     id: 10,
-    category: 'combos',
+    category: 'entradas',
     name: 'Arroz chaufa familiar',
     price: 15.90,
     available: true,
@@ -94,7 +96,7 @@ export const PRODUCTS = [
   },
   {
     id: 11,
-    category: 'combos',
+    category: 'entradas',
     name: 'Maduro frito',
     price: 9.90,
     available: true,
@@ -103,7 +105,7 @@ export const PRODUCTS = [
   },
   {
     id: 12,
-    category: 'combos',
+    category: 'entradas',
     name: 'Yuca frita con cremas',
     price: 9.90,
     available: true,

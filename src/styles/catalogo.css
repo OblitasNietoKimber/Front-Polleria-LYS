@@ -37,9 +37,10 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--smoke);
+  pointer-events: none;
 }
 
-.catalogo-search-input {
+.lys-input.catalogo-search-input {
   padding-left: 36px;
 }
 
