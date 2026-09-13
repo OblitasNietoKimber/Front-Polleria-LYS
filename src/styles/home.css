@@ -1,0 +1,97 @@
+/* Estilos de la página de inicio (HomePage). */
+
+.home-hero {
+  background: var(--char);
+  color: var(--cream);
+  padding: 70px 20px 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--gold);
+  color: #2A1B05;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+.home-hero-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.05;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.home-hero-highlight {
+  color: var(--ember);
+  font-style: italic;
+}
+
+.home-hero-text {
+  color: #C7C2BB;
+  font-size: 1.05rem;
+  max-width: 480px;
+  margin: 0 auto 34px;
+  line-height: 1.6;
+}
+
+.home-categories {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 56px 20px;
+}
+
+.home-categories-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.home-categories-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.home-categories-link {
+  color: var(--rust);
+}
+
+.home-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.home-category-card {
+  text-align: left;
+  padding: 0;
+  border: 1px solid var(--line);
+}
+
+.home-category-icon {
+  aspect-ratio: 3 / 2;
+}
+
+.home-category-body {
+  padding: 16px 16px 20px;
+}
+
+.home-category-label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}

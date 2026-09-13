@@ -1,0 +1,15 @@
+/* Estilos compartidos del flujo de compra (checkout: Entrega, Pago, Resumen). */
+
+.checkout-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 20px 100px;
+}
+
+.checkout-back-link {
+  color: var(--rust);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 22px;
+}

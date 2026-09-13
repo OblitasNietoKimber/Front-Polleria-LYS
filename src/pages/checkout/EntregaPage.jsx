@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import CheckoutSteps from '../../components/CheckoutSteps'
 import DeliveryForm from '../../components/DeliveryForm'
 import { useCart } from '../../context/CartContext'
+import '../../styles/compras.css'
 
 export default function EntregaPage() {
   const navigate = useNavigate()
@@ -20,11 +21,10 @@ export default function EntregaPage() {
   }
 
   return (
-    <section style={{ maxWidth: 720, margin: '0 auto', padding: '36px 20px 100px' }}>
+    <section className="checkout-page">
       <button
         onClick={() => navigate('/catalogo')}
-        className="lys-navlink"
-        style={{ color: 'var(--rust)', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 22 }}
+        className="lys-navlink checkout-back-link"
       >
         <ArrowLeft size={15} /> Seguir comprando
       </button>
