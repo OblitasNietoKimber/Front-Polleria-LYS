@@ -204,6 +204,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
         items: itemsComanda.map((it) => ({
           id: it.id,
           nombre: it.nombre,
+          imagen: it.imagen,
           cantidad: it.cantidad,
           precio: it.precio,
           observacion: '',

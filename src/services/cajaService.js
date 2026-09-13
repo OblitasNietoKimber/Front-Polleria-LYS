@@ -160,13 +160,17 @@ function getProductosMasVendidos(filtros = {}) {
   getVentasFiltradas(filtros).forEach((venta) => {
     venta.items.forEach((item) => {
       const actual = productos.get(item.nombre) || {
+        productoId: item.id,
         nombre: item.nombre,
+        imagen: item.imagen,
         cantidad: 0,
         total: 0,
       };
 
       productos.set(item.nombre, {
         ...actual,
+        productoId: actual.productoId || item.id,
+        imagen: actual.imagen || item.imagen,
         cantidad: actual.cantidad + item.cantidad,
         total: actual.total + item.cantidad * item.precio,
       });
