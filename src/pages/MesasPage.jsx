@@ -114,24 +114,21 @@ export default function MesasPage() {
             </div>
 
             {mesasFiltradas.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '60px 20px', color: '#6B7280' }}>
+              <div className="mesas-empty-state">
                 {busqueda ? (
-                  <p style={{ fontSize: '1.05rem', margin: 0 }}>
+                  <p className="mesas-empty-state-message">
                     No se encontraron mesas con "{busqueda}".
                   </p>
                 ) : (
-                  <div style={{ maxWidth: 360, margin: '0 auto' }}>
-                    <span style={{ fontSize: '2.5rem' }}>🏗️</span>
-                    <h3 style={{ margin: '12px 0 6px 0', fontSize: '1.1rem', color: 'var(--ink)' }}>
-                      Zona en ampliación
-                    </h3>
-                    <p style={{ fontSize: '0.88rem', color: '#6B7280', lineHeight: 1.5, margin: '0 0 16px 0' }}>
+                  <div className="mesas-empty-expansion">
+                    <span className="mesas-empty-emoji">🏗️</span>
+                    <h3 className="mesas-empty-title">Zona en ampliación</h3>
+                    <p className="mesas-empty-desc">
                       Esta área está reservada para futuras mesas de la pollería. Todas las mesas activas se encuentran en el <strong>Salón principal</strong>.
                     </p>
                     <button
                       type="button"
-                      className="btn-nuevo-pedido"
-                      style={{ background: '#FFF', color: 'var(--ink)', border: '1px solid var(--line)', boxShadow: 'none' }}
+                      className="btn-nuevo-pedido mesas-empty-btn"
                       onClick={() => setZonaSeleccionada('salon_principal')}
                     >
                       Volver al Salón principal
@@ -172,4 +169,3 @@ export default function MesasPage() {
     </div>
   );
 }
-

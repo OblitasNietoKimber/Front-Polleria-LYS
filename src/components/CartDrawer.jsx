@@ -16,60 +16,32 @@ export default function CartDrawer() {
     <>
       <div className={`cart-backdrop ${cartOpen ? 'open' : ''}`} onClick={closeCart} />
       <aside className={`cart-drawer ${cartOpen ? 'open' : ''}`}>
-        <div
-          style={{
-            padding: '18px 20px',
-            borderBottom: '1px solid var(--line)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span className="font-display" style={{ fontSize: '1.2rem', fontWeight: 600 }}>
-            Tu carrito
-          </span>
-          <button onClick={closeCart} style={{ background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Cerrar carrito">
+        <div className="cart-drawer-header">
+          <span className="font-display cart-drawer-title">Tu carrito</span>
+          <button onClick={closeCart} className="cart-drawer-close" aria-label="Cerrar carrito">
             <X size={20} />
           </button>
         </div>
-        <div style={{ flex: 1, overflowY: 'auto', padding: '10px 20px' }}>
+        <div className="cart-drawer-body">
           {cartItems.length === 0 ? (
-            <div style={{ textAlign: 'center', color: 'var(--smoke)', padding: '50px 0', fontSize: '0.9rem' }}>
-              Aún no agregaste platos.
-            </div>
+            <div className="cart-drawer-empty">Aún no agregaste platos.</div>
           ) : (
             cartItems.map(({ product, qty }) => (
-              <div
-                key={product.id}
-                style={{ display: 'flex', gap: 12, padding: '14px 0', borderBottom: '1px dashed var(--line)' }}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  style={{
-                    width: 56,
-                    height: 56,
-                    flexShrink: 0,
-                    borderRadius: 8,
-                    objectFit: 'cover',
-                    border: '1px solid var(--line)',
-                  }}
-                />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem' }}>{product.name}</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '8px 0 0' }}>
+              <div key={product.id} className="cart-drawer-item">
+                <img src={product.image} alt={product.name} className="cart-drawer-item-img" />
+                <div className="cart-drawer-item-info">
+                  <div className="cart-drawer-item-name">{product.name}</div>
+                  <div className="cart-drawer-item-controls">
                     <button className="qty-btn" onClick={() => setQty(product.id, qty - 1)} aria-label="Reducir cantidad">
                       <Minus size={13} />
                     </button>
-                    <span className="font-mono" style={{ minWidth: 18, textAlign: 'center', fontSize: '0.9rem' }}>
-                      {qty}
-                    </span>
+                    <span className="font-mono cart-drawer-item-qty">{qty}</span>
                     <button className="qty-btn" onClick={() => setQty(product.id, qty + 1)} aria-label="Aumentar cantidad">
                       <Plus size={13} />
                     </button>
                     <button
                       onClick={() => removeItem(product.id)}
-                      style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--smoke)' }}
+                      className="cart-drawer-item-remove"
                       aria-label="Eliminar producto"
                     >
                       <Trash2 size={16} />
@@ -81,15 +53,12 @@ export default function CartDrawer() {
           )}
         </div>
         {cartItems.length > 0 && (
-          <div style={{ padding: '18px 20px', borderTop: '1px solid var(--line)' }}>
-            <div
-              className="font-mono"
-              style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', fontWeight: 700 }}
-            >
+          <div className="cart-drawer-footer">
+            <div className="font-mono cart-drawer-subtotal">
               <span>Subtotal</span>
               <span>{money(subtotal)}</span>
             </div>
-            <button className="btn-ember" style={{ width: '100%', marginTop: 14 }} onClick={handleCheckout}>
+            <button className="btn-ember cart-drawer-checkout-btn" onClick={handleCheckout}>
               Continuar compra
             </button>
           </div>

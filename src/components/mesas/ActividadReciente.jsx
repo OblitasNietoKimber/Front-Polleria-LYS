@@ -16,7 +16,7 @@ export default function ActividadReciente({ actividades = [], onToggleCollapse, 
     <aside className="mesas-activity-sidebar">
       <div className="activity-header">
         <div className="activity-header-left">
-          <div style={{ background: '#FDECEC', color: 'var(--ember)', padding: '6px', borderRadius: '8px', display: 'flex' }}>
+          <div className="activity-header-icon-wrap">
             <Clock size={18} strokeWidth={2} />
           </div>
           <h3 className="activity-title">Actividad reciente</h3>
@@ -44,9 +44,7 @@ export default function ActividadReciente({ actividades = [], onToggleCollapse, 
                 <span className="activity-item-title">{item.titulo || `Mesa ${item.mesaNumero}`}</span>
                 <span className="activity-item-desc">{item.descripcion}</span>
                 {item.ordenCodigo && (
-                  <span className="activity-item-order" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
-                    {item.ordenCodigo}
-                  </span>
+                  <span className="activity-item-order">{item.ordenCodigo}</span>
                 )}
               </div>
             </div>
@@ -55,20 +53,15 @@ export default function ActividadReciente({ actividades = [], onToggleCollapse, 
         ))}
 
         {actividades.length === 0 && (
-          <p style={{ fontSize: '0.85rem', color: '#9CA3AF', textAlign: 'center', padding: '20px 0' }}>
-            No hay actividades recientes registradas.
-          </p>
+          <p className="activity-empty-text">No hay actividades recientes registradas.</p>
         )}
       </div>
 
-      <button
-        className="activity-footer-btn"
-        type="button"
-        onClick={onVerTodo}
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-      >
-        <span>Ver toda la actividad</span>
-        <ChevronRight size={14} />
+      <button className="activity-footer-btn" type="button" onClick={onVerTodo}>
+        <span className="activity-footer-btn-inner">
+          <span>Ver toda la actividad</span>
+          <ChevronRight size={14} />
+        </span>
       </button>
     </aside>
   );

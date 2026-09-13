@@ -3,7 +3,7 @@ export default function ColumnaPedidos({ titulo, variante, icono: Icono, pedidos
     <div className="cocina-column">
       <div className="cocina-column-header">
         <Icono size={17} className={`cocina-column-icono cocina-column-icono--${variante}`} />
-        <h3 className="font-display" style={{ fontSize: "1.05rem", margin: 0 }}>{titulo}</h3>
+        <h3 className="font-display cocina-column-title">{titulo}</h3>
         <span className={`cocina-count cocina-count--${variante}`}>{pedidos.length}</span>
       </div>
 

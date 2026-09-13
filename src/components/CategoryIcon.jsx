@@ -1,14 +1,22 @@
 import { CATEGORIES } from '../data/categories'
 
-export default function CategoryIcon({ id, size = 22, style }) {
+const TAMANOS = {
+  sm: 'category-icon-sm',
+  md: 'category-icon-md',
+  lg: 'category-icon-lg',
+}
+
+export default function CategoryIcon({ id, size = 'md' }) {
   const category = CATEGORIES.find((item) => item.id === id)
   if (!category) return null
+
+  const claseTamano = TAMANOS[size] || TAMANOS.md
 
   return (
     <img
       src={category.image}
       alt={category.label}
-      style={{ width: size, height: size, objectFit: 'cover', borderRadius: '50%', ...style }}
+      className={`category-icon ${claseTamano}`}
     />
   )
 }

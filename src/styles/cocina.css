@@ -1,3 +1,41 @@
+.cocina-page-title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.cocina-column-title {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.cocina-history-section {
+  margin-bottom: 36px;
+}
+
+.cocina-finalizado-id {
+  font-weight: 700;
+}
+
+.cocina-id.cocina-finalizado-cliente {
+  margin-left: 8px;
+}
+
+.cocina-finalizado-meta {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.font-mono.cocina-finalizado-duracion {
+  font-size: 0.78rem;
+  color: var(--smoke);
+}
+
+.font-mono.cocina-finalizado-hora {
+  font-size: 0.8rem;
+  color: var(--smoke);
+}
+
 /* ===== Layout: sidebar + contenido ===== */
 .cocina-shell {
   display: flex;

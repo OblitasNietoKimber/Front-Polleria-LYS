@@ -26,8 +26,8 @@ export default function CardPaymentForm({ card, errors, processing, gatewayError
         </span>
       </div>
 
-      <div style={{ display: 'grid', gap: 16 }}>
-        <label style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+      <div className="card-payment-grid">
+        <label className="checkout-field-label">
           Número de tarjeta
           <div className="card-number-wrap">
             <input
@@ -41,10 +41,10 @@ export default function CardPaymentForm({ card, errors, processing, gatewayError
             />
             {brand && <span className="card-brand-badge">{BRAND_LABELS[brand]}</span>}
           </div>
-          {errors.number && <span className="card-field-error">{errors.number}</span>}
+          {errors.number && <span className="checkout-field-error">{errors.number}</span>}
         </label>
 
-        <label style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+        <label className="checkout-field-label">
           Nombre del titular
           <input
             className={`lys-input ${errors.name ? 'err' : ''}`}
@@ -54,11 +54,11 @@ export default function CardPaymentForm({ card, errors, processing, gatewayError
             disabled={processing}
             autoComplete="cc-name"
           />
-          {errors.name && <span className="card-field-error">{errors.name}</span>}
+          {errors.name && <span className="checkout-field-error">{errors.name}</span>}
         </label>
 
-        <div style={{ display: 'flex', gap: 14 }}>
-          <label style={{ fontSize: '0.82rem', fontWeight: 600, flex: 1 }}>
+        <div className="card-payment-row">
+          <label className="checkout-field-label">
             Vencimiento
             <input
               className={`lys-input ${errors.expiry ? 'err' : ''}`}
@@ -69,10 +69,10 @@ export default function CardPaymentForm({ card, errors, processing, gatewayError
               disabled={processing}
               autoComplete="cc-exp"
             />
-            {errors.expiry && <span className="card-field-error">{errors.expiry}</span>}
+            {errors.expiry && <span className="checkout-field-error">{errors.expiry}</span>}
           </label>
 
-          <label style={{ fontSize: '0.82rem', fontWeight: 600, flex: 1 }}>
+          <label className="checkout-field-label">
             CVV
             <input
               className={`lys-input ${errors.cvv ? 'err' : ''}`}
@@ -83,7 +83,7 @@ export default function CardPaymentForm({ card, errors, processing, gatewayError
               disabled={processing}
               autoComplete="cc-csc"
             />
-            {errors.cvv && <span className="card-field-error">{errors.cvv}</span>}
+            {errors.cvv && <span className="checkout-field-error">{errors.cvv}</span>}
           </label>
         </div>
       </div>

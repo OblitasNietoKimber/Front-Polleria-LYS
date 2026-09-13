@@ -255,22 +255,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
     <div className="pedido-screen">
       {/* Toast flotante de confirmación */}
       {toastMsg && (
-        <div style={{
-          position: 'fixed',
-          top: '20px',
-          right: '24px',
-          background: '#065F46',
-          color: '#FFF',
-          padding: '12px 20px',
-          borderRadius: '10px',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.18)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          fontSize: '0.92rem',
-          fontWeight: '600',
-          zIndex: 9999,
-        }}>
+        <div className="np-toast">
           <CheckCircle2 size={20} color="#34D399" />
           <span>{toastMsg}</span>
         </div>
@@ -279,41 +264,24 @@ function NuevoPedidoForm({ numeroNormalizado }) {
       {/* Banner de borrador guardado pendiente de restaurar */}
       {borradorPendiente && (
         <div className="borrador-banner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="np-borrador-row">
             <AlertCircle size={20} color="#D97706" />
             <span>
               Tienes un borrador pendiente de <strong>{borradorPendiente.items.length} productos</strong> para la Mesa {numeroNormalizado}.
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="np-borrador-actions">
             <button
               type="button"
               onClick={handleRestaurarBorrador}
-              style={{
-                padding: '6px 14px',
-                background: '#D97706',
-                color: '#FFF',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600',
-                fontSize: '0.88rem',
-              }}
+              className="np-borrador-restaurar-btn"
             >
               Restaurar borrador
             </button>
             <button
               type="button"
               onClick={handleDescartarBorrador}
-              style={{
-                padding: '6px 12px',
-                background: 'transparent',
-                color: '#92400E',
-                border: '1px solid #FCE3BD',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '0.88rem',
-              }}
+              className="np-borrador-descartar-btn"
             >
               Descartar
             </button>
@@ -414,8 +382,8 @@ function NuevoPedidoForm({ numeroNormalizado }) {
           </div>
 
           {productosFiltrados.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '50px 20px', color: '#9CA3AF' }}>
-              <p style={{ fontSize: '1rem', margin: 0 }}>
+            <div className="np-empty-state">
+              <p className="np-empty-state-text">
                 No se encontraron productos con "{busqueda}".
               </p>
             </div>
@@ -448,7 +416,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               </div>
               <div className="comanda-sub-row">
                 <div className="comensales-control" title="Ajusta el número de comensales">
-                  <Users size={13} style={{ color: '#57534C' }} />
+                  <Users size={13} className="np-comensales-icon" />
                   <button
                     type="button"
                     className="comensales-btn"
@@ -533,12 +501,12 @@ function NuevoPedidoForm({ numeroNormalizado }) {
             ))}
 
             {itemsComanda.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '36px 10px', color: '#9CA3AF' }}>
-                <ClipboardList size={38} strokeWidth={1.5} style={{ margin: '0 auto 10px', display: 'block', color: '#CBD5E1' }} />
-                <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 500 }}>
+              <div className="np-comanda-empty">
+                <ClipboardList size={38} strokeWidth={1.5} className="np-comanda-empty-icon" />
+                <p className="np-comanda-empty-text">
                   Aún no hay productos en la comanda.
                 </p>
-                <span style={{ fontSize: '0.8rem', color: '#94A3B8' }}>
+                <span className="np-comanda-empty-hint">
                   Selecciona platos de la carta a la izquierda.
                 </span>
               </div>
@@ -549,7 +517,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
           <div className="comanda-obs-area">
             <div className="comanda-obs-label">
               <span>Observaciones a cocina</span>
-              <span style={{ color: '#9CA3AF', fontWeight: 'normal' }}>
+              <span className="np-obs-counter">
                 {observaciones.length}/120
               </span>
             </div>
@@ -587,7 +555,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               onClick={handleGuardarBorrador}
               title="Guardar comanda como borrador para continuar luego"
             >
-              <BookmarkCheck size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+              <BookmarkCheck size={18} className="np-btn-icon-inline" />
               Guardar borrador
             </button>
             <button
@@ -596,7 +564,7 @@ function NuevoPedidoForm({ numeroNormalizado }) {
               onClick={handleEnviarCocina}
               title="Enviar comanda a la pantalla de cocina"
             >
-              <ChefHat size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+              <ChefHat size={18} className="np-btn-icon-inline" />
               Enviar a cocina
             </button>
           </div>

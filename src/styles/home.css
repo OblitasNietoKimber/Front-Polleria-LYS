@@ -1,5 +1,106 @@
 /* Estilos de la página de inicio (HomePage). */
 
+/* Versión simple/actual de la portada (sin carrusel de mascotas).
+   Las clases .home-hero, .home-carousel, .mascot-carousel, etc. de más abajo
+   pertenecen a un rediseño con carrusel que hoy no está montado en HomePage;
+   se conservan porque MascotCarousel.jsx / HomeCarousel.jsx siguen existiendo
+   en el proyecto y las usan. */
+
+.home-simple-hero {
+  background: var(--char);
+  color: var(--cream);
+  padding: 70px 20px 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-simple-hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.home-simple-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--gold);
+  color: #2A1B05;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+.home-simple-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.05;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.home-simple-title-accent {
+  color: var(--ember);
+  font-style: italic;
+}
+
+.home-simple-subtitle {
+  color: #C7C2BB;
+  font-size: 1.05rem;
+  max-width: 480px;
+  margin: 0 auto 34px;
+  line-height: 1.6;
+}
+
+.home-simple-categories {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 56px 20px;
+}
+
+.home-simple-categories-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.home-simple-categories-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.lys-navlink.home-simple-categories-link {
+  color: var(--rust);
+}
+
+.home-simple-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.ticket-card.home-simple-category-btn {
+  text-align: left;
+  padding: 0;
+}
+
+.icon-tile.home-simple-category-icon {
+  aspect-ratio: 3 / 2;
+}
+
+.home-simple-category-body {
+  padding: 16px 16px 20px;
+}
+
+.home-simple-category-label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
 .home-hero {
   background: var(--char);
   color: var(--cream);
@@ -49,6 +150,102 @@
     width: 100%;
     opacity: 0.9;
   }
+}
+
+/* Slides individuales del MascotCarousel: 4 "roles" discretos (centro,
+   izquierda, derecha, atrás) en vez de estilos calculados en JS. */
+
+.mascot-slide {
+  position: absolute;
+  aspect-ratio: 0.62 / 1;
+  transition:
+    left 650ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 650ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 650ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 650ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, filter, opacity, left;
+}
+
+.mascot-slide-center {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 88%;
+  bottom: 0;
+  filter: blur(0px);
+  opacity: 1;
+  z-index: 20;
+}
+
+.mascot-slide-left {
+  left: 22%;
+  transform: translateX(-50%) scale(0.9);
+  height: 40%;
+  bottom: 8%;
+  filter: blur(2px);
+  opacity: 0.55;
+  z-index: 10;
+}
+
+.mascot-slide-right {
+  left: 82%;
+  transform: translateX(-50%) scale(0.9);
+  height: 40%;
+  bottom: 8%;
+  filter: blur(2px);
+  opacity: 0.55;
+  z-index: 10;
+}
+
+.mascot-slide-back {
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  height: 32%;
+  bottom: 8%;
+  filter: blur(4px);
+  opacity: 0.4;
+  z-index: 5;
+}
+
+@media (max-width: 640px) {
+  .mascot-slide-center {
+    height: 55%;
+    bottom: 0;
+  }
+
+  .mascot-slide-left {
+    left: 16%;
+    height: 26%;
+    bottom: 6%;
+  }
+
+  .mascot-slide-right {
+    left: 84%;
+    height: 26%;
+    bottom: 6%;
+  }
+
+  .mascot-slide-back {
+    height: 20%;
+    bottom: 6%;
+  }
+}
+
+.mascot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  transform-origin: bottom center;
+}
+
+/* Los 2 personajes se muestran a distinta escala base */
+.mascot-img-scale-a {
+  transform: scale(1.4);
+}
+
+.mascot-img-scale-b {
+  transform: scale(1);
 }
 
 .home-hero-content {

@@ -9,6 +9,31 @@
   color: var(--ink);
 }
 
+/* Toast flotante de confirmación (borrador guardado, etc.) */
+.np-toast {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: #065F46;
+  color: #FFF;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  z-index: 9999;
+}
+
+/* Icono inline reutilizable dentro de botones (Guardar borrador / Enviar a cocina) */
+.np-btn-icon-inline {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
 /* Navegación al salón en la cabecera del riel */
 .rail-top-nav {
   width: 100%;
@@ -124,6 +149,38 @@
   color: #92400E;
 }
 
+.np-borrador-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.np-borrador-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.np-borrador-restaurar-btn {
+  padding: 6px 14px;
+  background: #D97706;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.np-borrador-descartar-btn {
+  padding: 6px 12px;
+  background: transparent;
+  color: #92400E;
+  border: 1px solid #FCE3BD;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
 /* Layout Tablet POS: 3 Columnas (Categorías | Catálogo | Comanda) */
 .pedido-pos-layout {
   display: grid;
@@ -211,6 +268,18 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+/* Estado vacío: sin resultados de búsqueda en el catálogo */
+.np-empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #9CA3AF;
+}
+
+.np-empty-state-text {
+  font-size: 1rem;
+  margin: 0;
 }
 
 /* Grid de Platos */
@@ -411,6 +480,10 @@
   font-size: 0.82rem;
 }
 
+.np-comensales-icon {
+  color: #57534C;
+}
+
 .comensales-btn {
   width: 20px;
   height: 20px;
@@ -549,6 +622,30 @@
   color: #EF4444;
 }
 
+/* Estado vacío de la comanda (aún sin productos agregados) */
+.np-comanda-empty {
+  text-align: center;
+  padding: 36px 10px;
+  color: #9CA3AF;
+}
+
+.np-comanda-empty-icon {
+  margin: 0 auto 10px;
+  display: block;
+  color: #CBD5E1;
+}
+
+.np-comanda-empty-text {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.np-comanda-empty-hint {
+  font-size: 0.8rem;
+  color: #94A3B8;
+}
+
 /* Observaciones */
 .comanda-obs-area {
   margin: 12px 0;
@@ -561,6 +658,11 @@
   font-weight: 600;
   margin-bottom: 6px;
   color: #4B5563;
+}
+
+.np-obs-counter {
+  color: #9CA3AF;
+  font-weight: normal;
 }
 
 .comanda-obs-input {

@@ -20,32 +20,19 @@ export default function PaymentMethod({
 }) {
   return (
     <div>
-      <h2 className="font-display" style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: 18 }}>
-        Método de pago
-      </h2>
-      <div style={{ display: 'grid', gap: 12 }}>
+      <h2 className="font-display checkout-form-title">Método de pago</h2>
+      <div className="payment-methods-grid">
         {METHODS.map((method) => (
           <button
             key={method.id}
             onClick={() => onChange(method.id)}
             disabled={processing}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              textAlign: 'left',
-              padding: '16px 18px',
-              borderRadius: 4,
-              cursor: 'pointer',
-              border: payment === method.id ? '1.5px solid var(--ember)' : '1.5px solid var(--line)',
-              background: payment === method.id ? '#FCEDE5' : 'var(--paper)',
-              transition: 'all .15s ease',
-            }}
+            className={`payment-method-option ${payment === method.id ? 'active' : ''}`}
           >
             <method.icon size={22} color={payment === method.id ? 'var(--ember)' : 'var(--smoke)'} strokeWidth={1.7} />
             <div>
-              <div style={{ fontWeight: 600 }}>{method.label}</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--smoke)' }}>{method.desc}</div>
+              <div className="payment-method-info-title">{method.label}</div>
+              <div className="payment-method-info-desc">{method.desc}</div>
             </div>
           </button>
         ))}
@@ -61,11 +48,11 @@ export default function PaymentMethod({
         />
       )}
 
-      <div style={{ display: 'flex', gap: 12, marginTop: 26 }}>
-        <button className="btn-outline" style={{ flex: 1 }} onClick={onBack} disabled={processing}>
+      <div className="checkout-actions">
+        <button className="btn-outline checkout-actions-back" onClick={onBack} disabled={processing}>
           Atrás
         </button>
-        <button className="btn-ember" style={{ flex: 2 }} disabled={!payment || processing} onClick={onContinue}>
+        <button className="btn-ember checkout-actions-primary" disabled={!payment || processing} onClick={onContinue}>
           {processing ? 'Procesando…' : 'Ver resumen'}
         </button>
       </div>

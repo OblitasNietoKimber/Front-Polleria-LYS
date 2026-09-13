@@ -11,92 +11,26 @@ export default function ProductCard({ product, onSelect }) {
 
   return (
     <div className="ticket-card" onClick={() => onSelect?.(product)}>
-      <div
-        style={{
-          aspectRatio: '4 / 3',
-          overflow: 'hidden',
-          background: '#201C18',
-          opacity: product.available ? 1 : 0.4,
-        }}
-      >
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          decoding="async"
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'block',
-            objectFit: 'cover',
-          }}
-        />
+      <div className={`product-card-media ${!product.available ? 'is-unavailable' : ''}`}>
+        <img src={product.image} alt={product.name} loading="lazy" decoding="async" className="product-card-image" />
       </div>
 
-      <div style={{ padding: '16px' }}>
-        {!product.available && (
-          <span
-            className="font-mono"
-            style={{
-              fontSize: '0.68rem',
-              color: '#B23A2E',
-              fontWeight: 700,
-              letterSpacing: '0.05em',
-            }}
-          >
-            NO DISPONIBLE
-          </span>
-        )}
+      <div className="product-card-body">
+        {!product.available && <span className="font-mono product-card-unavailable-tag">NO DISPONIBLE</span>}
 
-        <div
-          className="font-display"
-          style={{
-            fontWeight: 600,
-            fontSize: '1.05rem',
-            margin: '6px 0',
-            opacity: product.available ? 1 : 0.55,
-          }}
-        >
+        <div className={`font-display product-card-name ${!product.available ? 'is-unavailable' : ''}`}>
           {product.name}
         </div>
 
-        <p
-          style={{
-            fontSize: '0.82rem',
-            color: 'var(--smoke)',
-            lineHeight: 1.5,
-            marginBottom: 14,
-            minHeight: 40,
-          }}
-        >
+        <p className="product-card-desc">
           {product.desc.slice(0, 70)}
           {product.desc.length > 70 ? '…' : ''}
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span
-            className="font-mono"
-            style={{
-              fontWeight: 600,
-              color: 'var(--rust)',
-              fontSize: '0.98rem',
-            }}
-          >
-            {money(product.price)}
-          </span>
+        <div className="product-card-footer">
+          <span className="font-mono product-card-price">{money(product.price)}</span>
 
-          <button
-            className="btn-outline"
-            style={{ padding: '7px 14px', fontSize: '0.8rem' }}
-            disabled={!product.available}
-            onClick={handleAdd}
-          >
+          <button className="btn-outline product-card-add-btn" disabled={!product.available} onClick={handleAdd}>
             {product.available ? 'Agregar' : 'Agotado'}
           </button>
         </div>
