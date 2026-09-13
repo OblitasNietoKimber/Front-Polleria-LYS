@@ -7,10 +7,28 @@ import '../styles/pedidos.css'
 
 export default function PedidosPage() {
   const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setOrders(orderService.getOrders())
+    setLoading(false)
   }, [])
+
+  if (loading) {
+    return (
+      <section className="orders-page">
+        <div className="orders-page-header">
+          <h1 className="font-display">Mis pedidos</h1>
+          <p>Aquí puedes ver el estado y el historial de todo lo que has pedido.</p>
+        </div>
+        <div className="orders-skeleton">
+          <div className="orders-skeleton-card" />
+          <div className="orders-skeleton-card" />
+          <div className="orders-skeleton-card" />
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="orders-page">
