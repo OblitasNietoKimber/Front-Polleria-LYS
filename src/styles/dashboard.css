@@ -447,6 +447,14 @@
   flex-shrink: 0;
 }
 
+.admin-product-img-empty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FCEDE5;
+  color: var(--ember);
+}
+
 .admin-participation {
   display: flex;
   align-items: center;

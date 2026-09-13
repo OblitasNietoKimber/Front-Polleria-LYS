@@ -1,36 +1,28 @@
 const STORAGE_KEY = "lys_pedidos";
 
-// Datos de prueba iniciales
-const seedPedidos = [
-  {
-    id: "PED-1001",
-    mesa: 4,
-    cliente: "Mesa 4",
-    estado: "pendiente",
-    items: [
-      { nombre: "Pollo a la brasa 1/4", cantidad: 2, precio: 22.5 },
-      { nombre: "Gaseosa 1.5L", cantidad: 1, precio: 9.0 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "PED-1002",
-    mesa: 7,
-    cliente: "Mesa 7",
-    estado: "pendiente",
-    items: [
-      { nombre: "Pollo entero", cantidad: 1, precio: 68.0 },
-      { nombre: "Papas extra", cantidad: 2, precio: 8.5 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-];
-
 function inicializar() {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(seedPedidos));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+    return;
   }
+
+  const pedidos = JSON.parse(data);
+  let necesitaMigrar = false;
+  const migrados = pedidos.map((pedido) => {
+    const cambios = {};
+    if (!pedido.estado) cambios.estado = pedido.estadoPago || "pendiente";
+    if (!pedido.estadoPago) cambios.estadoPago = pedido.estado || "pendiente";
+    if (!pedido.estadoCocina) cambios.estadoCocina = "nuevo";
+
+    if (Object.keys(cambios).length > 0) {
+      necesitaMigrar = true;
+      return { ...pedido, ...cambios };
+    }
+    return pedido;
+  });
+
+  if (necesitaMigrar) localStorage.setItem(STORAGE_KEY, JSON.stringify(migrados));
 }
 
 function getPedidos() {
@@ -47,6 +39,7 @@ function getPedidoPorId(id) {
 }
 
 function calcularTotal(pedido) {
+  if (Number.isFinite(Number(pedido.total))) return Number(pedido.total);
   return pedido.items.reduce((acc, item) => acc + item.cantidad * item.precio, 0);
 }
 
@@ -54,10 +47,11 @@ function marcarComoPagado(id, dataPago) {
   const pedidos = getPedidos();
   const actualizados = pedidos.map((p) =>
     p.id === id
-      ? { ...p, estado: "pagado", pago: dataPago, pagadoAt: new Date().toISOString() }
+      ? { ...p, estado: "pagado", estadoPago: "pagado", pago: dataPago, pagadoAt: new Date().toISOString() }
       : p
   );
   localStorage.setItem(STORAGE_KEY, JSON.stringify(actualizados));
+  window.dispatchEvent(new CustomEvent("lys_pedidos_updated"));
 
   const pedidoPagado = actualizados.find((p) => p.id === id);
   if (pedidoPagado && pedidoPagado.mesa) {
@@ -166,13 +160,17 @@ function getProductosMasVendidos(filtros = {}) {
   getVentasFiltradas(filtros).forEach((venta) => {
     venta.items.forEach((item) => {
       const actual = productos.get(item.nombre) || {
+        productoId: item.id,
         nombre: item.nombre,
+        imagen: item.imagen,
         cantidad: 0,
         total: 0,
       };
 
       productos.set(item.nombre, {
         ...actual,
+        productoId: actual.productoId || item.id,
+        imagen: actual.imagen || item.imagen,
         cantidad: actual.cantidad + item.cantidad,
         total: actual.total + item.cantidad * item.precio,
       });

@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import CategoryIcon from './CategoryIcon'
+
 import { money } from '../utils/currency'
 import { useCart } from '../context/CartContext'
 
@@ -50,9 +50,25 @@ export default function ProductDetailModal({ product, onClose }) {
         >
           <X size={16} />
         </button>
-        <div className="icon-tile" style={{ aspectRatio: '16/9' }}>
-          <CategoryIcon id={product.category} size={56} />
-        </div>
+        <div
+  style={{
+    aspectRatio: '16 / 9',
+    overflow: 'hidden',
+    background: '#201C18',
+  }}
+>
+  <img
+    src={product.image}
+    alt={product.name}
+    style={{
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      objectFit: 'cover',
+      opacity: product.available ? 1 : 0.5,
+    }}
+  />
+</div>
         <div style={{ padding: 24 }}>
           {!product.available && (
             <span className="font-mono" style={{ fontSize: '0.7rem', color: '#B23A2E', fontWeight: 700 }}>

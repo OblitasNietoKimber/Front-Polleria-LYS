@@ -1,22 +1,53 @@
 import { IconoBolsa } from "../common/Iconos";
+import { PRODUCTS } from "../../data/products";
 
-const imagenProducto = "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=100&auto=format&fit=crop&q=80";
 const formatoSoles = new Intl.NumberFormat("es-PE", {
   style: "currency",
   currency: "PEN",
 });
+
+const aliasProductos = {
+  "pollo entero": "pollo a la brasa entero",
+  "pollo a la brasa 1/4": "1/4 pollo a la brasa",
+  "papas extra": "papa frita familiar",
+  "gaseosa 1.5l": "inca kola 1.5 l",
+};
+
+function normalizarTexto(texto = "") {
+  return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^\w\s/]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buscarProducto(item) {
+  const id = Number(item.productoId || item.id);
+  if (Number.isFinite(id)) {
+    const productoPorId = PRODUCTS.find((producto) => producto.id === id);
+    if (productoPorId) return productoPorId;
+  }
+
+  const nombre = normalizarTexto(item.nombre);
+  const nombreBuscado = aliasProductos[nombre] || nombre;
+
+  return PRODUCTS.find((producto) => normalizarTexto(producto.name) === nombreBuscado);
+}
 
 function prepararProductos(productos) {
   const totalGeneral = productos.reduce((acc, item) => acc + item.total, 0);
 
   return productos.slice(0, 5).map((item, index) => {
     const pct = totalGeneral ? Number(((item.total / totalGeneral) * 100).toFixed(1)) : 0;
+    const producto = buscarProducto(item);
 
     return {
       ...item,
       num: index + 1,
       pct,
-      imagen: imagenProducto,
+      imagen: producto?.image || item.imagen || null,
       totalFormateado: formatoSoles.format(item.total),
       ancho: `${Math.max(18, Math.round(pct * 2))}px`,
     };
@@ -54,7 +85,13 @@ export default function ProductosTop({ productos = [] }) {
                 <td className="font-mono">{item.num}</td>
                 <td>
                   <div className="admin-product-cell">
-                    <img src={item.imagen} alt={item.nombre} className="admin-product-img" />
+                    {item.imagen ? (
+                      <img src={item.imagen} alt={item.nombre} className="admin-product-img" />
+                    ) : (
+                      <span className="admin-product-img admin-product-img-empty" aria-hidden="true">
+                        <IconoBolsa size={15} />
+                      </span>
+                    )}
                     <span>{item.nombre}</span>
                   </div>
                 </td>

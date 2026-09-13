@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { IconoGrafico } from "../common/Iconos";
 import EChart from "./EChart";
 
@@ -6,10 +7,36 @@ const formatoSoles = new Intl.NumberFormat("es-PE", {
   currency: "PEN",
 });
 
-function crearPuntos(ventas) {
-  return ventas.slice(-7).map((venta) => ({
-    dia: new Date(`${venta.fecha}T00:00:00`).toLocaleDateString("es-PE", { day: "2-digit", month: "short" }),
-    total: venta.total,
+const opcionesPeriodo = {
+  "7dias": { dias: 7, label: "Ultimos 7 dias" },
+  "30dias": { dias: 30, label: "Ultimos 30 dias" },
+};
+
+function formatearFechaLocal(fecha) {
+  const year = fecha.getFullYear();
+  const month = String(fecha.getMonth() + 1).padStart(2, "0");
+  const day = String(fecha.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function crearRangoDias(cantidad) {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  return Array.from({ length: cantidad }, (_, index) => {
+    const fecha = new Date(hoy);
+    fecha.setDate(hoy.getDate() - (cantidad - 1 - index));
+    return formatearFechaLocal(fecha);
+  });
+}
+
+function crearPuntos(ventas, cantidadDias) {
+  const ventasPorFecha = new Map(ventas.map((venta) => [venta.fecha, venta.total]));
+
+  return crearRangoDias(cantidadDias).map((fecha) => ({
+    fecha,
+    dia: new Date(`${fecha}T00:00:00`).toLocaleDateString("es-PE", { day: "2-digit", month: "short" }),
+    total: ventasPorFecha.get(fecha) || 0,
   }));
 }
 
@@ -59,19 +86,22 @@ function crearVentasOption(puntos) {
 }
 
 export default function Ventas7Dias({ ventas = [] }) {
-  const puntos = crearPuntos(ventas);
+  const [periodo, setPeriodo] = useState("7dias");
+  const opcionActiva = opcionesPeriodo[periodo];
+  const titulo = `Ventas de los ${opcionActiva.label.toLowerCase()}`;
+  const puntos = useMemo(() => crearPuntos(ventas, opcionActiva.dias), [ventas, opcionActiva.dias]);
 
   return (
     <section className="ticket-card admin-sales-card">
       <div className="admin-sales-head">
         <div className="admin-block-title">
           <IconoGrafico size={18} color="var(--ember)" />
-          <span className="font-display">Ventas de los ultimos 7 dias</span>
+          <span className="font-display">{titulo}</span>
         </div>
 
-        <select className="admin-select" defaultValue="7dias">
-          <option value="7dias">Ultimos 7 dias</option>
-          <option value="30dias">Ultimos 30 dias</option>
+        <select className="admin-select" value={periodo} onChange={(event) => setPeriodo(event.target.value)}>
+          <option value="7dias">{opcionesPeriodo["7dias"].label}</option>
+          <option value="30dias">{opcionesPeriodo["30dias"].label}</option>
         </select>
       </div>
 
@@ -79,7 +109,7 @@ export default function Ventas7Dias({ ventas = [] }) {
         <EChart
           className="admin-line-chart"
           option={crearVentasOption(puntos)}
-          ariaLabel="Grafico de ventas de los ultimos 7 dias"
+          ariaLabel={`Grafico de ${titulo.toLowerCase()}`}
         />
       </div>
 
