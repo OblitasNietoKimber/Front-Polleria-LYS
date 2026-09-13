@@ -17,14 +17,25 @@ function inicializar() {
     return;
   }
 
-  // Completa los estados faltantes de pedidos creados por módulos antiguos.
+  // Completa los campos faltantes de pedidos creados por módulos antiguos.
   const pedidos = JSON.parse(data);
+  let pedidosCliente = [];
+  try {
+    pedidosCliente = JSON.parse(localStorage.getItem("lys-client-orders")) || [];
+  } catch {
+    pedidosCliente = [];
+  }
+
   let necesitaMigrar = false;
   const migrados = pedidos.map((p) => {
     const cambios = {};
     if (!p.estadoCocina) cambios.estadoCocina = ESTADOS_COCINA.NUEVO;
     if (!p.estado) cambios.estado = p.estadoPago || "pendiente";
     if (!p.estadoPago) cambios.estadoPago = p.estado || "pendiente";
+    if (!p.tipo) {
+      const pedidoCliente = pedidosCliente.find((pedido) => pedido.id === p.id);
+      cambios.tipo = p.mesa ? "salon" : pedidoCliente?.deliveryType || "salon";
+    }
 
     if (Object.keys(cambios).length > 0) {
       necesitaMigrar = true;
@@ -73,22 +84,37 @@ function cambiarEstado(id, nuevoEstado) {
   return actualizados.find((p) => p.id === id);
 }
 
-// Útil para simular que llega un pedido nuevo desde Mozo/Mesas (Epic 4)
-function crearPedido({ mesa, cliente, items, observaciones = "" }) {
+// Crea pedidos desde Mesas, Checkout web u otros módulos sin perder su tipo.
+function crearPedido({
+  id,
+  mesa = null,
+  cliente,
+  items = [],
+  observaciones = "",
+  tipo = "salon",
+  total,
+} = {}) {
   const pedidos = getPedidos();
-  const nuevoId = `PED-${1000 + pedidos.length + 1}`;
+  const nuevoId = id || `PED-${1000 + pedidos.length + 1}`;
   const nuevoPedido = {
     id: nuevoId,
     mesa,
-    cliente: cliente || `Mesa ${mesa}`,
+    cliente: cliente || (mesa ? `Mesa ${mesa}` : "Cliente"),
+    tipo,
     estadoCocina: ESTADOS_COCINA.NUEVO,
     estado: "pendiente",
     estadoPago: "pendiente",
     observaciones,
     items,
+    ...(total !== undefined ? { total } : {}),
     createdAt: new Date().toISOString(),
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...pedidos, nuevoPedido]));
+  const existente = pedidos.findIndex((pedido) => pedido.id === nuevoId);
+  const actualizados = [...pedidos];
+  if (existente >= 0) actualizados[existente] = nuevoPedido;
+  else actualizados.push(nuevoPedido);
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(actualizados));
   window.dispatchEvent(new CustomEvent("lys_pedidos_updated"));
   return nuevoPedido;
 }
