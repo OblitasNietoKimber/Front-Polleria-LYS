@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import CocinaPage from "./pages/CocinaPage";
+import HistorialCocinaPage from './pages/HistorialCocinaPage'
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
@@ -44,6 +45,7 @@ function App() {
           <Route path="/pedidos" element={<ProtectedRoute allowedRoles={['cliente']}><PedidosPage /></ProtectedRoute>} />
           <Route path="/pedidos/:id" element={<OrderDetailPage />} />
           <Route path="/cocina" element={<ProtectedRoute allowedRoles={['cocina', 'admin']}><CocinaPage /></ProtectedRoute>} />
+          <Route path="/cocina/historial" element={<ProtectedRoute allowedRoles={['cocina', 'admin']}><HistorialCocinaPage /></ProtectedRoute>} />
           <Route path="/mesas" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><MesasPage /></ProtectedRoute>} />
           <Route path="/mesas/:id/pedido" element={<ProtectedRoute allowedRoles={['mesera', 'admin']}><NuevoPedidoPage /></ProtectedRoute>} />
         </Route>
