@@ -6,8 +6,7 @@
  */
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Números de celular en Perú: 9 dígitos, puede empezar con 9. Se aceptan espacios/guiones.
-const PHONE_REGEX = /^(\+?51)?\s?9\d{2}\s?\d{3}\s?\d{3}$/;
+const PHONE_REGEX = /^9\d{8}$/;
 
 export function isValidEmail(email) {
   return EMAIL_REGEX.test((email || '').trim());
@@ -56,10 +55,10 @@ export function validateRegisterForm(form) {
     errors.email = 'Ingresa un correo electrónico válido.';
   }
   if (!form.telefono) {
-    errors.telefono = 'Ingresa tu número de teléfono.';
-  } else if (!isValidPhone(form.telefono)) {
-    errors.telefono = 'Ingresa un número de celular válido (9 dígitos).';
-  }
+  errors.telefono = 'Ingresa tu número de teléfono.';
+} else if (!isValidPhone(form.telefono)) {
+  errors.telefono = 'El celular debe comenzar con 9 y tener 9 dígitos.';
+}
 
   const passwordError = getPasswordError(form.password);
   if (passwordError) errors.password = passwordError;
