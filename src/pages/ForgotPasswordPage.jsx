@@ -22,7 +22,7 @@ function ForgotPasswordPage() {
       navigate('/reset-password', {
         state: { email: sentEmail },
       });
-    }, 1500);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, [sentEmail, navigate]);
