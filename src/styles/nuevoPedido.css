@@ -9,6 +9,31 @@
   color: var(--ink);
 }
 
+/* Toast flotante de confirmación (borrador guardado, etc.) */
+.np-toast {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: #065F46;
+  color: #FFF;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  z-index: 9999;
+}
+
+/* Icono inline reutilizable dentro de botones (Guardar borrador / Enviar a cocina) */
+.np-btn-icon-inline {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
 /* Navegación al salón en la cabecera del riel */
 .rail-top-nav {
   width: 100%;
@@ -124,6 +149,38 @@
   color: #92400E;
 }
 
+.np-borrador-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.np-borrador-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.np-borrador-restaurar-btn {
+  padding: 6px 14px;
+  background: #D97706;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.np-borrador-descartar-btn {
+  padding: 6px 12px;
+  background: transparent;
+  color: #92400E;
+  border: 1px solid #FCE3BD;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
 /* Layout Tablet POS: 3 Columnas (Categorías | Catálogo | Comanda) */
 .pedido-pos-layout {
   display: grid;
@@ -211,6 +268,18 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+/* Estado vacío: sin resultados de búsqueda en el catálogo */
+.np-empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #9CA3AF;
+}
+
+.np-empty-state-text {
+  font-size: 1rem;
+  margin: 0;
 }
 
 /* Grid de Platos */
@@ -318,11 +387,11 @@
 
 .comanda-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
-  gap: 10px;
+  gap: 12px;
 }
 
 .comanda-header-info {
@@ -351,7 +420,6 @@
   margin: 0;
   color: var(--ink);
   letter-spacing: -0.01em;
-  text-align: center;
 }
 
 .comanda-select-mesa {
@@ -374,6 +442,9 @@
 }
 
 .comanda-tag-estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 2px 8px;
@@ -395,20 +466,26 @@
 .comanda-sub-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   flex-wrap: wrap;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .comensales-control {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 6px;
   background: #FAF9F6;
   border: 1px solid #E5E0D8;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.82rem;
+}
+
+.np-comensales-icon {
+  color: #57534C;
 }
 
 .comensales-btn {
@@ -450,6 +527,9 @@
 }
 
 .btn-clear-comanda {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #EF4444;
@@ -502,8 +582,9 @@
 }
 
 .comanda-stepper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   background: #FFF;
   border: 1px solid var(--line);
@@ -512,13 +593,24 @@
 }
 
 .stepper-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
   background: none;
   border: none;
   font-weight: bold;
   cursor: pointer;
-  padding: 4px 6px;
+  padding: 0;
   font-size: 0.95rem;
   color: var(--ink);
+  border-radius: 4px;
+  transition: background 0.12s;
+}
+
+.stepper-btn:hover {
+  background: #F3EFEA;
 }
 
 .stepper-qty {
@@ -526,6 +618,9 @@
   font-weight: 700;
   min-width: 18px;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .comanda-item-total {
@@ -535,18 +630,53 @@
   min-width: 65px;
   text-align: right;
   color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .btn-remove-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #9CA3AF;
   cursor: pointer;
   padding: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
 }
 
 .btn-remove-item:hover {
   color: #EF4444;
+  background: #FEE2E2;
+}
+
+/* Estado vacío de la comanda (aún sin productos agregados) */
+.np-comanda-empty {
+  text-align: center;
+  padding: 36px 10px;
+  color: #9CA3AF;
+}
+
+.np-comanda-empty-icon {
+  margin: 0 auto 10px;
+  display: block;
+  color: #CBD5E1;
+}
+
+.np-comanda-empty-text {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.np-comanda-empty-hint {
+  font-size: 0.8rem;
+  color: #94A3B8;
 }
 
 /* Observaciones */
@@ -556,11 +686,17 @@
 
 .comanda-obs-label {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 0.82rem;
   font-weight: 600;
   margin-bottom: 6px;
   color: #4B5563;
+}
+
+.np-obs-counter {
+  color: #9CA3AF;
+  font-weight: normal;
 }
 
 .comanda-obs-input {
@@ -591,12 +727,16 @@
 
 .total-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 0.88rem;
   color: #6E655D;
 }
 
 .total-row.destacado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--ember);
@@ -614,22 +754,32 @@
 
 .btn-borrador {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 12px;
   border: 1.5px solid var(--line);
   border-radius: 10px;
   background: #FFF;
+  color: var(--ink);
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .btn-borrador:hover {
   background: #F9FAFB;
+  border-color: #D1D5DB;
 }
 
 .btn-enviar-cocina {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 12px;
   border: none;
   border-radius: 10px;

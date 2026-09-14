@@ -543,6 +543,14 @@
   font-weight: 500;
 }
 
+.mesa-inline-icon {
+  flex-shrink: 0;
+}
+
+.mesa-reserva-hora {
+  font-weight: 600;
+}
+
 /* Actividad Lateral */
 .mesas-activity-sidebar {
   background: #FFF;
@@ -614,6 +622,29 @@
   color: var(--ember);
   font-weight: 600;
   letter-spacing: 0.02em;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.activity-header-icon-wrap {
+  background: #FDECEC;
+  color: var(--ember);
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+}
+
+.activity-empty-text {
+  font-size: 0.85rem;
+  color: #9CA3AF;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.activity-footer-btn-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .activity-avatar {
@@ -686,6 +717,16 @@
   }
 
   .lateral-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+
+  .btn-collapse-lateral {
     display: none;
   }
 
@@ -753,5 +794,470 @@
   padding: 14px 22px;
   background: #F9FAFB;
   border-top: 1px solid var(--line);
+}
+
+/* Estado vacío del plano de mesas (MesasPage) */
+
+.mesas-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6B7280;
+}
+
+.mesas-empty-state-message {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.mesas-empty-expansion {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.mesas-empty-emoji {
+  font-size: 2.5rem;
+}
+
+.mesas-empty-title {
+  margin: 12px 0 6px 0;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.mesas-empty-desc {
+  font-size: 0.88rem;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.btn-nuevo-pedido.mesas-empty-btn {
+  background: #FFF;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+/* Modal de detalle de mesa (MesaDetalleModal) */
+
+.mesa-modal-section-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.mesa-modal-subtitle {
+  font-size: 0.82rem;
+  color: #6B7280;
+}
+
+.mesa-empty-state {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.mesa-empty-text {
+  color: #4B5563;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.mesa-actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-nuevo-pedido.mesa-btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-nuevo-pedido.mesa-btn-block-lg {
+  padding: 12px;
+}
+
+.mesa-btn-reservar {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #F59E0B;
+  background: #FFFBEB;
+  color: #B45309;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.mesa-reserva-form {
+  background: #FFFBEB;
+  border: 1.5px solid #FDE68A;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.mesa-reserva-form-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: #B45309;
+}
+
+.mesa-reserva-form-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.mesa-reserva-error {
+  color: #DC2626;
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+
+.mesa-reserva-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mesa-reserva-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mesa-reserva-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #78350F;
+  margin-bottom: 4px;
+}
+
+.mesa-reserva-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.mesa-reserva-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.mesa-reserva-save-btn {
+  flex: 1;
+  padding: 10px;
+  background: #D97706;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.mesa-reserva-cancel-btn {
+  padding: 10px 14px;
+  background: #FFF;
+  color: #6B7280;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.mesa-ocupada-info {
+  background: #F8F9FA;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.mesa-ocupada-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.mesa-ocupada-label {
+  color: #6B7280;
+}
+
+.mesa-ocupada-value {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mesa-ocupada-total {
+  font-weight: 700;
+  color: var(--ember);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.mesa-ocupada-estado-cocina {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #1F8844;
+}
+
+.mesa-comanda-box {
+  margin-bottom: 16px;
+}
+
+.mesa-comanda-title {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.mesa-comanda-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.mesa-comanda-list li {
+  margin-bottom: 4px;
+}
+
+.mesa-btn-secondary-warn {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #E8A33D;
+  background: #FEF6E8;
+  color: #C47F17;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mesa-btn-secondary-neutral {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #FFF;
+  color: #6B7280;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.mesa-modal-close-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #FFF;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mesa-reservada-wrap {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.mesa-reservada-card {
+  background: #FEF8EF;
+  border: 1px solid #FDE6C8;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.mesa-reservada-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #FCE3BD;
+  padding-bottom: 10px;
+}
+
+.mesa-reservada-icon-wrap {
+  background: #FDE68A;
+  color: #92400E;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+}
+
+.mesa-reservada-title {
+  margin: 0;
+  font-size: 1.02rem;
+  color: #92400E;
+  font-weight: 700;
+}
+
+.mesa-reservada-subtitle {
+  font-size: 0.78rem;
+  color: #B45309;
+}
+
+.mesa-reservada-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.86rem;
+}
+
+.mesa-reservada-grid-first {
+  margin-bottom: 10px;
+}
+
+.mesa-reservada-field-label {
+  color: #8C827A;
+  display: block;
+  font-size: 0.76rem;
+}
+
+.mesa-reservada-field-value {
+  color: var(--ink);
+}
+
+.mesa-reservada-field-value-accent {
+  color: #D97706;
+}
+
+.mesa-reservada-field-text {
+  color: #4B5563;
+}
+
+.mesa-btn-icon-inline {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* Modal de historial de actividad (ActividadModal) */
+
+.activity-modal-card {
+  max-width: 560px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-modal-filters {
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 8px;
+  background: #FAF9F7;
+}
+
+.activity-modal-filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: #FFF;
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.activity-modal-filter-btn.active {
+  border-color: var(--ember);
+  background: var(--ember);
+  color: #FFF;
+}
+
+.activity-modal-list {
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-modal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #F9FAFB;
+  border: 1px solid #ECE7E1;
+  border-radius: 12px;
+}
+
+.activity-modal-item-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.activity-modal-avatar {
+  width: 38px;
+  height: 38px;
+}
+
+.activity-modal-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.activity-modal-item-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.activity-modal-item-desc {
+  font-size: 0.82rem;
+  color: #4B5563;
+}
+
+.activity-modal-item-order {
+  font-size: 0.75rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ember);
+  font-weight: 600;
+}
+
+.activity-modal-item-time {
+  font-size: 0.8rem;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.activity-modal-empty {
+  text-align: center;
+  padding: 40px 10px;
+  color: #9CA3AF;
+}
+
+.activity-modal-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.btn-borrador.activity-modal-close-btn {
+  padding: 8px 18px;
+  max-width: 100px;
 }
 

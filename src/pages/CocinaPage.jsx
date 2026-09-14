@@ -37,9 +37,7 @@ export default function CocinaPage() {
 
         <div className="cocina-main">
           <div className="cocina-topbar-local">
-            <h1 className="font-display" style={{ fontSize: "1.8rem", margin: 0 }}>
-              Panel de Cocina
-            </h1>
+            <h1 className="font-display cocina-page-title">Panel de Cocina</h1>
             <div className="cocina-reloj-actual">
               <div className="cocina-reloj-hora">
                 {ahora.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}

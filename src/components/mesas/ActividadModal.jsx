@@ -23,20 +23,19 @@ export default function ActividadModal({ actividades = [], onClose }) {
   return (
     <div className="mesa-modal-backdrop" onClick={onClose}>
       <div
-        className="mesa-modal-card"
-        style={{ maxWidth: 560, maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}
+        className="mesa-modal-card activity-modal-card"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mesa-modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ background: '#FDECEC', color: 'var(--ember)', padding: 6, borderRadius: 8, display: 'flex' }}>
+          <div className="activity-modal-header-left">
+            <div className="activity-header-icon-wrap">
               <Clock size={20} />
             </div>
             <div>
-              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700 }}>
+              <h3 className="mesa-modal-section-title">
                 Historial de Actividad del Salón
               </h3>
-              <span style={{ fontSize: '0.8rem', color: '#6B7280' }}>
+              <span className="mesa-modal-subtitle">
                 Eventos registrados hoy en el turno
               </span>
             </div>
@@ -52,7 +51,7 @@ export default function ActividadModal({ actividades = [], onClose }) {
         </div>
 
         {/* Filtros por tipo de actividad */}
-        <div style={{ padding: '12px 22px', borderBottom: '1px solid var(--line)', display: 'flex', gap: 8, background: '#FAF9F7' }}>
+        <div className="activity-modal-filters">
           {[
             { id: 'todos', label: 'Todas' },
             { id: 'pedido_creado', label: 'Pedidos nuevos' },
@@ -63,17 +62,7 @@ export default function ActividadModal({ actividades = [], onClose }) {
               key={tab.id}
               type="button"
               onClick={() => setFiltroTipo(tab.id)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: 20,
-                border: filtroTipo === tab.id ? '1px solid var(--ember)' : '1px solid var(--line)',
-                background: filtroTipo === tab.id ? 'var(--ember)' : '#FFF',
-                color: filtroTipo === tab.id ? '#FFF' : 'var(--ink)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-              }}
+              className={`activity-modal-filter-btn ${filtroTipo === tab.id ? 'active' : ''}`}
             >
               {tab.label}
             </button>
@@ -81,47 +70,36 @@ export default function ActividadModal({ actividades = [], onClose }) {
         </div>
 
         {/* Lista completa scrollable */}
-        <div style={{ padding: 22, overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="activity-modal-list">
           {actividadesFiltradas.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '12px 16px',
-                background: '#F9FAFB',
-                border: '1px solid #ECE7E1',
-                borderRadius: 12,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div className={`activity-avatar ${item.tipoColor || 'rojo'}`} style={{ width: 38, height: 38 }}>
+            <div key={item.id} className="activity-modal-item">
+              <div className="activity-modal-item-main">
+                <div className={`activity-avatar activity-modal-avatar ${item.tipoColor || 'rojo'}`}>
                   {renderIcono(item.tipo)}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--ink)' }}>
+                <div className="activity-modal-item-details">
+                  <span className="activity-modal-item-title">
                     {item.titulo || `Mesa ${item.mesaNumero}`}
                   </span>
-                  <span style={{ fontSize: '0.82rem', color: '#4B5563' }}>
+                  <span className="activity-modal-item-desc">
                     {item.descripcion}
                   </span>
                   {item.ordenCodigo && (
-                    <span style={{ fontSize: '0.75rem', fontFamily: 'IBM Plex Mono, monospace', color: 'var(--ember)', fontWeight: 600 }}>
+                    <span className="activity-modal-item-order">
                       {item.ordenCodigo}
                     </span>
                   )}
                 </div>
               </div>
-              <span style={{ fontSize: '0.8rem', color: '#9CA3AF', fontWeight: 500 }}>
+              <span className="activity-modal-item-time">
                 {item.hora}
               </span>
             </div>
           ))}
 
           {actividadesFiltradas.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '40px 10px', color: '#9CA3AF' }}>
-              <p style={{ margin: 0, fontSize: '0.9rem' }}>No hay eventos que coincidan con este filtro.</p>
+            <div className="activity-modal-empty">
+              <p>No hay eventos que coincidan con este filtro.</p>
             </div>
           )}
         </div>
@@ -129,8 +107,7 @@ export default function ActividadModal({ actividades = [], onClose }) {
         <div className="mesa-modal-footer">
           <button
             type="button"
-            className="btn-borrador"
-            style={{ padding: '8px 18px', maxWidth: 100 }}
+            className="btn-borrador activity-modal-close-btn"
             onClick={onClose}
           >
             Cerrar
@@ -140,4 +117,3 @@ export default function ActividadModal({ actividades = [], onClose }) {
     </div>
   );
 }
-

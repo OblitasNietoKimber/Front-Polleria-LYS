@@ -1,83 +1,121 @@
-import { Flame } from 'lucide-react'
+import { ArrowRight, Flame, Heart, Truck, UtensilsCrossed } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { CATEGORIES } from '../data/categories'
+import { BANNERS } from '../data/banners'
+import HomeCarousel from '../components/HomeCarousel'
+import MascotCarousel from '../components/MascotCarousel'
+import '../styles/home.css'
+
+const FEATURES = [
+  { icon: Flame, title: 'Sabor auténtico', desc: 'Cocción a la leña' },
+  { icon: Truck, title: 'Delivery rápido', desc: 'Hasta tu puerta' },
+  { icon: UtensilsCrossed, title: 'Productos frescos', desc: 'Calidad garantizada' },
+  { icon: Heart, title: 'Clientes felices', desc: 'Tu confianza nos inspira' },
+]
 
 export default function HomePage() {
   const navigate = useNavigate()
 
   return (
     <>
-      <header
-        style={{
-          background: 'var(--char)',
-          color: 'var(--cream)',
-          padding: '70px 20px 90px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 7,
-              background: 'var(--gold)',
-              color: '#2A1B05',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              padding: '7px 16px',
-              borderRadius: 999,
-              marginBottom: 20,
-            }}
-          >
-            <Flame size={14} strokeWidth={2.4} /> Pollería a la leña
+      <header className="home-hero">
+        <div className="home-hero-media">
+          <HomeCarousel slides={BANNERS} showArrows={false} showDots />
+          <div className="home-hero-overlay" />
+          <MascotCarousel />
+        </div>
+
+        <span className="home-hero-tagline">
+          Más que pollo,
+          <br />
+          es tradición ♡
+        </span>
+
+        <div className="home-hero-content">
+          <div className="home-hero-inner">
+            <h1 className="font-display home-hero-title">
+              El sabor que solo <span className="home-hero-highlight">da la leña.</span>
+            </h1>
+            <p className="home-hero-text">
+              Pollos y parrillas cocinados a fuego de leña, con la receta de siempre. Pide online y recíbelo en tu
+              mesa o en tu puerta.
+            </p>
+            <div className="home-hero-actions">
+              <button className="btn-ember" onClick={() => navigate('/catalogo')}>
+                Ver el menú completo
+              </button>
+              <button className="btn-outline home-hero-secondary" onClick={() => navigate('/catalogo')}>
+                Hacer un pedido
+              </button>
+            </div>
           </div>
-          <h1
-            className="font-display"
-            style={{ fontSize: 'clamp(2.4rem, 6vw, 4rem)', lineHeight: 1.05, fontWeight: 600, margin: '0 0 20px' }}
-          >
-            El sabor que solo <em style={{ color: 'var(--ember)', fontStyle: 'italic' }}>da la leña</em>.
-          </h1>
-          <p style={{ color: '#C7C2BB', fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 34px', lineHeight: 1.6 }}>
-            Pollos y parrillas cocinados a fuego de leña, con la receta de siempre. Pide online y recíbelo en tu
-            mesa o en tu puerta.
-          </p>
-          <button className="btn-ember" onClick={() => navigate('/catalogo')}>
-            Ver el menú completo
-          </button>
         </div>
       </header>
 
-      <section style={{ maxWidth: 1120, margin: '0 auto', padding: '56px 20px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
-          <h2 className="font-display" style={{ fontSize: '1.6rem', fontWeight: 600 }}>
-            Nuestras categorías
-          </h2>
-          <button onClick={() => navigate('/catalogo')} className="lys-navlink" style={{ color: 'var(--rust)' }}>
+      <section className="home-features">
+        <div className="home-features-inner">
+          {FEATURES.map((feature) => (
+            <div className="home-feature" key={feature.title}>
+              <span className="home-feature-icon">
+                <feature.icon size={20} />
+              </span>
+              <div>
+                <strong>{feature.title}</strong>
+                <p>{feature.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="home-categories">
+        <div className="home-categories-head">
+          <div>
+            <span className="home-categories-eyebrow">Explora nuestro menú</span>
+            <h2 className="font-display home-categories-title">
+              Nuestras <span className="home-categories-script">Categorías</span>
+            </h2>
+            <p className="home-categories-subtitle">Descubre todo lo que tenemos para ti</p>
+          </div>
+          <button onClick={() => navigate('/catalogo')} className="lys-navlink home-categories-link">
             Ver todo →
           </button>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+
+        <div className="home-categories-grid">
           {CATEGORIES.map((c) => (
             <button
               key={c.id}
               onClick={() => navigate(`/catalogo?categoria=${c.id}`)}
-              className="ticket-card"
-              style={{ textAlign: 'left', padding: 0, border: '1px solid var(--line)' }}
+              className="home-category-card"
             >
-              <div className="icon-tile" style={{ aspectRatio: '3/2' }}>
-                <c.icon size={34} strokeWidth={1.5} />
+              <div className="home-category-media">
+                <img src={c.image} alt={c.label} />
+                <span className={`home-category-tag home-category-tag-${c.color}`}>
+                  <c.icon size={16} />
+                </span>
               </div>
-              <div style={{ padding: '16px 16px 20px' }}>
-                <div className="font-display" style={{ fontWeight: 600, fontSize: '1.05rem' }}>
-                  {c.label}
+              <div className="home-category-body">
+                <div>
+                  <div className="font-display home-category-label">{c.label}</div>
+                  <p className="home-category-desc">{c.desc}</p>
                 </div>
+                <span className="home-category-arrow">
+                  <ArrowRight size={16} />
+                </span>
               </div>
             </button>
           ))}
         </div>
       </section>
+
+      <div className="home-divider">
+        <span className="home-divider-line" />
+        <Flame size={16} />
+        <span className="home-divider-text">Más que pollo, es tradición</span>
+        <Flame size={16} />
+        <span className="home-divider-line" />
+      </div>
     </>
   )
 }

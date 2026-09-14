@@ -1,5 +1,54 @@
 /* Estilos específicos del EPIC "Catálogo y compras online". */
 
+.app-shell {
+  min-height: 100%;
+}
+
+/* Logo reutilizable (componente Logo) */
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo-img {
+  object-fit: contain;
+}
+
+.brand-logo-sm .brand-logo-img {
+  width: 30px;
+  height: 30px;
+}
+
+.brand-logo-md .brand-logo-img {
+  width: 38px;
+  height: 38px;
+}
+
+.brand-logo-lg .brand-logo-img {
+  width: 56px;
+  height: 56px;
+}
+
+.brand-logo-text {
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.brand-logo-sm .brand-logo-text {
+  font-size: 0.95rem;
+}
+
+.brand-logo-md .brand-logo-text {
+  font-size: 1.15rem;
+}
+
+.brand-logo-lg .brand-logo-text {
+  font-size: 1.4rem;
+}
+
 .lys-nav {
   background: #FFFFFF;
   color: var(--ink);
@@ -38,6 +87,14 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.lys-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .lys-brand-title {

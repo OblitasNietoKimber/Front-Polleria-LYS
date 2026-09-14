@@ -14,6 +14,7 @@ import {
   User,
 } from 'lucide-react';
 import { ZONAS_SALON } from '../../data/mesasData';
+import authService from '../../services/authService';
 
 export default function MesasNavLateral({
   zonaSeleccionada,
@@ -28,6 +29,21 @@ export default function MesasNavLateral({
   onToggleColapsado,
 }) {
   const navigate = useNavigate();
+
+  const usuarioActual = authService.getCurrentUser();
+  const nombreUsuario = usuarioActual?.nombre
+    ? `${usuarioActual.nombre} ${usuarioActual.apellido || ''}`.trim()
+    : 'Ana Rodríguez';
+
+  function getRolLabel(rol) {
+    if (rol === 'admin') return 'Administrador';
+    if (rol === 'mesera') return 'Mesera en turno';
+    if (rol === 'cocina') return 'Personal de cocina';
+    if (rol === 'cajero') return 'Cajero';
+    return 'Mesera en turno';
+  }
+
+  const rolUsuario = getRolLabel(usuarioActual?.rol);
 
   function getIconoZona(id) {
     switch (id) {
@@ -160,8 +176,8 @@ export default function MesasNavLateral({
               <User size={16} />
             </div>
             <div className="lateral-user-details">
-              <span className="lateral-user-name">Ana Rodríguez</span>
-              <span className="lateral-user-role">Mesera en turno</span>
+              <span className="lateral-user-name" title={nombreUsuario}>{nombreUsuario}</span>
+              <span className="lateral-user-role">{rolUsuario}</span>
             </div>
           </div>
         )}

@@ -1,4 +1,5 @@
-import { ArrowLeft } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowLeft, Check, Copy } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import orderService from '../services/orderService'
 import { money } from '../utils/currency'
@@ -11,6 +12,7 @@ export default function OrderDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const order = orderService.getOrderById(id)
+  const [copied, setCopied] = useState(false)
 
   if (!order) {
     return (
@@ -28,6 +30,13 @@ export default function OrderDetailPage() {
     timeStyle: 'short',
   })
 
+  function handleCopy() {
+    navigator.clipboard.writeText(order.id).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   return (
     <section className="orders-page">
       <button onClick={() => navigate('/pedidos')} className="lys-navlink order-detail-back">
@@ -36,7 +45,17 @@ export default function OrderDetailPage() {
 
       <div className="order-detail-header">
         <div>
-          <h1 className="font-display">Pedido {order.id}</h1>
+          <h1 className="font-display order-detail-id">
+            Pedido {order.id}
+            <button
+              className="copy-id-btn"
+              onClick={handleCopy}
+              aria-label="Copiar número de pedido"
+              title="Copiar número de pedido"
+            >
+              {copied ? <Check size={16} color="#2E7D46" /> : <Copy size={16} />}
+            </button>
+          </h1>
           <p className="order-card-date">{date}</p>
         </div>
         <OrderStatusBadge order={order} />
@@ -69,7 +88,6 @@ export default function OrderDetailPage() {
           </div>
         </div>
       </div>
-
       <OrderDeliveryInfo order={order} />
     </section>
   )

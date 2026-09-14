@@ -35,7 +35,7 @@ export default function MesaCard({ mesa, onClick }) {
         {estado === 'ocupada' && (
           <div className="mesa-info-ocupada">
             <span className="mesa-tiempo">
-              <Clock size={13} style={{ flexShrink: 0 }} />
+              <Clock size={13} className="mesa-inline-icon" />
               <span>{minutos} min</span>
             </span>
             <span className="mesa-total-soles">
@@ -46,8 +46,8 @@ export default function MesaCard({ mesa, onClick }) {
 
         {estado === 'reservada' && (
           <div className="mesa-info-reservada">
-            <Calendar size={13} style={{ flexShrink: 0 }} />
-            <span style={{ fontWeight: 600 }}>{horaReserva || 'Hoy'}</span>
+            <Calendar size={13} className="mesa-inline-icon" />
+            <span className="mesa-reserva-hora">{horaReserva || 'Hoy'}</span>
             {clienteReserva && (
               <span className="mesa-reserva-cliente" title={clienteReserva}>
                 · {clienteReserva}
