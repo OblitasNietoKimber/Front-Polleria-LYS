@@ -141,33 +141,6 @@ export default function MesasNavLateral({
         </button>
       </div>
 
-      {/* Accesos rápidos a Cocina y Caja */}
-      <div className="lateral-section">
-        {!colapsado && <span className="lateral-section-title">Módulos</span>}
-        <button
-          type="button"
-          className="lateral-nav-item"
-          onClick={() => navigate('/cocina')}
-          title="Ir a Cocina"
-        >
-          <span className="lateral-item-icon">
-            <ChefHat size={18} />
-          </span>
-          {!colapsado && <span className="lateral-item-label">Cocina</span>}
-        </button>
-        <button
-          type="button"
-          className="lateral-nav-item"
-          onClick={() => navigate('/caja')}
-          title="Ir a Caja"
-        >
-          <span className="lateral-item-icon">
-            <ReceiptText size={18} />
-          </span>
-          {!colapsado && <span className="lateral-item-label">Caja</span>}
-        </button>
-      </div>
-
       {/* Footer con perfil y colapso */}
       <div className="lateral-footer">
         {!colapsado && (

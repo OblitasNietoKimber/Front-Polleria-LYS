@@ -63,20 +63,35 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  let newValue = value;
 
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: null,
-      }));
+  if (name === 'telefono') {
+    // Elimina letras, espacios y símbolos
+    newValue = value.replace(/\D/g, '');
+
+    // Máximo 9 números
+    newValue = newValue.slice(0, 9);
+
+    // Si escribe algo, debe comenzar con 9
+    if (newValue.length > 0 && !newValue.startsWith('9')) {
+      return;
     }
   }
+
+  setForm((prev) => ({
+    ...prev,
+    [name]: newValue,
+  }));
+
+  if (errors[name]) {
+    setErrors((prev) => ({
+      ...prev,
+      [name]: null,
+    }));
+  }
+}
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -166,8 +181,10 @@ function RegisterPage() {
             value={form.telefono}
             onChange={handleChange}
             error={errors.telefono}
-            placeholder="987 654 321"
+            placeholder="987654321"
             autoComplete="tel"
+            inputMode="numeric"
+            maxLength={9}
           />
 
           <Field
